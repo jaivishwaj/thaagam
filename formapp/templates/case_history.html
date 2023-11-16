@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include Bootstrap CSS from a CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Roboto, sans-serif;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-submit {
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5 text-center">Case History Record</h2>
+
+        <br>
+        <br>
+        <form action="{% url 'success_page' %}" method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="photo">Photo:</label>
+                <input type="file" class="form-control" id="photo" name="photo">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name of the Person:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" class="form-control" id="age" name="age" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sex">Sex:</label>
+                <select class="form-control" id="sex" name="sex" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="religion">Religion:</label>
+                <input type="text" class="form-control" id="religion" name="religion">
+            </div>
+
+            <div class="form-group">
+                <label for="maritalStatus">Marital Status:</label>
+                <select class="form-control" id="maritalStatus" name="maritalStatus">
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="divorced">Divorced</option>
+                    <option value="widowed">Widowed</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="identificationMark">Identification Mark:</label>
+                <input type="text" class="form-control" id="identificationMark" name="identificationMark">
+            </div>
+
+            <div class="form-group">
+                <label for="educationBackground">Education Background:</label>
+                <input type="text" class="form-control" id="educationBackground" name="educationBackground">
+            </div>
+
+            <div class="form-group">
+                <label for="occupation">Occupation:</label>
+                <input type="text" class="form-control" id="occupation" name="occupation">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <textarea class="form-control" id="address" name="address" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="residentContactNumber">Resident Contact Number:</label>
+                <input type="tel" class="form-control" id="residentContactNumber" name="residentContactNumber" required>
+            </div>
+
+            <div class="form-group">
+                <label for="relativeOrFriendsContact">Relative or Friends Contact Phone Number:</label>
+                <input type="tel" class="form-control" id="relativeOrFriendsContact" name="relativeOrFriendsContact" required>
+            </div>
+
+            <div class="form-group">
+                <label for="idProofAvailable">ID Proof Available:</label>
+                <select class="form-control" id="idProofAvailable" name="idProofAvailable" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="idProofDetails">ID Proof Details:</label>
+                <input type="text" class="form-control" id="idProofDetails" name="idProofDetails">
+            </div>
+
+            <div class="form-group">
+                <label for="policeMemoAvailable">Police Memo Available:</label>
+                <select class="form-control" id="policeMemoAvailable" name="policeMemoAvailable" required>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="policeStationDetails">Police Station Details:</label>
+                <input type="text" class="form-control" id="policeStationDetails" name="policeStationDetails">
+            </div>
+
+            <div class="form-group d-flex justify-content-center">
+                <button type="submit" class="btn btn-submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery from a CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

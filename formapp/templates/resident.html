@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include Bootstrap CSS from a CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Roboto, sans-serif;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-submit {
+            background-color: green;
+            color: white;
+            display: flex;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5 text-center">Resident Attendance Form</h2>
+
+        <br>
+        <br>
+        <form action="{% url 'success_page' %}" method="post" id="attendanceForm">
+             {% csrf_token %}
+
+            <div class="form-group">
+                <label for="pupilName">Name of the Pupil:</label>
+                <input type="text" class="form-control" id="pupilName" name="pupilName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" class="form-control" id="dob" name="dob" required>
+            </div>
+
+            <div class="form-group">
+                <label>Attendance:</label><br>
+                <input type="checkbox" id="morningPresent" name="morningAttendance" value="present">
+                <label for="morningPresent">Morning Present</label><br>
+                <input type="checkbox" id="morningAbsent" name="morningAttendance" value="absent">
+                <label for="morningAbsent">Morning Absent</label><br>
+                <input type="checkbox" id="eveningPresent" name="eveningAttendance" value="present">
+                <label for="eveningPresent">Evening Present</label><br>
+                <input type="checkbox" id="eveningAbsent" name="eveningAttendance" value="absent">
+                <label for="eveningAbsent">Evening Absent</label><br>
+            </div>
+
+            <div class="form-group">
+                <label for="daysPresent">Number of Days Present:</label>
+                <input type="number" class="form-control" id="daysPresent" name="daysPresent" required>
+            </div>
+
+            <div class="form-group">
+                <label for="schoolFee">School Fee:</label>
+                <input type="text" class="form-control" id="schoolFee" name="schoolFee" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dayOfPayment">Day of Payment:</label>
+                <input type="text" class="form-control" id="dayOfPayment" name="dayOfPayment" required>
+            </div>
+
+            <div class="form-group d-flex justify-content-center">
+                <button type="button" class="btn btn-submit" onclick="generateUniqueId()">Submit</button>
+                <p id="uniqueId" class="ml-3"></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery from a CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        function generateUniqueId() {
+            var admissionNo = document.getElementById("admissionNo").value;
+            var pupilName = document.getElementById("pupilName").value;
+            var dob = document.getElementById("dob").value;
+            var uniqueId = admissionNo.substring(0, 3) + pupilName.substring(0, 3) + dob.replaceAll("-", "").substring(0, 4);
+            document.getElementById("uniqueId").textContent = "Generated Unique ID: " + uniqueId;
+        }
+    </script>
+</body>
+</html>

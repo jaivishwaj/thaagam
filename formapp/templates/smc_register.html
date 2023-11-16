@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="date"],
+        input[type="time"],
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1 class="text-center mt-5">SMC Register</h1>
+    <br>
+    <div class="container">
+
+        <form action="{% url 'success_page' %}" method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="introduction">Introduction Of the Meeting</label>
+                <textarea type="text" id="introduction" name="introduction" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="lastMonthDetails">Last Month Performance Details</label>
+                <textarea type="text" id="lastMonthDetails" name="lastMonthDetails" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="issueResolved">Are Last Month Issues Resolved?</label>
+                <div class="form-check-inline m-2">
+                    <input type="checkbox" id="yesIssue" name="issueResolved" class="form-check-input" value="yes">
+                    <label class="form-check-label" for="yesIssue">Yes</label>
+                </div>
+                <div class="form-check-inline">
+                    <input type="checkbox" id="noIssue" name="issueResolved" class="form-check-input" value="no">
+                    <label class="form-check-label" for="noIssue">No</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="thisMonthIssue">This Month Issue</label>
+                <textarea type="text" id="thisMonthIssue" name="thisMonthIssue" rows="4" required></textarea>
+            </div>
+
+            <h4 class="text-center">Participate in the Meeting</h4>
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-group">
+                        <label for="ngostaff">1. Name Of the NGO Staff</label>
+                        <input type="text" id="ngostaff" name="ngostaff" required>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="form-group">
+                        <label for="gcc">2. Name of the Officials (GCC)</label>
+                        <input type="text" id="gcc" name="gcc" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-group">
+                        <label for="police">3. Police Officials</label>
+                        <input type="text" id="police" name="police" required>
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="form-group">
+                        <label for="others">4. Name of the Residents</label>
+                        <input type="text" id="others" name="others" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
