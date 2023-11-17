@@ -1,24 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <!-- Include Bootstrap CSS from a CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fontsgoogleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
-
-        body{
-            font-family: Roboto, sans-serif;
+        body {
+            font-family: 'Roboto', sans-serif;
         }
 
-
-        label{
-            font-weight: bold;
-        }
-
-
-
-        form {
-            max-width: 500px;
+        .container {
+            max-width: 400px;
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ccc;
@@ -27,35 +19,42 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-
-
-        btn{
-            background-color: grey;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-            margin-left: 100px;
+        .form-group {
+            margin-bottom: 15px;
         }
 
+        label {
+            font-weight: bold;
+        }
 
-
+        input[type="date"],
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: calc(100% - 16px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
+
 <body>
+{% csrf_token %}
+    <h2 class="text-center mt-5">action plan register</h2>
     <div class="container">
-        <h2 class="mt-5 text-center">Action Plan Form</h2>
+        <h2 class="text-center mt-5">accident register</h2>
 
         <br>
         <br>
-        <form action="{% url 'success_page' %}" method="post" autocomplete="off">
+
             <!-- <div class="form-group">
                 <label for="sno">Unique ID</label>
                 <input type="text" class="form-control" id="sno" name="uniqueid" required>
             </div> -->
-            {% csrf_token %}
+
             <div class="form-group">
                 <label for="dateOfPlan">Date of Plan:</label>
                 <input type="date" class="form-control" id="dateOfPlan" name="dateofplan" required>

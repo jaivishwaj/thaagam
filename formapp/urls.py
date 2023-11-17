@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import dashboard,provision_form,reintegration_form,visitor_register_form,performance_appraisal_form,resident_form,social_entertainment_form,case_history_form,actionplan_register_form,awarness_register_form,bp_pulsenote_form,counselling_register_form,medical_camp_form,medicine_form,night_survey_form,skill_training_form,smc_register_form,staff_attendence_form,stock_form,employment_link_form,rehabitation_form,death_register_form,accident_register_form
+from .views import home,dashboard,provision_form,reintegration_form,visitor_register_form,performance_appraisal_form,resident_form,social_entertainment_form,case_history_form,actionplan_register_form,awarness_register_form,bp_pulsenote_form,counselling_register_form,medicine_form,night_survey_form,skill_training_form,smc_register_form,staff_attendence_form,stock_form,employment_link_form,rehabitation_form,death_register_form,accident_register_form
 
 urlpatterns = [
-    path('',provision_form,name='provision_form'),
+    path('', home, name='home'),
+    path('provision_form',provision_form,name='provision_form'),
     path('reintegration/',reintegration_form,name='reintegration_form'),
     path('visitor_register/',visitor_register_form,name='visitor_register_form'),
     path('performance_appraisal/',performance_appraisal_form,name='performance_appraisal_form'),
@@ -13,7 +14,7 @@ urlpatterns = [
     path('awarness_register/',awarness_register_form,name='awarness_register_form'),
     path('bp_pulsenote/',bp_pulsenote_form,name='bp_plusenote_form'),
     path('counselling_register/',counselling_register_form,name='counselling_register_form'),
-    path('medical_camp/',medical_camp_form,name='medical_camp_form'),
+    # path('medical_camp/',medical_camp_form,name='medical_camp_form'),
     path('medicine/',medicine_form,name='medicine_form'),
     path('night_survey/',night_survey_form,name='night_survey_form'),
     path('skill_training/',skill_training_form,name='skill_training_form'),

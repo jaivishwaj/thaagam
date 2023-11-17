@@ -13,7 +13,7 @@ class provision(models.Model):
 
 
 class Reintegration(models.Model):
-    admission_no = models.CharField(max_length=255)
+    admission_no = models.IntegerField()
     resident_name = models.CharField(max_length=255)
     date_of_joining = models.DateField()
     date_of_leaving = models.DateField(null=True, blank=True)
