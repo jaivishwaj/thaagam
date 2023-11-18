@@ -63,53 +63,52 @@
         <h2 class="mt-5">Staff Attendance Register</h2>
 
         <br>
-
+        <form action="" method="post">
             {% csrf_token %}
 
             <div class="form-group">
-                <label for="sno" class="">SI.No</label>
-                <input type="text" class="form-control" id="sno" name="sno" required>
+                <label for="sno" >SI.No</label>
+                <input type="number" class="form-control" id="sno" name="sno" required>
             </div>
 
             <div class="form-group">
-                <label for="Name" class="">Name</label>
-                <input type="text" class="form-control" id="Name" name="Name" required>
+                <label for="name" >Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
             </div>
 
             <div class="form-group">
-                <label for="Designation" class="">Designation</label>
-                <input type="text" class="form-control" id="Designation" name="Designation" required>
+                <label for="designation" >Designation</label>
+                <input type="text" class="form-control" id="designation" name="designation" required>
             </div>
 
 
             <div class="form-group">
-                <label for="Workinghours" class="">Working Hours</label>
-                <input type="time" class="form-control" id="Workinghours" name="Workinghours" required>
+                <label for="working_hours" >Working Hours</label>
+                <input type="time" class="form-control" id="working_hours" name="working_hours" required>
             </div>
 
             <div class="form-group">
                 <label for="days">Days</label>
-                <input class="days" id="days" name="days"  required>
+                <input type="number" class="form-control" id="days" name="days"  required>
             </div>
 
             <div class="form-group">
-                <label for="days">No.of Working Days</label>
-                <input class="days" id="days" name="days"  required>
+                <label for="working_days">No.of Working Days</label>
+                <input type="number" class="form-control" id="working_days" name="working_days"  required>
             </div>
 
             <div class="form-group">
-                <label for="days">No.of Days Leaves </label>
-                <input class="days" id="days" name="days"  required>
+                <label for="leave_days">No.of Days Leaves </label>
+                <input type="number"  class="form-control" id="leave_days" name="leave_days"  required>
             </div>
 
             <div class="form-group">
-                <label for="remarks" class="">Remarks</label>
+                <label for="remarks">Remarks</label>
                 <input type="text" class="form-control" id="remarks" name="remarks" required>
             </div>
             <div class="form-group d-flex justify-content-center">
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
-
         </form>
     </div>
 

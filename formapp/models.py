@@ -8,7 +8,7 @@ class provision(models.Model):
     remarks = models.TextField()
 
     def __str__(self):
-        return self.material_name
+        return self.name
 
 
 
@@ -24,9 +24,7 @@ class Reintegration(models.Model):
     staff_event_close = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.admissionno
-
-
+        return str(self.admission_no)
 
 
 
@@ -46,20 +44,20 @@ class VisitorRegister(models.Model):
 
 
 class PerformanceAppraisal(models.Model):
-    month = models.DateField()
-    beginning_children = models.IntegerField()
-    new_admission = models.IntegerField()
-    total_strength = models.IntegerField()
-    reintegration = models.IntegerField()
-    rehabilitation = models.IntegerField()
-    referral = models.IntegerField()
-    left = models.IntegerField()
-    death = models.IntegerField()
-    end_strength = models.IntegerField()
-    rescue = models.IntegerField()
+    date = models.DateField()
+    beginning_children = models.CharField(max_length=255)
+    new_admission = models.CharField(max_length=255)
+    total_strength =models.CharField(max_length=255)
+    reintegration = models.CharField(max_length=255)
+    rehabilitation =models.CharField(max_length=255)
+    referral = models.CharField(max_length=255)
+    left =models.CharField(max_length=255)
+    death =models.CharField(max_length=255)
+    end_strength = models.CharField(max_length=255)
+    rescue = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.month
+        return str(self.date)
 
 
 
@@ -70,11 +68,11 @@ class Resident(models.Model):
     morningAttendance = models.CharField(max_length=10, choices=[("present", "Present"), ("absent", "Absent")], null=True, blank=True)
     eveningAttendance = models.CharField(max_length=10, choices=[("present", "Present"), ("absent", "Absent")], null=True, blank=True)
     daysPresent = models.IntegerField()
-    schoolFee = models.CharField(max_length=255)
+    schoolFee = models.IntegerField()
     dayOfPayment = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.pupilName
+        return str(self.pupilName)
 
 
 class SocialEntertainment(models.Model):
@@ -85,6 +83,7 @@ class SocialEntertainment(models.Model):
 
     def __str__(self):
         return self.date
+
 
 
 
@@ -128,7 +127,8 @@ class CaseHistory(models.Model):
 
 
     def __str__(self):
-        return self.photo
+        return str(self.photo)
+
 
 
 class ActionplanRegister(models.Model):
@@ -137,7 +137,9 @@ class ActionplanRegister(models.Model):
     action_plan_date = models.DateField()
 
     def __str__(self):
-        return self.date_of_plan
+        return str(self.date_of_plan)
+
+
 
 
 class AwarnessRegister(models.Model):
@@ -149,18 +151,19 @@ class AwarnessRegister(models.Model):
 
 
     def __str__(self):
-        return f"{self.place} - {self.date}"
+        return str(self.date)
 
 class BpPulsenote(models.Model):
     date = models.DateField()
-    sno = models.CharField(max_length=255)
+    sno = models.IntegerField()
     name = models.CharField(max_length=255)
     pulse = models.IntegerField()
-    bp = models.CharField(max_length=255)
-    temperature = models.DecimalField(max_digits=5, decimal_places=2)
+    bp = models.IntegerField()
+    temperature = models.IntegerField()
 
     def __str__(self):
-        return f"{self.name} - {self.date}"
+        return str(self.date)
+
 
 
 class CounsellingRegister(models.Model):
@@ -171,7 +174,8 @@ class CounsellingRegister(models.Model):
     signature = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.name} - {self.date}"
+        return str(self.date)
+
 
 
 class MedicalCamp(models.Model):
@@ -184,7 +188,7 @@ class MedicalCamp(models.Model):
     treatment = models.TextField(blank=True)
 
     def __str__(self):
-        return f"{self.name}'s Medical Camp"
+        return str(self.date)
 
 
 class Medicine(models.Model):
@@ -197,28 +201,67 @@ class Medicine(models.Model):
     night = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.name}'s Medicine"
+        return str(self.name)
 
+
+class MasterRecord(models.Model):
+    S_no = models.IntegerField()
+    name = models.CharField(max_length=100)
+    photo = models.ImageField(upload_to='photos/')
+    Aid_no = models.IntegerField()
+    Age_gender = models.CharField(max_length=50)
+    dob = models.DateField()
+    Date_Of_Admission = models.DateField()
+    Date_Of_Leaving = models.DateField()
+    Family_Contact_No = models.CharField(max_length=20)
+    Relation = models.CharField(max_length=50)
+    Permanent_Address = models.TextField()
+    Mode_Of_Identification_Rescue = models.CharField(max_length=100)
+    Identification_Mark = models.CharField(max_length=100)
+    Identification_Papers = models.CharField(max_length=100)
+    Rehabilitation_Measures = models.TextField()
+    Reason_For_Leaving_Shelter = models.TextField()
+    Follow_Up_Action = models.TextField()
+    Second_Follow_Up = models.TextField()
+    Medical_Status = models.CharField(max_length=50)
+    File_Closure_Status = models.CharField(max_length=50)
+    Remarks = models.TextField()
+    Signature = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.S_no)
+
+
+class SalaryRegister(models.Model):
+    date = models.DateField()
+    name = models.CharField(max_length=100)
+    designation = models.CharField(max_length=100)
+    salary = models.IntegerField()
+    sign = models.ImageField(upload_to='signatures/')
+
+    def __str__(self):
+        return str(self.date)
 
 class NightSurvey(models.Model):
-    date = models.CharField(max_length=255)
+    date = models.DateField(max_length=255)
     time = models.TimeField()
     place = models.CharField(max_length=255)
     details_of_visit = models.TextField()
     number_of_rescue = models.CharField(max_length=255)
-
     def __str__(self):
-        return f"Night Survey - {self.date}"
+        return str(self.date)
+
 
 
 class SkillTraining(models.Model):
-    sl_no = models.CharField(max_length=255)
+    sl_no = models.IntegerField()
     date = models.DateField()
     resident_name = models.CharField(max_length=255)
     skill_training_details = models.TextField()
 
     def __str__(self):
-        return f"Skill Training - {self.sl_no}"
+        return str(self.sl_no)
+
 
 
 class SmcRegister(models.Model):
@@ -226,7 +269,11 @@ class SmcRegister(models.Model):
     time = models.TimeField()
     introduction_of_meeting = models.TextField()
     last_month_performance_details = models.TextField()
-    issue_resolved = models.BooleanField()
+    ISSUE_CHOICES = [
+        ('yes', 'Yes'),
+        ('no', 'No'),
+    ]
+    issue_resolved = models.CharField(max_length=255, choices=ISSUE_CHOICES)
     this_month_issue = models.TextField()
     ngo_staff_name = models.CharField(max_length=255)
     gcc_officials_name = models.CharField(max_length=255)
@@ -234,22 +281,23 @@ class SmcRegister(models.Model):
     residents_name = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"SMC Register - {self.date}"
+        return str(self.date)
 
 
 
 class StaffAttendence(models.Model):
-    sno = models.CharField(max_length=255, verbose_name="SI.No")
-    name = models.CharField(max_length=255, verbose_name="Name")
-    designation = models.CharField(max_length=255, verbose_name="Designation")
-    working_hours = models.TimeField(verbose_name="Working Hours")
-    days = models.IntegerField(verbose_name="Days")
-    working_days = models.IntegerField(verbose_name="No.of Working Days")
-    leave_days = models.IntegerField(verbose_name="No.of Days Leaves")
-    remarks = models.TextField(verbose_name="Remarks")
+    sno = models.IntegerField()
+    name = models.CharField(max_length=255 )
+    designation = models.CharField(max_length=255 )
+    working_hours = models.TimeField()
+    days = models.IntegerField()
+    working_days = models.IntegerField()
+    leave_days = models.IntegerField()
+    remarks = models.TextField()
 
     def __str__(self):
-        return f"{self.sno} - {self.name}"
+        return str(self.sno)
+
 
 
 class Stock(models.Model):
@@ -258,14 +306,14 @@ class Stock(models.Model):
     receipt = models.CharField(max_length=255)
     issued = models.IntegerField()
     balance = models.IntegerField()
-
     def __str__(self):
-        return f"{self.date} - {self.particulars}"
+        return str(self.date)
+
 
 
 class EmploymentLink(models.Model):
-    si_no = models.CharField(max_length=20)
-    admission_no = models.CharField(max_length=20)
+    si_no = models.IntegerField()
+    admission_no = models.IntegerField()
     admission_date = models.DateField()
     resident_name = models.CharField(max_length=100)
     employment_name = models.CharField(max_length=100)
@@ -275,14 +323,14 @@ class EmploymentLink(models.Model):
     signature = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.si_no} - {self.resident_name}"
+        return str(self.si_no)
 
 
 class Rehabitation(models.Model):
-    sno = models.CharField(max_length=50)
-    admission_number = models.CharField(max_length=50)
+    sno = models.IntegerField()
+    admission_number = models.IntegerField()
     name_of_the_resident = models.CharField(max_length=100)
-    age = models.CharField(max_length=10)
+    age = models.IntegerField()
     sex = models.CharField(max_length=10)
     date_of_joining = models.DateField()
     date_of_leaving = models.DateField()
@@ -291,12 +339,13 @@ class Rehabitation(models.Model):
     follow_up = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name_of_the_resident
+        return str(self.sno)
+
 
 
 
 class DeathRegister(models.Model):
-    sno = models.CharField(max_length=50)
+    sno = models.IntegerField()
     name_of_the_death_person = models.CharField(max_length=100)
     age_sex = models.CharField(max_length=20)
     date_of_death = models.DateField()
@@ -304,12 +353,25 @@ class DeathRegister(models.Model):
     whom_to_claim_death_person = models.CharField(max_length=100)
     address_and_contact_number = models.CharField(max_length=200)
     legal_producer_taken_if_unclaimed = models.CharField(max_length=200)
-    remarks = models.CharField(max_length=200)
+    remarks = models.CharField(max_length=200,null=True, blank=True)
 
     def __str__(self):
-        return self.name_of_the_death_person
+        return str(self.sno)
 
 
+class FoodMenu(models.Model):
+    date = models.DateField()
+    morning_snacks = models.CharField(max_length=100)
+    no_of_resident1 = models.IntegerField()
+    breakfast = models.CharField(max_length=100)
+    no_of_resident2 = models.IntegerField()
+    lunch = models.CharField(max_length=100)
+    no_of_resident3 = models.IntegerField()
+    dinner = models.CharField(max_length=100)
+    no_of_resident4 = models.IntegerField()
+
+    def __str__(self):
+        return str(self.date)
 
 class AccidentRegister(models.Model):
     date = models.DateField()
@@ -320,4 +382,28 @@ class AccidentRegister(models.Model):
     signature = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.inmate_name
+        return str(self.date)
+
+class asset(models.Model):
+    s_no = models.CharField(max_length=50)
+    date_purchase = models.DateField()
+    name_asset = models.CharField(max_length=100)
+    no_of_items = models.IntegerField()
+    cost = models.IntegerField()
+    bill_no = models.CharField(max_length=50)
+    place_asset = models.CharField(max_length=100)
+    owner_asset = models.CharField(max_length=100)
+    dispose_date = models.DateField()
+
+    def __str__(self):
+        return str(self.name_asset)
+
+class AwarenessEvent(models.Model):
+    date = models.DateField()
+    time = models.TimeField()
+    place = models.CharField(max_length=255)
+    details = models.TextField()
+    participants = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.date)

@@ -60,52 +60,51 @@
 </head>
 <body>
     <div class="container">
-        <h2 class="mt-5"><center>Death Register</center></h2>
-
-        <br>
-        <br>
-
+        <form action="" method="post">
             {% csrf_token %}
+             <h2 class="mt-5">Death Register</h2>
 
+             <br>
+             <br>
             <div class="form-group">
                 <label for="sno" class="">SNO</label>
-                <input type="text" class="form-control" id="sno" name="sno" required>
+                <input type="number" class="form-control" id="sno" name="sno" required>
             </div>
 
 
             <div class="form-group">
-                <label for="Name" class="">Name of the Death Person</label>
-                <input type="text" class="form-control" id="Name" name="Name" required>
+                <label for="name_of_the_death_person" class="">Name of the Death Person</label>
+                <input type="text" class="form-control" id="name_of_the_death_person" name="name_of_the_death_person" required>
             </div>
 
             <div class="form-group">
-                <label for="age" class="">Age/sex</label>
-                <input type="text" class="form-control" id="age" name="age" required>
+                <label for="age_sex" class="">Age/sex</label>
+                <input type="text" class="form-control" id="age_sex" name="age_sex" required>
             </div>
 
             <div class="form-group">
-                <label for="date" class="">Date of Death</label>
-                <input type="date" class="form-control" id="date" name="date" required>
+                <label for="date_of_death" class="">Date of Death</label>
+                <input type="date" class="form-control" id="date_of_death" name="date_of_death" required>
             </div>
 
             <div class="form-group">
-                <label for="Reasonfordeath" class="">Reason for Death</label>
-                <input type="text" class="form-control" id="Reasonfordeath" name="Reasonfordeath" required>
+                <label for="reason_for_death" class="">Reason for Death</label>
+                <input type="text" class="form-control" id="reason_for_death" name="reason_for_death" required>
             </div>
 
             <div class="form-group">
-                <label for="claimdeathperson" class="">Whom to claim the death person</label>
-                <input type="text" class="form-control" id="claimdeathperson" name="claimdeathperson" required>
+                <label for="whom_to_claim_death_person" class="">Whom to claim the death person</label>
+                <input type="text" class="form-control" id="whom_to_claim_death_person" name="whom_to_claim_death_person" required>
             </div>
 
 
             <div class="form-group">
-                <label for="address" class="">Adress and ContactNumber</label>
-                <input type="text" class="form-control" id="address" name="address" required>
+                <label for="address_and_contact_number" class="">Adress and ContactNumber</label>
+                <input type="text" class="form-control" id="address_and_contact_number" name="address_and_contact_number" required>
             </div>
             <div class="form-group">
-                <label for="unclaimdeathperson" class="">If Unclaimed the Death Person,Legal Producer taken</label>
-                <input type="text" class="form-control" id="unclaimdeathperson" name="unclaimdeathperson" required>
+                <label for="legal_producer_taken_if_unclaimed" class="">If Unclaimed the Death Person,Legal Producer taken</label>
+                <input type="text" class="form-control" id="legal_producer_taken_if_unclaimed" name="legal_producer_taken_if_unclaimed" required>
             </div>
 
 

@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import home,dashboard,provision_form,reintegration_form,visitor_register_form,performance_appraisal_form,resident_form,social_entertainment_form,case_history_form,actionplan_register_form,awarness_register_form,bp_pulsenote_form,counselling_register_form,medicine_form,night_survey_form,skill_training_form,smc_register_form,staff_attendence_form,stock_form,employment_link_form,rehabitation_form,death_register_form,accident_register_form
-
+from .views import home,food_menu,asset_form,awareness_register,dashboard,master_records,provision_form,Salary_Register,reintegration_form,visitor_register_form,performance_appraisal_form,resident_form,social_entertainment_form,case_history_form,actionplan_register_form,awarness_register_form,bp_pulsenote_form,counselling_register_form,medicine_form,night_survey_form,skill_training_form,smc_register_form,staff_attendence_form,stock_form,employment_link_form,rehabitation_form,death_register_form,accident_register_form
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('', home, name='home'),
     path('provision_form',provision_form,name='provision_form'),
@@ -26,9 +27,14 @@ urlpatterns = [
     path('death_register/',death_register_form, name='death_register_form'),
     path('accident_register/',accident_register_form,name='accident_register_form'),
     path('dashboard/',dashboard,name='dashboard'),
-
+    path('Salary_Register/',Salary_Register,name='Salary_Register'),
+    path('food_menu/',food_menu,name='food_menu'),
+    path('master_records/',master_records,name='master_records'),
+    path('awareness_register/', awareness_register, name='awareness_register'),
+    path('asset/', asset_form, name='asset_form'),
 ]
-
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

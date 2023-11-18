@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Include Bootstrap CSS from a CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fontsgoogleapis.com/icon?family=Material+Icons">
+    <style>
+
+        body{
+            font-family: Roboto, sans-serif;
+        }
+
+
+        label{
+            font-weight: bold;
+        }
+
+
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        btn{
+            background-color: grey;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-left: 100px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5 text-center">Food Menu</h2>
+
+        <br>
+        <br>
+        <form action="#" method="post" >
+          {% csrf_token %}
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="morning_snacks">Morning Snacks</label>
+               <input type="text" class="form-control" id="morning_snacks" name="morning_snacks"  required>
+            </div>
+            <div class="form-group">
+                <label for="no_of_resident1">No of Resident</label>
+               <input type="number" class="form-control" id="no_of_resident1" name="no_of_resident1"  required>
+            </div>
+            <div class="form-group">
+                <label for="breakfast">Breakfast</label>
+               <input type="text" class="form-control" id="breakfast" name="breakfast"  required>
+            </div>
+            <div class="form-group">
+                <label for="no_of_resident2">No of Resident</label>
+               <input type="number" class="form-control" id="no_of_resident2" name="no_of_resident2"  required>
+            </div>
+            <div class="form-group">
+                <label for="lunch">Lunch</label>
+               <input type="text" class="form-control" id="lunch" name="lunch"  required>
+            </div>
+            <div class="form-group">
+                <label for="no_of_resident3">No of Resident</label>
+               <input type="number" class="form-control" id="no_of_resident3" name="no_of_resident3"  required>
+            </div>
+            <div class="form-group">
+                <label for="dinner">Dinner</label>
+               <input type="text" class="form-control" id="dinner" name="dinner"  required>
+            </div>
+            <div class="form-group">
+                <label for="no_of_resident4">No of Resident</label>
+               <input type="number" class="form-control" id="no_of_resident4" name="no_of_resident4"  required>
+            </div>
+            <div class="form-group d-flex justify-content-center">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery from a CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

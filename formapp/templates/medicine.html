@@ -45,7 +45,7 @@
     <h2 class="text-center mt-5">Medicine Register</h2>
     <br>
     <div class="container">
-
+        <form action="" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="name">Name</label>
@@ -74,21 +74,9 @@
 
                 <input type="checkbox" id="afternoon" name="afternoon">
                 <label for="afternoon">Afternoon</label>
-
                 <input type="checkbox" id="night" name="night">
                 <label for="night">Night</label>
-
-
-
-
-
             </div>
-
-
-
-
-
-
             <div class="form-group text-center">
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>

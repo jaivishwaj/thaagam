@@ -42,15 +42,16 @@
 </head>
 
 <body>
-    <h2 class="text-center mt-5">Skill Training Register</h2>
+
     <br>
     <div class="container">
-
-            {% csrf_token %}
+        <h2 class="text-center mt-5">Skill Training Register</h2>
+      <form action="" method="post">
+         {% csrf_token %}
 
             <div class="form-group">
                 <label for="sl_no">Sl No.</label>
-                <input type="text" id="sl_no" name="sl_no" required>
+                <input type="number" id="sl_no" name="sl_no" required>
             </div>
 
             <div class="form-group">
@@ -64,8 +65,8 @@
             </div>
 
             <div class="form-group">
-                <label for="details">Skill Training Details</label>
-                <textarea id="details" name="details" rows="4" required></textarea>
+                <label for="skill_training_details">Skill Training Details</label>
+                <textarea id="skill_training_details" name="skill_training_details" rows="4" required></textarea>
             </div>
 
             <div class="form-group text-center">

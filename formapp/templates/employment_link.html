@@ -37,41 +37,42 @@
 
 <body>
     <div class="container">
-        <h2 class="mt-5 text-center">Employment Linkage Registration Form</h2>
+        <form action="" method="post">
+            <h2 class="mt-5 text-center">Employment Linkage Registration Form</h2>
 
-        <br>
-        <br>
+            <br>
+            <br>
 
             {% csrf_token %}
 
             <div class="form-group">
-                <label for="siNo">SI No:</label>
-                <input type="text" class="form-control" id="siNo" name="siNo" required>
+                <label for="si_no">SI No:</label>
+                <input type="number" class="form-control" id="si_no" name="si_no" required>
             </div>
 
             <div class="form-group">
-                <label for="admissionNo">Admission No:</label>
-                <input type="text" class="form-control" id="admissionNo" name="admissionNo" required>
+                <label for="admission_no">Admission No:</label>
+                <input type="number" class="form-control" id="admission_no" name="admission_no" required>
             </div>
 
             <div class="form-group">
-                <label for="admissionDate">Admission Date:</label>
-                <input type="date" class="form-control" id="admissionDate" name="admissionDate" required>
+                <label for="admission_date">Admission Date:</label>
+                <input type="date" class="form-control" id="admission_date" name="admission_date" required>
             </div>
 
             <div class="form-group">
-                <label for="residentName">Name of the Resident:</label>
-                <input type="text" class="form-control" id="residentName" name="residentName" required>
+                <label for="resident_name">Name of the Resident:</label>
+                <input type="text" class="form-control" id="resident_name" name="resident_name" required>
             </div>
 
             <div class="form-group">
-                <label for="employmentName">Name of the Employment Linkage:</label>
-                <input type="text" class="form-control" id="employmentName" name="employmentName" required>
+                <label for="employment_name">Name of the Employment Linkage:</label>
+                <input type="text" class="form-control" id="employment_name" name="employment_name" required>
             </div>
 
             <div class="form-group">
-                <label for="address">Address and Contact Details:</label>
-                <textarea class="form-control" id="address" name="address" rows="4" required></textarea>
+                <label for="address_and_contact_details">Address and Contact Details:</label>
+                <textarea class="form-control" id="address_and_contact_details" name="address_and_contact_details" rows="4" required></textarea>
             </div>
 
             <div class="form-group">
@@ -80,8 +81,8 @@
             </div>
 
             <div class="form-group">
-                <label for="joiningDate">Date of Joining:</label>
-                <input type="date" class="form-control" id="joiningDate" name="joiningDate" required>
+                <label for="joining_date">Date of Joining:</label>
+                <input type="date" class="form-control" id="joining_date" name="joining_date" required>
             </div>
 
             <div class="form-group">

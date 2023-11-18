@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Roboto, sans-serif;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-submit {
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+
+</head>
+<body>
+
+ <div class="container">
+        <h2 class="mt-5 text-center">MASTER RECORDS</h2>
+
+
+        <form action="" method="post">
+          {% csrf_token %}
+            <div class="form-group">
+              <label for="S_no">S_No:</label>
+              <input type="number" id="S_no" name="S_no"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name"><br><br>
+            </div>
+            <div class="form-group">
+                <label for="photo">photo:</label>
+                <input type="file" class="form-control" id="photo" name="photo" required>
+            </div>
+            <div class="form-group">
+              <label for="Aid_no">Aid No:</label>
+              <input type="number" id="Aid_no" name="Aid_no"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Age_gender">Age/Gender:</label>
+              <input type="text" id="Age_gender" name="Age_gender"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="dob">Date Of Birth:</label>
+              <input type="date" id="dob" name="dob"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Date_Of_Admission">Date_Of_Admission:</label>
+              <input type="date" id="Date_Of_Admission" name="Date_Of_Admission"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Date_Of_Leaving">Date_Of_Leaving:</label>
+              <input type="date" id="Date_Of_Leaving" name="Date_Of_Leaving"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Family_Contact_No">Family_Contact_No:</label>
+              <input type="text" id="Family_Contact_No" name="Family_Contact_No"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Relation">Relation:</label>
+              <input type="text" id="Relation" name="Relation"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Permanent_Address">Permanent_Address:</label>
+              <input type="text" id="Permanent_Address" name="Permanent_Address"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Mode_Of_Identification_Rescue">Mode_Of_Identification_Rescue:</label>
+              <input type="text" id="Mode_Of_Identification_Rescue" name="Mode_Of_Identification_Rescue"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Identification_Mark">Identification_Mark:</label>
+              <input type="text" id="Identification_Mark" name="Identification_Mark"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Identification_Papers">Identification Papers(If Any):</label>
+              <input type="text" id="Identification_Papers" name="Identification_Papers"><br><br>
+
+            <div class="form-group">
+              <label for="Rehabilitation_Measures">Rehabilitation_Measures:</label>
+                <input type="text" id="Rehabilitation_Measures" name="Rehabilitation_Measures"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Reason_For_Leaving_Shelter">Reason_For_Leaving_Shelter:</label>
+              <input type="text" id="Reason_For_Leaving_Shelter" name="Reason_For_Leaving_Shelter"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Follow_Up_Action">Follow_Up_Action:</label>
+              <input type="text" id="Follow_Up_Action" name="Follow_Up_Action"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Second_Follow_Up">SECOND FOLLOW UP:</label>
+                  <input type="text" id="Second_Follow_Up" name="Second_Follow_Up"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Medical_Status">MEDICAL STATUS:</label>
+                  <input type="text" id="Medical_Status" name="Medical_Status"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="File_Closure_Status">FILE CLOSURE STATUS:</label>
+                  <input type="text" id="File_Closure_Status" name="File_Closure_Status"><br><br>
+            </div>
+            <div class="form-group">
+              <label for="Remarks">Remarks:</label>
+                  <input type="text" id="Remarks" name="Remarks"><br><br>
+            <div class="form-group">
+              <label for="Signature">Signature:</label>
+                  <input type="text" id="Signature" name="Signature"><br><br>
+            </div>
+            <div class="form-group d-flex justify-content-center">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+        </form>
+    </div>
+ <!-- Include Bootstrap JS and jQuery from a CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
