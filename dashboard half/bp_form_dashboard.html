@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+    data-sidebar-image="none" data-preloader="disable">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>Education - Admin Dashboard </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">=
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'main/assets/images/favicon.icon' %}">
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <!--datatable responsive css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+
+
+    <!-- jsvectormap css -->
+    <link href="{% static 'main/assets/libs/jsvectormap/css/jsvectormap.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!--Swiper slider css-->
+    <link href="{% static 'main/assets/libs/swiper/swiper-bundle.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- Layout config Js -->
+    <script src="{% static 'main/assets/js/layout.js' %}"></script>
+    <!-- Bootstrap Css -->
+    <link href="{% static 'main/assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="{% static 'main/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="{% static 'main/assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- custom Css-->
+    <link href="{% static 'main/assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
+    
+</head>
+
+<body>
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        <header id="page-topbar">
+            <div class="layout-width">
+                <div class="navbar-header">
+                    <div class="d-flex">
+                        <!-- LOGO -->
+                        <div class="navbar-brand-box horizontal-logo">
+                            <a href="index.html" class="logo logo-dark">
+                                <span class="logo-sm">
+                                    <img src="{% static 'main/assets/images/logo-sm.png' %}" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="{% static 'main/assets/images/logo-dark.png' %}" alt="" height="17">
+                                </span>
+                            </a>
+
+                            <a href="index.html" class="logo logo-light">
+                                <span class="logo-sm">
+                                    <img src="{% static 'main/assets/images/logo-sm.png' %}" alt="" height="22">
+                                </span>
+                                <span class="logo-lg">
+                                    <img src="{% static 'main/assets/images/logo-light.png' %}" alt="" height="17">
+                                </span>
+                            </a>
+                        </div>
+
+                        <button type="button"
+                            class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
+                            id="topnav-hamburger-icon">
+                            <span class="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </button>
+
+
+                    </div>
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="dropdown d-md-none topbar-head-dropdown header-item">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="bx bx-search fs-22"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                                aria-labelledby="page-header-search-dropdown">
+                                <form class="p-3">
+                                    <div class="form-group m-0">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search ..."
+                                                aria-label="Recipient's username">
+                                            <button class="btn btn-primary" type="submit"><i
+                                                    class="mdi mdi-magnify"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                                data-toggle="fullscreen">
+                                <i class='bx bx-fullscreen fs-22'></i>
+                            </button>
+                        </div>
+
+                        <div class="ms-1 header-item d-none d-sm-flex">
+                            <button type="button"
+                                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
+                                <i class='bx bx-moon fs-22'></i>
+                            </button>
+                        </div>
+
+
+
+                        <div class="dropdown ms-sm-3 header-item topbar-user">
+                            <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span class="d-flex align-items-center">
+                                    <img class="rounded-circle header-profile-user"
+                                        src="{% static 'main/assets/images/users/avatar-1.jpg' %}" alt="Header Avatar">
+                                    <span class="text-start ms-xl-2">
+                                        <span
+                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Admin</span>
+                                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Thaagam
+                                            Foundation</span>
+                                    </span>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <!-- item-->
+                                <h6 class="dropdown-header">Welcome Admin!</h6>
+                                <a class="dropdown-item" href="pages-profile.html"><i
+                                        class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Profile</span></a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
+                                        class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle">Lock screen</span></a>
+                                <a class="dropdown-item" href="auth-logout-basic.html"><i
+                                        class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
+                                        class="align-middle" data-key="t-logout">Logout</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+        <!-- ========== App Menu ========== -->
+        <div class="app-menu navbar-menu">
+            <!-- LOGO -->
+            <div class="navbar-brand-box">
+                <!-- Dark Logo-->
+                <a href="index.html" class="logo logo-dark">
+                    <span class="logo-sm">
+                        <img src="{% static 'main/assets/images/logo/black_trans.png' %}" alt="" height="22">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="{% static 'main/assets/images/logo/black_trans.png' %}" alt="" height="17">
+                    </span>
+                </a>
+                <!-- Light Logo-->
+                <a href="index.html" class="logo logo-light">
+                    <span class="logo-sm">
+                        <img src="{% static 'main/assets/images/logo/hand.png' %}" alt="" height="60">
+                    </span>
+                    <span class="logo-lg">
+                        <img src="{% static 'main/assets/images/logo/white_trans.png' %}" alt="" height="55">
+                    </span>
+                </a>
+                <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
+                    id="vertical-hover">
+                    <i class="ri-record-circle-line"></i>
+                </button>
+            
+            </div>
+
+            <div id="scrollbar">
+                <div class="container-fluid">
+
+                    <div id="two-column-menu">
+                    </div>
+                    <ul class="navbar-nav" id="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#home" data-bs-toggle="collapse" role="button"
+                              aria-expanded="false" aria-controls="home">
+                              <i class=" ri-home-4-line"></i> <span data-key="t-home">home</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="home">
+                              <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                  <a href="action_plan_form.html" class="nav-link" data-key="t-calendar">
+                                    Action Plan Form
+                                  </a>
+                                </li>
+                                <li class="nav-item">
+                                  <a href="awareness_register.html" class="nav-link" data-key="t-chat">
+                                    Awareness Register
+                                  </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="bp_form.html" class="nav-link" data-key="t-chat">
+                                    BP Form
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="case_history_record.html" class="nav-link" data-key="t-chat">
+                                      Case History Record
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="counselling_register.html" class="nav-link" data-key="t-chat">
+                                     Counselling Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="food_menu.html" class="nav-link" data-key="t-chat">
+                                     Food Menu
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="inspection_records.html" class="nav-link" data-key="t-chat">
+                                    Inspection Records
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="medical_record_form.html" class="nav-link" data-key="t-chat">
+                                     Medical Record Form
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="medicine_register.html" class="nav-link" data-key="t-chat">
+                                     Medicine Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="night_survey.html" class="nav-link" data-key="t-chat">
+                                     Night Survey
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="performance_appraisal.html" class="nav-link" data-key="t-chat">
+                                     Performance Appraisal
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="provision.html" class="nav-link" data-key="t-chat">
+                                     Provision
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="personal_information.html" class="nav-link" data-key="t-chat">
+                                     Personal Information
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="reintegration_register.html" class="nav-link" data-key="t-chat">
+                                       Reintegration Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="resident_attendance_form.html" class="nav-link" data-key="t-chat">
+                                     Resident Attendance Form
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="salary_register.html" class="nav-link" data-key="t-chat">
+                                     Salary Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="skill_training_register.html" class="nav-link" data-key="t-chat">
+                                     Skill Training Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="smc_register.html" class="nav-link" data-key="t-chat">
+                                     SMC Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="social_entertainment_record.html" class="nav-link" data-key="t-chat">
+                                     Social Entertainment Record
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="staff_movement_note.html" class="nav-link" data-key="t-chat">
+                                     Staff Movement Note
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="stock_register.html" class="nav-link" data-key="t-chat">
+                                     Stock Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="visitor_registration.html" class="nav-link" data-key="t-chat">
+                                     Visitor Registration
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="accident_register.html" class="nav-link" data-key="t-chat">
+                                     Accident Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="asset_register.html" class="nav-link" data-key="t-chat">
+                                     Asset Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="death_register.html" class="nav-link" data-key="t-chat">
+                                     Death Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="staff_attendance_register.html" class="nav-link" data-key="t-chat">
+                                     Staff Attendance Register
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="employment_linkage_form.html" class="nav-link" data-key="t-chat">
+                                     Employment Linkage Registration Form
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="rehabilitation_note.html" class="nav-link" data-key="t-chat">
+                                     Rehabilitation Note
+                                    </a>
+                                </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Sidebar -->
+            </div>
+
+
+
+
+           
+
+
+
+
+
+
+            <div class="sidebar-background"></div>
+        </div>
+        <!-- Left Sidebar End -->
+        <!-- Vertical Overlay-->
+        <div class="vertical-overlay"></div>
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col">
+
+                            <div class="h-100">
+                                <div class="row mb-3 pb-1">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                            <div class="flex-grow-1">
+                                                <h4 class="fs-24 mb-1 g-msg"></h4>
+                                            </div>
+                                            <div class="mt-3 mt-lg-0">
+                                                <form action="javascript:void(0);">
+                                                    <div class="row g-3 mb-0 align-items-center">
+
+                                                        <div class="col-auto">
+                                                            <span class="badge p-2 fs-6 bg-success date-button"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <!--end row-->
+                                                </form>
+                                            </div>
+
+                                        </div><!-- end card header -->
+                                    </div>
+                                    <!--end col-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title mb-0">BP Form</h5>
+                                            </div>
+                                            <div class="card-body">
+                                              <div class="table-responsive">
+                                                <table id="example"
+                                                    class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                                                    style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S-NO</th>
+                                                            <th>Date</th>
+                                                            <th>Name</th>
+                                                            <th>Pulse</th>
+                                                            <th>Blood Pressure (BP)</th>
+                                                            <th>Temperature</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for item in data %}
+                                                            <tr>
+                                                                <td>{{ item.date }}</td>
+                                                                <td>{{ item.sno }}</td>
+                                                                <td>{{ item.name }}</td>
+                                                                <td>{{ item.pulse }}</td>
+                                                                <td>{{ item.bp }}</td>
+                                                                <td>{{ item.temperature }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                     </tbody>
+                                                </table>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                </div>
+                                <!--end row-->
+
+                            </div> <!-- end .h-100-->
+
+                        </div> <!-- end col -->
+
+
+                    </div>
+
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> © Thaagam.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by Thaagam Tech Team
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+
+
+
+    <!--start back-to-top-->
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+
+    <!--preloader-->
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner-border text-primary avatar-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+
+
+ 
+
+    
+
+
+
+
+    <!-- JAVASCRIPT -->
+    <script src="{% static 'main/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'main/assets/libs/simplebar/simplebar.min.js' %}"></script>
+    <script src="{% static 'main/assets/libs/node-waves/waves.min.js' %}"></script>
+    <script src="{% static 'main/assets/libs/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'main/assets/js/pages/plugins/lord-icon-2.1.0.js' %}"></script>
+    <script src="{% static 'main/assets/js/plugins.js' %}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!--datatable js-->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+    <script src="{% static 'main/assets/js/pages/datatables.init.js' %}"></script>
+    <!-- Dashboard init -->
+    <script src="{% static 'main/assets/js/pages/dashboard-ecommerce.init.js' %}"></script>
+
+    <!-- App js -->
+    <script src="{% static 'main/assets/js/app.js' %}"></script>
+    <script src="{% static 'main/assets/js/custom.js' %}"></script>
+</body>
+
+</html>

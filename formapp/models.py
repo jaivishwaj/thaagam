@@ -1,18 +1,34 @@
 from django.db import models
 
+
+class AlphaNumericField(models.CharField):
+    def _init_(self, *args, **kwargs):
+        kwargs['max_length'] = 6  # Set fixed max_length for alphanumeric field
+        super()._init_(*args, **kwargs)
+
+    @staticmethod
+    def generate_alphanumeric():
+        alphanumeric = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+        return alphanumeric.upper()
+
+
+
+
 class provision(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     material_name = models.CharField(max_length=255)
-    total_quantity = models.IntegerField()
-    utilized_quantity = models.IntegerField()
-    balance_quantity = models.IntegerField()
+    total_quantity = models.CharField(max_length=255)
+    utilized_quantity = models.CharField(max_length=255)
+    balance_quantity = models.CharField(max_length=255)
     remarks = models.TextField()
 
     def __str__(self):
-        return self.material_name
+        return str(self.material_name)
 
 
 
 class Reintegration(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     admission_no = models.CharField(max_length=255)
     resident_name = models.CharField(max_length=255)
     date_of_joining = models.DateField()
@@ -24,60 +40,63 @@ class Reintegration(models.Model):
     staff_event_close = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.admissionno
+        return str(self.admission_no)
 
 
 
 
 
 class VisitorRegister(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     name = models.CharField(max_length=255)
     whom_to_see = models.CharField(max_length=255)
     in_time = models.TimeField()
     out_time = models.TimeField()
-    signature = models.CharField(max_length=255)
+    signature = models.TextField()
     phone_number = models.CharField(max_length=15)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 
 
 
 class PerformanceAppraisal(models.Model):
-    month = models.DateField()
+    # uqid = AlphaNumericField(unique=True, editable=False)
+    date =models.DateField()
     beginning_children = models.IntegerField()
     new_admission = models.IntegerField()
     total_strength = models.IntegerField()
-    reintegration = models.IntegerField()
-    rehabilitation = models.IntegerField()
-    referral = models.IntegerField()
-    left = models.IntegerField()
-    death = models.IntegerField()
+    reintegration = models.CharField(max_length=255)
+    rehabilitation = models.CharField(max_length=255)
+    referral = models.CharField(max_length=255)
+    left = models.CharField(max_length=255)
+    death = models.CharField(max_length=255)
     end_strength = models.IntegerField()
-    rescue = models.IntegerField()
+    rescue = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.month
+        return str(self.date)
 
 
 
 
 class Resident(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     pupilName = models.CharField(max_length=255)
     dob = models.DateField()
-    morningAttendance = models.CharField(max_length=10, choices=[("present", "Present"), ("absent", "Absent")], null=True, blank=True)
-    eveningAttendance = models.CharField(max_length=10, choices=[("present", "Present"), ("absent", "Absent")], null=True, blank=True)
+    attendance = models.CharField(max_length=255, default='-')
     daysPresent = models.IntegerField()
-    schoolFee = models.CharField(max_length=255)
+    schoolFee = models.IntegerField()
     dayOfPayment = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.pupilName
+        return str(self.pupilName)
 
 
 class SocialEntertainment(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     admission = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
@@ -90,7 +109,9 @@ class SocialEntertainment(models.Model):
 
 
 class CaseHistory(models.Model):
-    photo = models.ImageField(upload_to='case_history_photos/', null=True, blank=True)
+    # uqid = AlphaNumericField(unique=True, editable=False)
+    photo_url = models.URLField(null=True, blank=True)
+    # photo = models.ImageField(upload_to='case_history_photos/', null=True, blank=True)
     name = models.CharField(max_length=100)
     age = models.IntegerField()
     SEX_CHOICES = [
@@ -128,19 +149,34 @@ class CaseHistory(models.Model):
 
 
     def __str__(self):
-        return self.photo
+        return str(self.photo)
 
 
 class ActionplanRegister(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date_of_plan = models.DateField()
     detailed_notes = models.TextField()
     action_plan_date = models.DateField()
 
     def __str__(self):
-        return self.date_of_plan
+        return str(self.date_of_plan)
 
 
-class AwarnessRegister(models.Model):
+class AccidentRegister(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
+    date = models.DateField()
+    inmate_name = models.CharField(max_length=100)
+    age_gender = models.CharField(max_length=20)
+    accident_condition = models.CharField(max_length=200)
+    accident_place = models.CharField(max_length=100)
+    signature = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.inmate_name)
+
+
+class AwarnesRegister(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     time = models.TimeField()
     place = models.CharField(max_length=255)
@@ -151,19 +187,37 @@ class AwarnessRegister(models.Model):
     def __str__(self):
         return f"{self.place} - {self.date}"
 
+
+class Asset(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
+    s_no = models.CharField(max_length=50)
+    date_purchase = models.DateField()
+    name_asset = models.CharField(max_length=100)
+    no_of_items = models.IntegerField()
+    cost = models.IntegerField()
+    bill_no = models.CharField(max_length=50)
+    place_asset = models.CharField(max_length=100)
+    owner_asset = models.CharField(max_length=100)
+    dispose_date = models.DateField()
+
+    def __str__(self):
+        return str(self.name_asset)
+
 class BpPulsenote(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    sno = models.CharField(max_length=255)
+    sno = models.IntegerField()
     name = models.CharField(max_length=255)
     pulse = models.IntegerField()
-    bp = models.CharField(max_length=255)
-    temperature = models.DecimalField(max_digits=5, decimal_places=2)
+    bp = models.IntegerField()
+    temperature = models.IntegerField()
 
     def __str__(self):
         return f"{self.name} - {self.date}"
 
 
 class CounsellingRegister(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     name = models.CharField(max_length=100)
     number_of_sessions = models.IntegerField()
@@ -175,6 +229,7 @@ class CounsellingRegister(models.Model):
 
 
 class MedicalCamp(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     place = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
@@ -188,19 +243,21 @@ class MedicalCamp(models.Model):
 
 
 class Medicine(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     name = models.CharField(max_length=100)
     age = models.IntegerField()
     type_of_disease = models.CharField(max_length=100)
     tablet_details = models.TextField()
-    morning = models.BooleanField(default=False)
-    afternoon = models.BooleanField(default=False)
-    night = models.BooleanField(default=False)
+    # morning = models.BooleanField(default=False)
+    # afternoon = models.BooleanField(default=False)
+    # night = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name}'s Medicine"
 
 
 class NightSurvey(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.CharField(max_length=255)
     time = models.TimeField()
     place = models.CharField(max_length=255)
@@ -212,6 +269,7 @@ class NightSurvey(models.Model):
 
 
 class SkillTraining(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     sl_no = models.CharField(max_length=255)
     date = models.DateField()
     resident_name = models.CharField(max_length=255)
@@ -222,11 +280,12 @@ class SkillTraining(models.Model):
 
 
 class SmcRegister(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     time = models.TimeField()
     introduction_of_meeting = models.TextField()
     last_month_performance_details = models.TextField()
-    issue_resolved = models.BooleanField()
+    issue_resolved = models.TextField()
     this_month_issue = models.TextField()
     ngo_staff_name = models.CharField(max_length=255)
     gcc_officials_name = models.CharField(max_length=255)
@@ -238,21 +297,23 @@ class SmcRegister(models.Model):
 
 
 
-class StaffAttendence(models.Model):
-    sno = models.CharField(max_length=255, verbose_name="SI.No")
-    name = models.CharField(max_length=255, verbose_name="Name")
-    designation = models.CharField(max_length=255, verbose_name="Designation")
-    working_hours = models.TimeField(verbose_name="Working Hours")
-    days = models.IntegerField(verbose_name="Days")
-    working_days = models.IntegerField(verbose_name="No.of Working Days")
-    leave_days = models.IntegerField(verbose_name="No.of Days Leaves")
-    remarks = models.TextField(verbose_name="Remarks")
+class StaffAttendance(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
+    sno = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    designation = models.CharField(max_length=255)
+    working_hours = models.TimeField()
+    days = models.IntegerField()
+    working_days = models.IntegerField()
+    leave_days = models.IntegerField()
+    remarks = models.TextField()
 
     def __str__(self):
         return f"{self.sno} - {self.name}"
 
 
 class Stock(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     particulars = models.CharField(max_length=255)
     receipt = models.CharField(max_length=255)
@@ -264,8 +325,9 @@ class Stock(models.Model):
 
 
 class EmploymentLink(models.Model):
-    si_no = models.CharField(max_length=20)
-    admission_no = models.CharField(max_length=20)
+    # uqid = AlphaNumericField(unique=True, editable=False)
+    si_no = models.IntegerField()
+    admission_no = models.IntegerField()
     admission_date = models.DateField()
     resident_name = models.CharField(max_length=100)
     employment_name = models.CharField(max_length=100)
@@ -279,6 +341,7 @@ class EmploymentLink(models.Model):
 
 
 class Rehabitation(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     sno = models.CharField(max_length=50)
     admission_number = models.CharField(max_length=50)
     name_of_the_resident = models.CharField(max_length=100)
@@ -296,6 +359,7 @@ class Rehabitation(models.Model):
 
 
 class DeathRegister(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     sno = models.CharField(max_length=50)
     name_of_the_death_person = models.CharField(max_length=100)
     age_sex = models.CharField(max_length=20)
@@ -311,13 +375,83 @@ class DeathRegister(models.Model):
 
 
 
-class AccidentRegister(models.Model):
+class FoodMenu(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    inmate_name = models.CharField(max_length=100)
-    age_gender = models.CharField(max_length=20)
-    accident_condition = models.CharField(max_length=200)
-    accident_place = models.CharField(max_length=100)
-    signature = models.CharField(max_length=100)
+    morning_snacks = models.CharField(max_length=100)
+    no_of_resident1 = models.IntegerField()
+    breakfast = models.CharField(max_length=100)
+    no_of_resident2 = models.IntegerField()
+    lunch = models.CharField(max_length=100)
+    no_of_resident3 = models.IntegerField()
+    dinner = models.CharField(max_length=100)
+    no_of_resident4 = models.IntegerField()
 
     def __str__(self):
-        return self.inmate_name
+        return str(self.date)
+
+
+
+class SalaryRegister(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
+    date = models.DateField()
+    name = models.CharField(max_length=100)
+    designation = models.CharField(max_length=100)
+    salary = models.IntegerField()
+    sign = models.TextField()
+
+    def __str__(self):
+        return str(self.date)
+
+
+class StaffMovement(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
+    date_of_plan = models.DateField()
+    working_area = models.CharField(max_length=255)
+    nature_of_work = models.CharField(max_length=255)
+    work_done_by = models.CharField(max_length=255)
+    sign = models.TextField()
+
+    def _str_(self):
+        return str(self.date_of_plan)
+
+
+
+class UserProfile(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
+    username = models.CharField(max_length=50, unique=True)
+    password = models.CharField(max_length=50)
+
+
+
+
+class MasterRecords(models.Model):
+    # uqid = AlphaNumericField(unique=True, editable=False)
+    S_no = models.IntegerField()
+    name = models.CharField(max_length=100)
+    Aid_no = models.IntegerField()
+    Age_gender = models.CharField(max_length=50)
+    dob = models.DateField()
+    Date_Of_Admission = models.DateField()
+    Date_Of_Leaving = models.DateField()
+    Family_Contact_No = models.CharField(max_length=20)
+    Relation = models.CharField(max_length=50)
+    Permanent_Address = models.TextField()
+    Mode_Of_Identification_Rescue = models.CharField(max_length=100)
+    Identification_Mark = models.CharField(max_length=100)
+    Identification_Papers = models.CharField(max_length=100)
+    Rehabilitation_Measures = models.TextField()
+    Reason_For_Leaving_Shelter = models.TextField()
+    Follow_Up_Action = models.TextField()
+    Second_Follow_Up = models.TextField()
+    Medical_Status = models.CharField(max_length=50)
+    File_Closure_Status = models.CharField(max_length=50)
+    Remarks = models.TextField()
+    Signature = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.S_no} - {self.name}"
+
+
+
+

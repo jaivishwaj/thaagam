@@ -39,7 +39,7 @@
 
         <br>
         <br>
-        <form action="{% url 'success_page' %}" method="post">
+        <form action="" method="post">
             {% csrf_token %}
 
             <div class="form-group">
@@ -53,18 +53,18 @@
             </div>
 
             <div class="form-group">
-                <label for="whomToSee">Whom to See:</label>
-                <input type="text" class="form-control" id="whomToSee" name="whomToSee" required>
+                <label for="whom_to_see">Whom to See:</label>
+                <input type="text" class="form-control" id="whom_to_see" name="whom_to_see" required>
             </div>
 
             <div class="form-group">
-                <label for="inTime">In Time:</label>
-                <input type="time" class="form-control" id="inTime" name="inTime" required>
+                <label for="in_time">In Time:</label>
+                <input type="time" class="form-control" id="in_time" name="in_time" required>
             </div>
 
             <div class="form-group">
-                <label for="outTime">Out Time:</label>
-                <input type="time" class="form-control" id="outTime" name="outTime" required>
+                <label for="out_time">Out Time:</label>
+                <input type="time" class="form-control" id="out_time" name="out_time" required>
             </div>
 
             <div class="form-group">
@@ -73,8 +73,8 @@
             </div>
 
             <div class="form-group">
-                <label for="phoneNumber">Phone Number:</label>
-                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
+                <label for="phone_number">Phone Number:</label>
+                <input type="tel" class="form-control" id="phone_number" name="phone_number" required>
             </div>
 
             <div class="form-group d-flex justify-content-center">

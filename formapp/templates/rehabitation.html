@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <!-- Include Bootstrap CSS from a CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
         body {
             font-family: Roboto, sans-serif;
         }
-
         label {
             font-weight: bold;
         }
-
         form {
             max-width: 500px;
             margin: 0 auto;
@@ -22,7 +20,6 @@
             background-color: #f9f9f9;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
         .btn-submit {
             background-color: green;
             color: white;
@@ -33,67 +30,69 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <h2 class="mt-5 text-center">Rehabilitation Note</h2>
-
+        <h2 class="mt-5">Rehabilitation</h2>
         <br>
         <br>
-        <form action="{% url 'success_page' %}" method="post">
+        <form action="" method="post">
             {% csrf_token %}
 
             <div class="form-group">
-                <label for="sno">SNO</label>
+                <label for="sno">Serial Number</label>
                 <input type="text" class="form-control" id="sno" name="sno" required>
             </div>
+
             <div class="form-group">
-                <label for="admissionnumber">Admission Number</label>
-                <input type="text" class="form-control" id="admissionnumber" name="admissionnumber" required>
+                <label for="admission_number">Admission Number</label>
+                <input type="text" class="form-control" id="admission_number" name="admission_number" required>
             </div>
+
             <div class="form-group">
-                <label for="nameoftheresident">Name of the Resident</label>
-                <input type="text" class="form-control" id="nameoftheresident" name="nameoftheresident" required>
+                <label for="name_of_the_resident">Name of the Resident</label>
+                <input type="text" class="form-control" id="name_of_the_resident" name="name_of_the_resident" required>
             </div>
+
             <div class="form-group">
                 <label for="age">Age</label>
                 <input type="text" class="form-control" id="age" name="age" required>
             </div>
+
             <div class="form-group">
                 <label for="sex">Sex</label>
                 <input type="text" class="form-control" id="sex" name="sex" required>
             </div>
+
             <div class="form-group">
-                <label for="dateJoining">Date of Joining</label>
-                <input type="date" class="form-control" id="dateJoining" name="dateJoining" required>
+                <label for="date_of_joining">Date of Joining</label>
+                <input type="date" class="form-control" id="date_of_joining" name="date_of_joining" required>
             </div>
+
             <div class="form-group">
-                <label for="dateLeaving">Date of Leaving</label>
-                <input type="date" class="form-control" id="dateLeaving" name="dateLeaving" required>
+                <label for="date_of_leaving">Date of Leaving</label>
+                <input type="date" class="form-control" id="date_of_leaving" name="date_of_leaving" required>
             </div>
+
             <div class="form-group">
-                <label for="modeofrescue">Mode of Rescue</label>
-                <input type="text" class="form-control" id="modeofrescue" name="modeofrescue" required>
+                <label for="mode_of_rescue">Mode of Rescue</label>
+                <input type="text" class="form-control" id="mode_of_rescue" name="mode_of_rescue" required>
             </div>
+
             <div class="form-group">
-                <label for="modeofrehabilitation">Mode of Rehabilitation</label>
-                <input type="text" class="form-control" id="modeofrehabilitation" name="modeofrehabilitation" required>
+                <label for="mode_of_rehabilitation">Mode of Rehabilitation</label>
+                <input type="text" class="form-control" id="mode_of_rehabilitation" name="mode_of_rehabilitation" required>
             </div>
+
             <div class="form-group">
-                <label for="followup">Follow Up</label>
-                <input type="text" class="form-control" id="followup" name="followup" required>
+                <label for="follow_up">Follow-up</label>
+                <input type="text" class="form-control" id="follow_up" name="follow_up" required>
             </div>
 
             <div class="form-group d-flex justify-content-center">
                 <button type="submit" class="btn btn-submit">Submit</button>
             </div>
-
         </form>
     </div>
-
-    <!-- Include Bootstrap JS and jQuery from a CDN -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
 </body>
-
 </html>

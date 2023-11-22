@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>HOME</title>
+    <style>
+        h1 {
+            text-align: center;
+            padding: 3px;
+            text_color: white;
+        }
+        .navbar {
+            background-color: #333;
+            border: none;
+            border-radius: 0;
+        }
+        .navbar-brand, .navbar-nav>li>a {
+            color: white;
+        }
+        body{
+         background-image: url('https://lh3.googleusercontent.com/p/AF1QipPmo1EG6HyaYOYNLdOre64PPXcMZ718GCnl1r5i=w1080-h608-p-no-v0');
+         background-size: cover; /* Adjust the size as needed */
+         background-repeat: no-repeat;
+         background-attachment: fixed; /* Fixed background
+<!--         /* Additional styles for other elements in your page */-->
+<!--         color: white;-->
+<!--         font-family: Arial, sans-serif;-->
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">home</a></li>
+
+                    <li><a href="{% url 'provision_dashboard' %}">about</a></li>
+                    <li><a href="{% url 'provision_dashboard' %}">contact</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<div>
+     <h1>Thaagam Foundation Orphanage</h1>
+</div>
+
+<!--    <h2><a href="{% url 'master_records_dashboard' %}">Master Records</a></h2>-->
+<!--<h2><a href="{% url 'provision_dashboard' %}">provision dashboard</a></h2>-->
+<!--<h2><a href="{% url 'reintegration_register_dashboard' %}">reintegration register dashboard</a></h2>-->
+<!--<h2><a href="{% url 'accident_register_dashboard' %}">accident register dashboard</a></h2>-->
+<!--<h2><a href="{% url 'action_plan_dashboard' %}">action plan dashboard</a></h2>-->
+
+</body>
+</html>

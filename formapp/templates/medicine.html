@@ -45,7 +45,7 @@
     <h2 class="text-center mt-5">Medicine Register</h2>
     <br>
     <div class="container">
-        <form action="{% url 'success_page' %}" method="post">
+        <form action="" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="name">Name</label>
@@ -58,31 +58,31 @@
             </div>
 
             <div class="form-group">
-                <label for="disease">Type of Disease</label>
-                <input type="text" id="disease" name="disease" required>
+                <label for="type_of_disease">Type of Disease</label>
+                <input type="text" id="type_of_disease" name="type_of_disease" required>
             </div>
 
             <div class="form-group">
-                <label for="disease">Tablet Details</label>
-                <textarea name="disease_summary" id="disease_summary" cols="30" rows="4"></textarea>
+                <label for="tablet_details">Tablet Details</label>
+                <textarea name="tablet_details" id="tablet_details" cols="30" rows="4"></textarea>
             </div>
 
 
-            <div class="form-group form-check">
-                <input type="checkbox" id="morning" name="morning" >
-                <label for="morning">Morning</label>
+<!--            <div class="form-group form-check">-->
+<!--                <input type="checkbox" id="morning" name="morning" >-->
+<!--                <label for="morning">Morning</label>-->
 
-                <input type="checkbox" id="afternoon" name="afternoon">
-                <label for="afternoon">Afternoon</label>
+<!--                <input type="checkbox" id="afternoon" name="afternoon">-->
+<!--                <label for="afternoon">Afternoon</label>-->
 
-                <input type="checkbox" id="night" name="night">
-                <label for="night">Night</label>
-
-
+<!--                <input type="checkbox" id="night" name="night">-->
+<!--                <label for="night">Night</label>-->
 
 
 
-            </div>
+
+
+<!--            </div>-->
 
 
 
