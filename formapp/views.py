@@ -6,9 +6,69 @@ from .forms import ProvisionForm, VisitorRegisterForm,ReintegrationForm,VisitorR
 
 from .models import MasterRecords,CaseHistory,UserProfile,provision,Reintegration,SalaryRegister,Medicine,MedicalCamp,CounsellingRegister,BpPulsenote,AwarnesRegister,ActionplanRegister,CaseHistory,SocialEntertainment,Resident,PerformanceAppraisal,VisitorRegister,Asset,FoodMenu,StaffMovement,StaffAttendance
 
+from django.http import HttpResponse
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 from .models import UserProfile
+
+
+
+@login_required(login_url='login')
+def master_records_dashboard(request):
+    datas = MasterRecords.objects.all()
+    return render(request, 'dashboard/master_records_dashboard.html',{'data':datas})
+
+
+from django.contrib.auth.models import User
+
+def signupuser(request):
+    if request.method == 'POST':
+        uname = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirmpassword = request.POST.get('confirmpassword')
+
+        if password != confirmpassword:
+            return HttpResponse("Your password and confirm password are not the same!!")
+        else:
+            # Check if the username already exists
+            if User.objects.filter(username=uname).exists():
+                return HttpResponse("Username already exists. Please choose a different one.")
+            else:
+                # Create the user if the username doesn't exist
+                user = User.objects.create_user(username=uname, email=email, password=password)
+                user.save()
+                return redirect('login')
+    else:
+        return render(request, 'signup.html')
+
+
+def loginuser(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Check if the user exists in the signup data
+        user = User.objects.filter(username=username).first()  # Replace 'User' with your model name
+
+        if user is not None and user.check_password(password):
+            # Authentication successful, log in the user
+            authenticated_user = authenticate(request, username=username, password=password)
+            if authenticated_user is not None:
+                login(request, authenticated_user)
+                return redirect('master_records_dashboard')  # Assuming 'master_records_dashboard' is the correct URL name
+        else:
+            # Authentication failed
+            return HttpResponse("Username or Password is incorrect.")
+    else:
+        # If it's not a POST request, render the login form
+        return render(request, 'login.html')
+
+
+
+
 def home(request):
     return render(request, 'home.html')
 
@@ -794,104 +854,104 @@ def staff_movement_note_dashboard(request):
 
 
 
-
-def login_view(request):
-
-
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-
-        try:
-            # Check if the user exists in the database
-            user = UserProfile.objects.get(username=username, password=password)
-            messages.success(request, f"Welcome, {username}!")
-            return redirect('master_records_dashboard')  # Change 'dashboard' to your actual dashboard URL
-        except UserProfile.DoesNotExist:
-            messages.error(request, "Invalid username or password.")
-
-    return render(request, 'login.html')
-
-# def register_view(request):
-#     if request.method == 'POST':
 #
+# def login_view(request):
+#
+#
+#     if request.method == 'POST':
 #         username = request.POST['username']
 #         password = request.POST['password']
 #
 #         try:
+#             # Check if the user exists in the database
+#             user = UserProfile.objects.get(username=username, password=password)
+#             messages.success(request, f"Welcome, {username}!")
+#             return redirect('master_records_dashboard')  # Change 'dashboard' to your actual dashboard URL
+#         except UserProfile.DoesNotExist:
+#             messages.error(request, "Invalid username or password.")
 #
-#             if UserProfile.objects.filter(username=username).exists():
-#                 messages.warning(request, "Username is already taken. Please choose a different one.")
-#                 return redirect('register')
+#     return render(request, 'login.html')
 #
-#             # Create a new user
-#             user = UserProfile.objects.create(username=username, password=password)
-#             messages.success(request, f"Account created for {username}. You can now log in.")
-#             return redirect('login')
-#         except Exception as e:
-#             messages.error(request, f"Error creating account: {e}")
+# # def register_view(request):
+# #     if request.method == 'POST':
+# #
+# #         username = request.POST['username']
+# #         password = request.POST['password']
+# #
+# #         try:
+# #
+# #             if UserProfile.objects.filter(username=username).exists():
+# #                 messages.warning(request, "Username is already taken. Please choose a different one.")
+# #                 return redirect('register')
+# #
+# #             # Create a new user
+# #             user = UserProfile.objects.create(username=username, password=password)
+# #             messages.success(request, f"Account created for {username}. You can now log in.")
+# #             return redirect('login')
+# #         except Exception as e:
+# #             messages.error(request, f"Error creating account: {e}")
+# #
+# #     return render(request, 'register.html')
 #
-#     return render(request, 'register.html')
-
+# # def register_view(request):
+# #     if request.method == 'POST':
+# #         username = request.POST.get('username')
+# #         password = request.POST.get('password')
+# #         user = UserProfile.objects.create(username=username,
+# #                               password=password)
+# #         user.save()
+# #     return render(request, 'register.html')
+#
+#
+#
+#   # Create a RegistrationForm in forms.py
+#
+# # def register_view(request):
+# #     if request.method == 'POST':
+# #         form = RegistrationForm(request.POST)
+# #         if form.is_valid():
+# #             username = form.cleaned_data['username']
+# #             password = form.cleaned_data['password']
+# #
+# #             # Check if the user already exists
+# #             if UserProfile.objects.filter(username=username).exists():
+# #                 messages.warning(request, "Username is already taken. Please choose a different one.")
+# #                 return redirect('register')
+# #
+# #             # Create a new user
+# #             user = UserProfile.objects.create(username=username, password=password)
+# #             messages.success(request, f"Account created for {username}. You can now log in.")
+# #             return redirect('login')
+# #         else:
+# #             # Form is not valid, handle errors or display messages
+# #             messages.error(request, "Invalid form submission. Please check the provided data.")
+# #
+# #     else:
+# #         form = RegistrationForm()
+# #
+# #     return render(request, 'register.html', {'form': form})
+#
+#
+# from django.shortcuts import render, redirect
+# from django.contrib import messages
+# from .models import UserProfile
+#
 # def register_view(request):
 #     if request.method == 'POST':
 #         username = request.POST.get('username')
 #         password = request.POST.get('password')
-#         user = UserProfile.objects.create(username=username,
-#                               password=password)
-#         user.save()
-#     return render(request, 'register.html')
-
-
-
-  # Create a RegistrationForm in forms.py
-
-# def register_view(request):
-#     if request.method == 'POST':
-#         form = RegistrationForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password']
 #
-#             # Check if the user already exists
-#             if UserProfile.objects.filter(username=username).exists():
-#                 messages.warning(request, "Username is already taken. Please choose a different one.")
-#                 return redirect('register')
+#         # Check if the user already exists
+#         if UserProfile.objects.filter(username=username).exists():
+#             messages.warning(request, "Username is already taken. Please choose a different one.")
+#             return redirect('register')
 #
-#             # Create a new user
-#             user = UserProfile.objects.create(username=username, password=password)
-#             messages.success(request, f"Account created for {username}. You can now log in.")
-#             return redirect('login')
-#         else:
-#             # Form is not valid, handle errors or display messages
-#             messages.error(request, "Invalid form submission. Please check the provided data.")
-#
+#         # Create a new user
+#         user = UserProfile.objects.create(username=username, password=password)
+#         messages.success(request, f"Account created for {username}. You can now log in.")
+#         return redirect('login')
 #     else:
-#         form = RegistrationForm()
-#
-#     return render(request, 'register.html', {'form': form})
-
-
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .models import UserProfile
-
-def register_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        # Check if the user already exists
-        if UserProfile.objects.filter(username=username).exists():
-            messages.warning(request, "Username is already taken. Please choose a different one.")
-            return redirect('register')
-
-        # Create a new user
-        user = UserProfile.objects.create(username=username, password=password)
-        messages.success(request, f"Account created for {username}. You can now log in.")
-        return redirect('login')
-    else:
-        return render(request, 'register.html')
+#         return render(request, 'register.html')
 def master_records_form(request):
     if request.method == 'POST':
         S_no = request.POST.get('S_no')

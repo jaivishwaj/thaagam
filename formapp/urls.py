@@ -69,8 +69,8 @@ urlpatterns = [
     path('death_register_dashboard/', views.death_register_dashboard, name='death_register_dashboard'),
     path('accident_register_form/',views.accident_register_form,name='accident_register_form'),
     path('accident_register_dashboard/',views.accident_register_dashboard,name='accident_register_dashboard'),
-    path('login/', views.login_view, name='login'),
-    path('register/', views.register_view, name='register'),
+    path('login/', views.loginuser, name='login'),
+    path('signup/', views.signupuser, name='signup'),
 
 
 ]
