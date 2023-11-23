@@ -106,50 +106,73 @@ class SocialEntertainment(models.Model):
         return self.date
 
 
-
-
 class CaseHistory(models.Model):
-    # uqid = AlphaNumericField(unique=True, editable=False)
-    photo_url = models.URLField(null=True, blank=True)
-    # photo = models.ImageField(upload_to='case_history_photos/', null=True, blank=True)
-    name = models.CharField(max_length=100)
+    photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
+    name = models.CharField(max_length=255)
     age = models.IntegerField()
-    SEX_CHOICES = [
-        ('male', 'Male'),
-        ('female', 'Female'),
-        ('other', 'Other'),
-    ]
-    sex = models.CharField(max_length=10, choices=SEX_CHOICES)
-    religion = models.CharField(max_length=100, blank=True, null=True)
-    MARITAL_STATUS_CHOICES = [
-        ('single', 'Single'),
-        ('married', 'Married'),
-        ('divorced', 'Divorced'),
-        ('widowed', 'Widowed'),
-    ]
-    maritalStatus = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES, blank=True, null=True)
-    identificationMark = models.CharField(max_length=255, blank=True, null=True)
-    educationBackground = models.CharField(max_length=255, blank=True, null=True)
-    occupation = models.CharField(max_length=255, blank=True, null=True)
+    sex = models.CharField(max_length=10)
+    religion = models.CharField(max_length=255)
+    maritalStatus = models.CharField(max_length=50)
+    identificationMark = models.TextField()
+    educationBackground = models.TextField()
+    occupation = models.CharField(max_length=255)
     address = models.TextField()
     residentContactNumber = models.CharField(max_length=15)
     relativeOrFriendsContact = models.CharField(max_length=15)
-    ID_PROOF_CHOICES = [
-        ('yes', 'Yes'),
-        ('no', 'No'),
-    ]
-    idProofAvailable = models.CharField(max_length=5, choices=ID_PROOF_CHOICES)
-    idProofDetails = models.CharField(max_length=255, blank=True, null=True)
-    POLICE_MEMO_CHOICES = [
-        ('yes', 'Yes'),
-        ('no', 'No'),
-    ]
-    policeMemoAvailable = models.CharField(max_length=5, choices=POLICE_MEMO_CHOICES)
-    policeStationDetails = models.CharField(max_length=255, blank=True, null=True)
-
+    idProofAvailable = models.CharField(max_length=255)
+    idProofDetails = models.TextField()
+    policeMemoAvailable = models.CharField(max_length=255)
+    policeStationDetails = models.TextField()
 
     def __str__(self):
-        return str(self.photo)
+        return self.name
+
+
+
+
+#
+# class CaseHistory(models.Model):
+#     # uqid = AlphaNumericField(unique=True, editable=False)
+#     photo_url = models.URLField(null=True, blank=True)
+#     # photo = models.ImageField(upload_to='case_history_photos/', null=True, blank=True)
+#     name = models.CharField(max_length=100)
+#     age = models.IntegerField()
+#     SEX_CHOICES = [
+#         ('male', 'Male'),
+#         ('female', 'Female'),
+#         ('other', 'Other'),
+#     ]
+#     sex = models.CharField(max_length=10, choices=SEX_CHOICES)
+#     religion = models.CharField(max_length=100, blank=True, null=True)
+#     MARITAL_STATUS_CHOICES = [
+#         ('single', 'Single'),
+#         ('married', 'Married'),
+#         ('divorced', 'Divorced'),
+#         ('widowed', 'Widowed'),
+#     ]
+#     maritalStatus = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES, blank=True, null=True)
+#     identificationMark = models.CharField(max_length=255, blank=True, null=True)
+#     educationBackground = models.CharField(max_length=255, blank=True, null=True)
+#     occupation = models.CharField(max_length=255, blank=True, null=True)
+#     address = models.TextField()
+#     residentContactNumber = models.CharField(max_length=15)
+#     relativeOrFriendsContact = models.CharField(max_length=15)
+#     ID_PROOF_CHOICES = [
+#         ('yes', 'Yes'),
+#         ('no', 'No'),
+#     ]
+#     idProofAvailable = models.CharField(max_length=5, choices=ID_PROOF_CHOICES)
+#     idProofDetails = models.CharField(max_length=255, blank=True, null=True)
+#     POLICE_MEMO_CHOICES = [
+#         ('yes', 'Yes'),
+#         ('no', 'No'),
+#     ]
+#     policeMemoAvailable = models.CharField(max_length=5, choices=POLICE_MEMO_CHOICES)
+#     policeStationDetails = models.CharField(max_length=255, blank=True, null=True)
+#
+#
+#     def __str__(self):
+#         return str(self.photo)
 
 
 class ActionplanRegister(models.Model):
@@ -427,6 +450,7 @@ class UserProfile(models.Model):
 
 class MasterRecords(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
+    photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
     S_no = models.IntegerField()
     name = models.CharField(max_length=100)
     Aid_no = models.IntegerField()

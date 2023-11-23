@@ -5,10 +5,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.conf import settings
+from .views import restricted_page
 # from .views import master_records_form,master_records_dashboard,action_plan_dashboard,login_view,register_view,home,asset_form,provision_dashboard,reintegration_register_dashboard,staff_movement_form,accident_register_dashboard,provision_form,reintegration_form,visitor_register_form,performance_appraisal_form,resident_form,social_entertainment_form,case_history_form,actionplan_register_form,awarness_register_form,bp_pulsenote,counselling_register_form,medicine_form,night_survey_form,skill_training_form,smc_register_form,staff_attendence_form,stock_form,employment_link_form,rehabitation_form,death_register_form,accident_register_form,medical_camp_form,food_menu_form,salary_register_form
 
 urlpatterns = [
-    path('',views.home,name='home'),
+    path('', views.loginuser, name='login'),
+    path('signup/', views.signupuser, name='signup'),
+    path('home/',views.home,name='home'),
     path('master_records/', views.master_records_form, name='master_records'),
     path('master_records_dashboard/', views.master_records_dashboard, name='master_records_dashboard'),
     path('provision/',views.provision_form,name='provision'),
@@ -69,9 +72,10 @@ urlpatterns = [
     path('death_register_dashboard/', views.death_register_dashboard, name='death_register_dashboard'),
     path('accident_register_form/',views.accident_register_form,name='accident_register_form'),
     path('accident_register_dashboard/',views.accident_register_dashboard,name='accident_register_dashboard'),
-    path('login/', views.loginuser, name='login'),
-    path('signup/', views.signupuser, name='signup'),
 
+
+
+    path('restricted/', login_required(restricted_page), name='restricted_page')
 
 ]
 
@@ -80,7 +84,6 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 
 
 

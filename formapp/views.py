@@ -1,4 +1,3 @@
-
 from django.shortcuts import render,redirect
 from .forms import ProvisionForm, VisitorRegisterForm,ReintegrationForm,VisitorRegister,PerformanceAppraisal,Resident,SocialEntertainment,CaseHistory,ActionplanRegister,AwarnesRegister,BpPulsenote,CounsellingRegister,Medicine,NightSurvey,SkillTraining,SmcRegister,StaffAttendance,Stock,EmploymentLink,Rehabitation,DeathRegister,AccidentRegister,MedicalCamp,MedicineForm
 
@@ -12,6 +11,32 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
 from .models import UserProfile
+
+
+import os
+from django.conf import settings
+
+from django.urls import reverse
+
+
+
+class AuthMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # Check if the user is authenticated
+        if not request.user.is_authenticated:
+            # Check if the requested path requires authentication
+            if request.path_info.startswith('/accident_register_dashboard/'):
+                # Redirect to the login page
+                return redirect(reverse('login'))  # Replace 'login' with your login URL name
+
+        response = self.get_response(request)
+        return response
+
+
+
 
 
 
@@ -51,14 +76,14 @@ def loginuser(request):
         password = request.POST.get('password')
 
         # Check if the user exists in the signup data
-        user = User.objects.filter(username=username).first()  # Replace 'User' with your model name
+        user = User.objects.filter(username=username).first()
 
         if user is not None and user.check_password(password):
             # Authentication successful, log in the user
             authenticated_user = authenticate(request, username=username, password=password)
             if authenticated_user is not None:
                 login(request, authenticated_user)
-                return redirect('master_records_dashboard')  # Assuming 'master_records_dashboard' is the correct URL name
+                return redirect('master_records_dashboard')
         else:
             # Authentication failed
             return HttpResponse("Username or Password is incorrect.")
@@ -274,7 +299,6 @@ def social_entertainment_form_dashboard(request):
 
 
 
-import os
 
 def case_history_form(request):
     if request.method == 'POST':
@@ -283,7 +307,6 @@ def case_history_form(request):
         age = request.POST.get('age')
         sex = request.POST.get('sex')
         religion = request.POST.get('religion')
-        # workDetails = request.POST.get('workDetails')
         maritalStatus = request.POST.get('maritalStatus')
         identificationMark = request.POST.get('identificationMark')
         educationBackground = request.POST.get('educationBackground')
@@ -296,49 +319,59 @@ def case_history_form(request):
         policeMemoAvailable = request.POST.get('policeMemoAvailable')
         policeStationDetails = request.POST.get('policeStationDetails')
         uploaded_file = request.FILES.get('photo')
+
         if uploaded_file:
+            # Save photo to directory
             filename = f'{name}.jpg'
             photos_dir = os.path.join(settings.MEDIA_ROOT, 'photos')
+
             if not os.path.exists(photos_dir):
                 os.makedirs(photos_dir)
 
             save_path = os.path.join(photos_dir, filename)
+
             with open(save_path, 'wb') as destination:
                 for chunk in uploaded_file.chunks():
-                    destination.wriste(chunk)
+                    destination.write(chunk)
+
 
             relative_file_path = os.path.join('photos', filename)
 
-            data = CaseHistory.objects.create(photo_url=relative_file_path,
-                                          name=name,
-                                          age=age,
-                                          sex=sex,
-                                          religion=religion,
-                                          maritalStatus=maritalStatus,
-                                          # workDetails=workDetails,
-                                          identificationMark=identificationMark,
-                                          educationBackground=educationBackground,
-                                          occupation=occupation,
-                                          address=address,
-                                          residentContactNumber=residentContactNumber,
-                                          relativeOrFriendsContact=relativeOrFriendsContact,
-                                          idProofAvailable=idProofAvailable,
-                                          idProofDetails=idProofDetails,
-                                          policeMemoAvailable=policeMemoAvailable,
-                                          policeStationDetails=policeStationDetails)
+            data = CaseHistory.objects.create(
+                photo_url=relative_file_path,
+                name=name,
+                age=age,
+                sex=sex,
+                religion=religion,
+                maritalStatus=maritalStatus,
+                identificationMark=identificationMark,
+                educationBackground=educationBackground,
+                occupation=occupation,
+                address=address,
+                residentContactNumber=residentContactNumber,
+                relativeOrFriendsContact=relativeOrFriendsContact,
+                idProofAvailable=idProofAvailable,
+                idProofDetails=idProofDetails,
+                policeMemoAvailable=policeMemoAvailable,
+                policeStationDetails=policeStationDetails
+            )
 
             data.save()
+
             return redirect('case_history_record_dashboard')
 
     return render(request, 'case_history.html')
 
-    #     return redirect('action_plan_dashboard')
-    #
-    # return render(request,'case_history.html')
-
 def case_history_record_dashboard(request):
     datas = CaseHistory.objects.all()
-    return render(request, 'dashboard/case_history_record_dashboard.html',{'data':datas})
+    return render(request, 'dashboard/case_history_record_dashboard.html', {'data': datas})
+
+
+
+
+
+
+
 
 def actionplan_register_form(request):
     if request.method == 'POST':
@@ -820,7 +853,7 @@ def salary_register_form(request):
                               sign=sign)
 
         data.save()
-        return redirect('salary_register_dashboard')  # Redirect to a success page after submission
+        return redirect('salary_register_dashboard')
     return render(request, 'salary_register.html')
 
 def salary_register_dashboard(request):
@@ -854,104 +887,6 @@ def staff_movement_note_dashboard(request):
 
 
 
-#
-# def login_view(request):
-#
-#
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#
-#         try:
-#             # Check if the user exists in the database
-#             user = UserProfile.objects.get(username=username, password=password)
-#             messages.success(request, f"Welcome, {username}!")
-#             return redirect('master_records_dashboard')  # Change 'dashboard' to your actual dashboard URL
-#         except UserProfile.DoesNotExist:
-#             messages.error(request, "Invalid username or password.")
-#
-#     return render(request, 'login.html')
-#
-# # def register_view(request):
-# #     if request.method == 'POST':
-# #
-# #         username = request.POST['username']
-# #         password = request.POST['password']
-# #
-# #         try:
-# #
-# #             if UserProfile.objects.filter(username=username).exists():
-# #                 messages.warning(request, "Username is already taken. Please choose a different one.")
-# #                 return redirect('register')
-# #
-# #             # Create a new user
-# #             user = UserProfile.objects.create(username=username, password=password)
-# #             messages.success(request, f"Account created for {username}. You can now log in.")
-# #             return redirect('login')
-# #         except Exception as e:
-# #             messages.error(request, f"Error creating account: {e}")
-# #
-# #     return render(request, 'register.html')
-#
-# # def register_view(request):
-# #     if request.method == 'POST':
-# #         username = request.POST.get('username')
-# #         password = request.POST.get('password')
-# #         user = UserProfile.objects.create(username=username,
-# #                               password=password)
-# #         user.save()
-# #     return render(request, 'register.html')
-#
-#
-#
-#   # Create a RegistrationForm in forms.py
-#
-# # def register_view(request):
-# #     if request.method == 'POST':
-# #         form = RegistrationForm(request.POST)
-# #         if form.is_valid():
-# #             username = form.cleaned_data['username']
-# #             password = form.cleaned_data['password']
-# #
-# #             # Check if the user already exists
-# #             if UserProfile.objects.filter(username=username).exists():
-# #                 messages.warning(request, "Username is already taken. Please choose a different one.")
-# #                 return redirect('register')
-# #
-# #             # Create a new user
-# #             user = UserProfile.objects.create(username=username, password=password)
-# #             messages.success(request, f"Account created for {username}. You can now log in.")
-# #             return redirect('login')
-# #         else:
-# #             # Form is not valid, handle errors or display messages
-# #             messages.error(request, "Invalid form submission. Please check the provided data.")
-# #
-# #     else:
-# #         form = RegistrationForm()
-# #
-# #     return render(request, 'register.html', {'form': form})
-#
-#
-# from django.shortcuts import render, redirect
-# from django.contrib import messages
-# from .models import UserProfile
-#
-# def register_view(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#
-#         # Check if the user already exists
-#         if UserProfile.objects.filter(username=username).exists():
-#             messages.warning(request, "Username is already taken. Please choose a different one.")
-#             return redirect('register')
-#
-#         # Create a new user
-#         user = UserProfile.objects.create(username=username, password=password)
-#         messages.success(request, f"Account created for {username}. You can now log in.")
-#         return redirect('login')
-#     else:
-#         return render(request, 'register.html')
 def master_records_form(request):
     if request.method == 'POST':
         S_no = request.POST.get('S_no')
@@ -975,9 +910,27 @@ def master_records_form(request):
         File_Closure_Status = request.POST.get('File_Closure_Status')
         Remarks = request.POST.get('Remarks')
         Signature = request.POST.get('Signature')
+        uploaded_file = request.FILES.get('photo')
 
-        # Create a new MasterRecord object and save it
+        if uploaded_file:
+            # Save photo to directory
+            filename = f'{name}.jpg'
+            photos_dir = os.path.join(settings.MEDIA_ROOT, 'photos')
+
+            if not os.path.exists(photos_dir):
+                os.makedirs(photos_dir)
+
+            save_path = os.path.join(photos_dir, filename)
+
+            with open(save_path, 'wb') as destination:
+                for chunk in uploaded_file.chunks():
+                    destination.write(chunk)
+
+            relative_file_path = os.path.join('photos', filename)
+
+
         data = MasterRecords(
+
             S_no=S_no,
             name=name,
             Aid_no=Aid_no,
@@ -998,7 +951,8 @@ def master_records_form(request):
             Medical_Status=Medical_Status,
             File_Closure_Status=File_Closure_Status,
             Remarks=Remarks,
-            Signature=Signature
+            Signature=Signature,
+            photo_url = relative_file_path
         )
         data.save()
         return redirect('master_records_dashboard')
@@ -1013,3 +967,7 @@ def master_records_dashboard(request):
 
 
 
+
+@login_required(login_url='login')
+def restricted_page(request):
+    return render(request, 'restricted_page.html')
