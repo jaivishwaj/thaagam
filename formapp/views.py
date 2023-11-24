@@ -6,7 +6,8 @@ from .forms import ProvisionForm, VisitorRegisterForm,ReintegrationForm,VisitorR
 from .models import MasterRecords,CaseHistory,UserProfile,provision,Reintegration,SalaryRegister,Medicine,MedicalCamp,CounsellingRegister,BpPulsenote,AwarnesRegister,ActionplanRegister,CaseHistory,SocialEntertainment,Resident,PerformanceAppraisal,VisitorRegister,Asset,FoodMenu,StaffMovement,StaffAttendance
 
 from django.http import HttpResponse
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 
 from django.contrib import messages
@@ -18,86 +19,120 @@ from django.conf import settings
 
 from django.urls import reverse
 
-
-
-class AuthMiddleware:
-    def __init__(self, get_response):
-        self.get_response = get_response
-
-    def __call__(self, request):
-        # Check if the user is authenticated
-        if not request.user.is_authenticated:
-            # Check if the requested path requires authentication
-            if request.path_info.startswith('/accident_register_dashboard/'):
-                # Redirect to the login page
-                return redirect(reverse('login'))  # Replace 'login' with your login URL name
-
-        response = self.get_response(request)
-        return response
-
-
-
-
-
-
-@login_required(login_url='login')
-def master_records_dashboard(request):
-    datas = MasterRecords.objects.all()
-    return render(request, 'dashboard/master_records_dashboard.html',{'data':datas})
-
-
 from django.contrib.auth.models import User
 
-def signupuser(request):
-    if request.method == 'POST':
-        uname = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        confirmpassword = request.POST.get('confirmpassword')
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import provision
 
-        if password != confirmpassword:
-            return HttpResponse("Your password and confirm password are not the same!!")
-        else:
-            # Check if the username already exists
-            if User.objects.filter(username=uname).exists():
-                return HttpResponse("Username already exists. Please choose a different one.")
-            else:
-                # Create the user if the username doesn't exist
-                user = User.objects.create_user(username=uname, email=email, password=password)
-                user.save()
-                return redirect('login')
-    else:
-        return render(request, 'signup.html')
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+
+
 
 
 def loginuser(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    form = AuthenticationForm()
 
-        # Check if the user exists in the signup data
-        user = User.objects.filter(username=username).first()
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
 
-        if user is not None and user.check_password(password):
-            # Authentication successful, log in the user
-            authenticated_user = authenticate(request, username=username, password=password)
-            if authenticated_user is not None:
-                login(request, authenticated_user)
-                return redirect('master_records_dashboard')
-        else:
-            # Authentication failed
-            return HttpResponse("Username or Password is incorrect.")
-    else:
-        # If it's not a POST request, render the login form
-        return render(request, 'login.html')
+        try:
+            if form.is_valid():
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+
+                user = authenticate(request, username=username, password=password)
+
+                if user is not None:
+                    login(request, user)
+                    # request.session['username'] = username
+                    return redirect("home")
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
+    context = {'form': form}
+    return render(request, 'login.html', context=context)
+
+# class AuthMiddleware:
+#     def __init__(self, get_response):
+#         self.get_response = get_response
+#
+#     def __call__(self, request):
+#         # Check if the user is authenticated
+#         if not request.user.is_authenticated:
+#             # Check if the requested path requires authentication
+#             if request.path_info.startswith('/accident_register_dashboard/'):
+#                 # Redirect to the login page
+#                 return redirect(reverse('login'))  # Replace 'login' with your login URL name
+#
+#         response = self.get_response(request)
+#         return response
 
 
+
+
+
+
+
+# def master_records_dashboard(request):
+#     datas = MasterRecords.objects.all()
+#     return render(request, 'dashboard/master_records_dashboard.html',{'data':datas})
+
+
+
+
+
+
+def signupuser(request):
+
+    form = UserProfile()
+
+    if request.method == "POST":
+
+        form = UserProfile(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(request, "Account created successfully!")
+
+            return redirect("login")
+
+    context = {'form':form}
+
+    return render(request, 'signup.html', context=context)
+
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+
+# def home(request):
+#     if not request.user.is_authenticated:
+#         return redirect('login')
+#     # if request.user.is_authenticated:
+#     #     return render(request, 'home.html')
+#     else:
+#         return redirect('login')
 
 
 def home(request):
     return render(request, 'home.html')
 
+
+
+@login_required(login_url='login')
 def provision_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     if request.method == 'POST':
         material_name = request.POST.get('material_name')
         total_quantity = request.POST.get('total_quantity')
@@ -119,9 +154,13 @@ def provision_form(request):
 #     return render(request, 'index_dashboard.html',{'data':datas})
 
 def provision_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = provision.objects.all()
     return render(request, 'dashboard/provision_dashboard.html',{'data':datas})
 def accident_register_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date = request.POST.get('date')
         inmate_name = request.POST.get('inmate_name')
@@ -142,12 +181,16 @@ def accident_register_form(request):
 
 
 def accident_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = AccidentRegister.objects.all()
     return render(request, 'dashboard/accident_register_dashboard.html',{'data':datas})
 
 
 
 def reintegration_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         admission_no = request.POST.get('admission_no')
         resident_name = request.POST.get('resident_name')
@@ -178,10 +221,14 @@ def reintegration_form(request):
     return render(request, 'reintegration.html')
 
 def reintegration_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = Reintegration.objects.all()
     return render(request, 'dashboard/reintegration_register_dashboard.html',{'data':datas})
 
 def visitor_register_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
 
     if request.method == 'POST':
         date = request.POST.get('date')
@@ -204,6 +251,8 @@ def visitor_register_form(request):
 
 
 def visitor_registration_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = VisitorRegister.objects.all()
     return render(request, 'dashboard/visitor_registration_dashboard.html',{'data':datas})
 
@@ -212,6 +261,8 @@ def visitor_registration_dashboard(request):
 
 
 def performance_appraisal_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date = request.POST.get('date')
         beginning_children = request.POST.get('beginning_children')
@@ -235,12 +286,16 @@ def performance_appraisal_form(request):
     return render(request,'performance_appraisal.html')
 
 def performance_appraisal_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = PerformanceAppraisal.objects.all()
     return render(request, 'dashboard/performance_appraisal_dashboard.html',{'data':datas})
 
 
 
 def resident_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         pupilName = request.POST.get('pupilName')
         dob = request.POST.get('dob')
@@ -264,13 +319,15 @@ def resident_form(request):
 
 
 def resident_attendance_form_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = Resident.objects.all()
-
-
     return render(request, 'dashboard/resident_attendance_form_dashboard.html',{'data':datas})
 
 
 def social_entertainment_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date = request.POST.get('date')
         admission = request.POST.get('admission')
@@ -292,15 +349,18 @@ def social_entertainment_form(request):
     return render(request,'social_entertainment.html')
 
 def social_entertainment_form_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = SocialEntertainment.objects.all()
-
-
     return render(request, 'dashboard/social_entertainment_form_dashboard.html',{'data':datas})
 
 
 
 
 def case_history_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     if request.method == 'POST':
 
         name = request.POST.get('name')
@@ -363,6 +423,8 @@ def case_history_form(request):
     return render(request, 'case_history.html')
 
 def case_history_record_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = CaseHistory.objects.all()
     return render(request, 'dashboard/case_history_record_dashboard.html', {'data': datas})
 
@@ -374,6 +436,8 @@ def case_history_record_dashboard(request):
 
 
 def actionplan_register_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date_of_plan = request.POST.get('date_of_plan')
         detailed_notes = request.POST.get('detailed_notes')
@@ -392,6 +456,8 @@ def actionplan_register_form(request):
     return render(request,'actionplan_register.html')
 
 def action_plan_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = ActionplanRegister.objects.all()
     return render(request, 'dashboard/action_plan_dashboard.html',{'data':datas})
 
@@ -399,6 +465,8 @@ def action_plan_dashboard(request):
 
 
 def awarnes_register_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date = request.POST.get('date')
         time = request.POST.get('time')
@@ -421,11 +489,15 @@ def awarnes_register_form(request):
     return render(request,'awarnes_register.html')
 
 def awarnes_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = AwarnesRegister.objects.all()
     return render(request, 'dashboard/awarnes_register_dashboard.html',{'data':datas})
 
 
 def asset_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         s_no = request.POST.get('s_no')
         date_purchase = request.POST.get('date_purchase')
@@ -455,12 +527,16 @@ def asset_form(request):
 
 
 def asset_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = Asset.objects.all()
     return render(request, 'dashboard/asset_register_dashboard.html',{'data':datas})
 
 
 
 def bp_pulsenote(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date = request.POST.get('date')
         sno = request.POST.get('sno')
@@ -487,10 +563,14 @@ def bp_pulsenote(request):
     return render(request,'bp_pulsenote.html')
 
 def bp_form_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = BpPulsenote.objects.all()
     return render(request, 'dashboard/bp_form_dashboard.html',{'data':datas})
 
 def counselling_register_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date = request.POST.get('date')
         name = request.POST.get('name')
@@ -515,10 +595,14 @@ def counselling_register_form(request):
     return render(request,'counselling_register.html')
 
 def counselling_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = CounsellingRegister.objects.all()
     return render(request, 'dashboard/counselling_register_dashboard.html',{'data':datas})
 
 def medical_camp_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date = request.POST.get('date')
         place = request.POST.get('place')
@@ -544,12 +628,16 @@ def medical_camp_form(request):
     return render(request, 'medical_camp.html')
 
 def medical_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = MedicalCamp.objects.all()
     return render(request, 'dashboard/medical_register_dashboard.html',{'data':datas})
 
 
 
 def medicine_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         name = request.POST.get('name')
         age = request.POST.get('age')
@@ -576,36 +664,45 @@ def medicine_form(request):
     return render(request,'medicine.html')
 
 def medicine_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = Medicine.objects.all()
     return render(request, 'dashboard/medicine_register_dashboard.html',{'data':datas})
 
 
 
 def night_survey_form(request):
-     if request.method == 'POST':
-        date = request.POST.get('date')
-        time = request.POST.get('time')
-        place = request.POST.get('place')
-        details_of_visit = request.POST.get('details_of_visit')
-        number_of_rescue = request.POST.get('number_of_rescue')
-        datas = NightSurvey.objects.create(date=date,
-                                           time=time,
-                                           place=place,
-                                           details_of_visit=details_of_visit,
-                                           number_of_rescue =number_of_rescue)
-        datas.save()
-        return redirect('night_survey_dashboard')
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+       date = request.POST.get('date')
+       time = request.POST.get('time')
+       place = request.POST.get('place')
+       details_of_visit = request.POST.get('details_of_visit')
+       number_of_rescue = request.POST.get('number_of_rescue')
+       datas = NightSurvey.objects.create(date=date,
+                                          time=time,
+                                          place=place,
+                                          details_of_visit=details_of_visit,
+                                          number_of_rescue =number_of_rescue)
+       datas.save()
+       return redirect('night_survey_dashboard')
 
-     return render(request, 'night_survey.html')
+    return render(request, 'night_survey.html')
 
 def night_survey_dashboard(request):
-     datas = NightSurvey.objects.all()
-     return render(request, 'dashboard/night_survey_dashboard.html', {'data': datas})
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    datas = NightSurvey.objects.all()
+    return render(request, 'dashboard/night_survey_dashboard.html', {'data': datas})
 
 
 
 
 def skill_training_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         sl_no = request.POST.get('sl_no')
         date = request.POST.get('date')
@@ -621,6 +718,8 @@ def skill_training_form(request):
     return render(request, 'skill_training.html')
 
 def skill_training_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = SkillTraining.objects.all()
     return render(request, 'dashboard/skill_training_dashboard.html',{'data':datas})
 
@@ -629,6 +728,8 @@ def skill_training_dashboard(request):
 
 
 def smc_register_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date = request.POST.get('date')
         time = request.POST.get('time')
@@ -655,12 +756,16 @@ def smc_register_form(request):
 
     return render(request, 'smc_register.html')
 def smc_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = SmcRegister.objects.all()
     return render(request, 'dashboard/smc_register_dashboard.html',{'data':datas})
 
 
 
 def staff_attendance_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         sno = request.POST.get('sno')
         name = request.POST.get('name')
@@ -684,11 +789,15 @@ def staff_attendance_form(request):
 
 
 def staff_attendance_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = StaffAttendance.objects.all()
     return render(request, 'dashboard/staff_attendance_register_dashboard.html',{'data':datas})
 
 
 def stock_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
 
         date = request.POST.get('date')
@@ -708,12 +817,16 @@ def stock_form(request):
 
 
 def stock_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = Stock.objects.all()
     return render(request, 'dashboard/stock_register_dashboard.html',{'data':datas})
 
 
 
 def employment_link_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         si_no = request.POST.get('si_no')
         admission_no = request.POST.get('admission_no')
@@ -739,6 +852,8 @@ def employment_link_form(request):
 
     return render(request, 'employment_link.html')
 def employment_linkage_form_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = EmploymentLink.objects.all()
     return render(request, 'dashboard/employment_linkage_form_dashboard.html',{'data':datas})
 
@@ -747,6 +862,8 @@ def employment_linkage_form_dashboard(request):
 
 
 def rehabitation_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         sno = request.POST.get('sno')
         admission_number = request.POST.get('admission_number')
@@ -774,10 +891,14 @@ def rehabitation_form(request):
 
 
 def rehabitation_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = Rehabitation.objects.all()
     return render(request, 'dashboard/rehabitation_dashboard.html',{'data':datas})
 
 def death_register_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         sno = request.POST.get('sno')
         name_of_the_death_person = request.POST.get('name_of_the_death_person')
@@ -803,11 +924,15 @@ def death_register_form(request):
     return render(request,'death_register.html')
 
 def death_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = DeathRegister.objects.all()
     return render(request, 'dashboard/death_register_dashboard.html',{'data':datas})
 
 
 def food_menu_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date = request.POST.get('date')
         morning_snacks = request.POST.get('morning_snacks')
@@ -833,12 +958,16 @@ def food_menu_form(request):
     return render(request, 'food_menu.html')
 
 def food_menu_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = FoodMenu.objects.all()
     return render(request, 'dashboard/food_menu_dashboard.html',{'data':datas})
 
 
 
 def salary_register_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         date = request.POST.get('date')
         name = request.POST.get('name')
@@ -857,11 +986,15 @@ def salary_register_form(request):
     return render(request, 'salary_register.html')
 
 def salary_register_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = SalaryRegister.objects.all()
     return render(request, 'dashboard/salary_register_dashboard.html',{'data':datas})
 
 
 def staff_movement_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
           date_of_plan = request.POST.get('date_of_plan')
           working_area = request.POST.get('Working_Area')
@@ -882,12 +1015,16 @@ def staff_movement_form(request):
 
 
 def staff_movement_note_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = StaffMovement.objects.all()
     return render(request, 'dashboard/staff_movement_note_dashboard.html',{'data':datas})
 
 
 
 def master_records_form(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == 'POST':
         S_no = request.POST.get('S_no')
         name = request.POST.get('name')
@@ -962,12 +1099,11 @@ def master_records_form(request):
 
 
 def master_records_dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     datas = MasterRecords.objects.all()
     return render(request, 'dashboard/master_records_dashboard.html',{'data':datas})
 
 
 
 
-@login_required(login_url='login')
-def restricted_page(request):
-    return render(request, 'restricted_page.html')

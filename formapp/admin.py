@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import provision,Reintegration,VisitorRegister,PerformanceAppraisal,Resident,SocialEntertainment,CaseHistory,ActionplanRegister,AccidentRegister,AwarnesRegister,Asset,BpPulsenote,CounsellingRegister,Medicine,MedicalCamp,NightSurvey,SkillTraining,SmcRegister,StaffAttendance,Stock,EmploymentLink,Rehabitation,DeathRegister,FoodMenu,SalaryRegister,StaffMovement
+from .models import provision,Reintegration,VisitorRegister,PerformanceAppraisal,Resident,SocialEntertainment,CaseHistory,ActionplanRegister,AccidentRegister,AwarnesRegister,Asset,BpPulsenote,CounsellingRegister,Medicine,MedicalCamp,NightSurvey,SkillTraining,SmcRegister,StaffAttendance,Stock,EmploymentLink,Rehabitation,DeathRegister,FoodMenu,SalaryRegister,StaffMovement,MasterRecords
 
 admin.site.register(provision)
 admin.site.register(Reintegration)
@@ -30,6 +30,8 @@ admin.site.register(DeathRegister)
 admin.site.register(FoodMenu)
 admin.site.register(SalaryRegister)
 admin.site.register(StaffMovement)
+admin.site.register(MasterRecords)
+
 
 
 

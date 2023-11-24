@@ -54,6 +54,9 @@
                     <li><a href="{% url 'provision_dashboard' %}">contact</a></li>
                     <li><a href="{% url 'login' %}">Login</a></li>
                     <li><a href="{% url 'signup' %}">signup</a></li>
+                    <li><a href="{% url 'logout' %}">logout</a></li>
+                    <li style="text-align:right; color:white; font-weight:bold;"><a href="#">{{ user.username }}</a></li>
+
                 </ul>
             </div>
         </div>
@@ -62,7 +65,7 @@
 <div>
      <h1>Thaagam Foundation Orphanage</h1>
 </div>
-
+{% csrf_token %}
 <!--    <h2><a href="{% url 'master_records_dashboard' %}">Master Records</a></h2>-->
 <!--<h2><a href="{% url 'provision_dashboard' %}">provision dashboard</a></h2>-->
 <!--<h2><a href="{% url 'reintegration_register_dashboard' %}">reintegration register dashboard</a></h2>-->
