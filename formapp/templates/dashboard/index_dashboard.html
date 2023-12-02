@@ -37,6 +37,8 @@
 </head>
 
 <body>
+ {% if user %}
+        <p>Welcome, {{ user }}!</p>
 
     <!-- Begin page -->
     <div id="layout-wrapper">
@@ -247,7 +249,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'inspection_register_dashboard" class="nav-link" data-key="t-chat" target="_self">
+                                    <a href="{% url 'inspection_register_dashboard' %}" class="nav-link" data-key="t-chat" target="_self">
                                     Inspection Records
                                     </a>
                                 </li>
@@ -378,7 +380,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Thaagam Tech Team
+                                Design & Develop by ❤ M7 CORP
                             </div>
                         </div>
                     </div>
@@ -442,6 +444,10 @@
     <!-- App js -->
     <script src="assets/js/app.js"></script>
     <script src="assets/js/custom.js"></script>
+
+{% else %}
+        <p>User not logged in.</p>
+{% endif %}
 </body>
 
 </html>

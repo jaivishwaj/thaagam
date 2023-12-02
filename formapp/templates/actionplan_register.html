@@ -1,85 +1,97 @@
 <!DOCTYPE html>
 <html>
+{% load static %}
 <head>
     <!-- Include Bootstrap CSS from a CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fontsgoogleapis.com/icon?family=Material+Icons">
-    <style>
-
-        body{
-            font-family: Roboto, sans-serif;
-        }
-
-
-        label{
-            font-weight: bold;
-        }
-
-
-
-        form {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-
-
-        btn{
-            background-color: grey;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-            margin-left: 100px;
-        }
-
-
-
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="{% static './main/assets/css/style.css' %}">
+    <title>Action Plan Form</title>
 </head>
 <body>
-    <div class="container">
-        <h2 class="mt-5 text-center">Action Plan Form</h2>
+ {% if user %}
+        <p>Welcome, {{ user }}!</p>
+    <div class="container-fluid">
+        <div class="row justify-content-center d-flex align-items-center" style="height: 100vh;">
+            <div class="col-md-7">
+                <div class="card p-4 mb-2">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'action_plan_dashboard' %}" class="btn-close" aria-label="Close"></a>
+                        </div>
+                        <form id="actionPlanForm" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <h2 class="text-center text-muted mt-3">Action Plan Form</h2>
 
-        <br>
-        <br>
-        <form action="" method="post" >
-            <!-- <div class="form-group">
-                <label for="sno">Unique ID</label>
-                <input type="text" class="form-control" id="sno" name="uniqueid" required>
-            </div> -->
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="date_of_plan">Date of Plan:</label>
-                <input type="date" class="form-control" id="date_of_plan" name="date_of_plan" required>
+                                <div class="form-group mt-4 col-md-6">
+                                    <label for="date_of_plan">Date of Plan:</label>
+                                    <input type="date" class="form-control mt-2" id="date_of_plan" name="date_of_plan" required>
+                                </div>
+                                <div class="form-group mt-4 col-md-6">
+                                    <label for="action_plan_date">Action Plan Date:</label>
+                                    <input type="date" class="form-control mt-2" id="action_plan_date" name="action_plan_date" required>
+                                </div>
+                                <div class="form-group mt-4 col-md-12">
+                                    <label for="detailed_notes">Detailed Notes on Action Plan:</label>
+                                    <textarea class="form-control mt-2" id="detailed_notes" name="detailed_notes" rows="4" required></textarea>
+                                </div>
+                                <div class="form-group mt-4 mb-4 d-flex justify-content-center">
+                                    <button type="submit" class="btn them-btn">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="detailed_notes">Detailed Notes on Action Plan:</label>
-                <textarea class="form-control" id="detailed_notes" name="detailed_notes" rows="4" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="action_plan_date">Action Plan Date:</label>
-                <input type="date" class="form-control" id="action_plan_date" name="action_plan_date" required>
-            </div>
-
-            <div class="form-group d-flex justify-content-center">
-                <button type="submit" class="btn btn-success">Submit</button>
-            </div>
-
-        </form>
+        </div>
     </div>
 
     <!-- Include Bootstrap JS and jQuery from a CDN -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#submitButton').click(function() {
+                // Validate date formats using regular expressions (YYYY-MM-DD)
+                const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+                const dateOfPlan = $('#date_of_plan').val();
+                const actionPlanDate = $('#action_plan_date').val();
+
+                if (!dateRegex.test(dateOfPlan) || !dateRegex.test(actionPlanDate)) {
+                    alert('Please enter valid dates in the format YYYY-MM-DD.');
+                    return;
+                }
+
+                // Check if action plan date is in the future
+                const currentDate = new Date().toISOString().slice(0, 10);
+                if (actionPlanDate < currentDate) {
+                    alert('Action Plan Date must be in the future.');
+                    return;
+                }
+
+                // Prepare form data
+                const formData = $('#actionPlanForm').serialize();
+
+                // AJAX request to submit form data
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'actionplan_register_form' %}", // Update with your Django view URL
+                    data: formData,
+                    success: function(response) {
+                        // Handle success response, if needed
+                        console.log('Form submitted successfully');
+                    },
+                    error: function(error) {
+                        // Handle error response, if needed
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+
+{% else %}
+        <p>User not logged in.</p>
+{% endif %}
 </body>
 </html>

@@ -1,93 +1,127 @@
 <!DOCTYPE html>
 <html>
+{% load static %}
 <head>
     <!-- Include Bootstrap CSS from a CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Bootstrap CSS from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <style>
-        body {
-            font-family: Roboto, sans-serif;
-        }
-        label {
-            font-weight: bold;
-        }
-        form {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .btn-submit {
-            background-color: green;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static './main/assets/css/style.css' %}">
+
 </head>
+
 <body>
-    <div class="container">
-        <h2 class="mt-5">Employment Link</h2>
+ {% if user %}
+        <p>Welcome, {{ user }}!</p>
+    <div class="container-fluid ">
+        <div class="row justify-content-center d-flex align-items-center" style="height:100vh;">
+            <div class="col-md-7">
+                <div class="card p-4 mb-2">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'employment_linkage_form_dashboard' %}" class="btn-close" aria-label="Close"></a>
+                        </div>
+                <form action="" method="post">
+                     {% csrf_token %}
+                    
+                            <h2 class="mt-3 text-center text-muted">Employment Link</h2>
+                    <div class="row">
+                        <div class="form-group mt-4 col-md-6">
+                             <label for="uqid" class="">Unique Id</label>
+                             <input type="number" class="form-control mt-2"id="uqid" name="uqid" placeholder="Enter Unique Id" required />
+                        </div>
+
+                        <div class="form-group mt-4 col-md-6">
+                            <label for="admission_no">Admission Number</label>
+                            <input type="number" class="form-control mt-2" id="admission_no"  name="admission_no"
+                                placeholder="Admission Number" required>
+                        </div>
+
+                        <div class="form-group mt-4 col-md-6">
+                            <label for="admission_date">admission_date</label>
+                            <input type="date" class="form-control mt-2" id="admission_date" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Admission Date" name="admission_date"required>
+                        </div>
+
+                        <div class="form-group mt-4 col-md-6">
+                            <label for="resident_name">Resident Name</label>
+                            <input type="text" class="form-control mt-2" id="resident_name" placeholder="Resident Name" name="resident_name"
+                                required>
+                        </div>
+
+                        <div class="form-group mt-4 col-md-6">
+                            <label for="employment_name">Employment Name</label>
+                            <input type="text" class="form-control mt-2" id="employment_name" placeholder="Employment Name" name="employment_name"
+                                required>
+                        </div>
+                        <div class="form-group mt-4 col-md-6">
+                            <label for="designation">Designation</label>
+                            <input type="text" class="form-control mt-2" id="designation" name="designation" placeholder="Designation" required>
+                        </div>
+                        <div class="form-group mt-4 ">
+                            <label for="address_and_contact_details">Address and Contact Details</label>
+                            <textarea class="form-control mt-2" id="address_and_contact_details"
+                                name="address_and_contact_details" rows="4" placeholder="Address and Contact Details" required></textarea>
+                        </div>
+
+                        <div class="form-group mt-4 col-md-6">
+                            <label for="joining_date">Joining Date</label>
+                            <input type="date" class="form-control mt-2" id="joining_date" placeholder="Joining Date" name="joining_date" required>
+                        </div>
+
+                        <div class="form-group mt-4 col-md-6">
+                            <label for="signature">signature</label>
+                            <input type="text" class="form-control mt-2" id="signature" name="signature" placeholder="signature" required>
+                        </div>
+
+                        <div class="form-group mt-4 mb-3 d-flex justify-content-center">
+                            <button type="submit" class="them-btn">Submit</button>
+                        </div>
+                    </div>
+                     
+                    <!-- {% csrf_token %} -->
+
+                    
+                </form>
+            </div>
+        </div>
+            </div>
+        </div>
+
         <br>
         <br>
-        <form action="" method="post">
-            {% csrf_token %}
 
-            <div class="form-group">
-                <label for="si_no">Serial Number</label>
-                <input type="text" class="form-control" id="si_no" name="si_no" required>
-            </div>
-
-            <div class="form-group">
-                <label for="admission_no">Admission Number</label>
-                <input type="text" class="form-control" id="admission_no" name="admission_no" required>
-            </div>
-
-            <div class="form-group">
-                <label for="admission_date">Admission Date</label>
-                <input type="date" class="form-control" id="admission_date" name="admission_date" required>
-            </div>
-
-            <div class="form-group">
-                <label for="resident_name">Resident Name</label>
-                <input type="text" class="form-control" id="resident_name" name="resident_name" required>
-            </div>
-
-            <div class="form-group">
-                <label for="employment_name">Employment Name</label>
-                <input type="text" class="form-control" id="employment_name" name="employment_name" required>
-            </div>
-
-            <div class="form-group">
-                <label for="address_and_contact_details">Address and Contact Details</label>
-                <textarea class="form-control" id="address_and_contact_details" name="address_and_contact_details" rows="4" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="designation">Designation</label>
-                <input type="text" class="form-control" id="designation" name="designation" required>
-            </div>
-
-            <div class="form-group">
-                <label for="joining_date">Joining Date</label>
-                <input type="date" class="form-control" id="joining_date" name="joining_date" required>
-            </div>
-
-            <div class="form-group">
-                <label for="signature">Signature</label>
-                <input type="text" class="form-control" id="signature" name="signature" required>
-            </div>
-
-            <div class="form-group d-flex justify-content-center">
-                <button type="submit" class="btn btn-submit">Submit</button>
-            </div>
-        </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        function validateForm() {
+            // Get form input values
+            var siNo = document.getElementById("si_no").value;
+            var admissionNo = document.getElementById("admission_no").value;
+            var admissionDate = document.getElementById("admission_date").value;
+            var residentName = document.getElementById("resident_name").value;
+            var employmentName = document.getElementById("employment_name").value;
+            var designation = document.getElementById("designation").value;
+            var addressContact = document.getElementById("address_and_contact_details").value;
+            var joiningDate = document.getElementById("joining_date").value;
+            var signature = document.getElementById("signature").value;
+
+            // Perform validation
+            if (siNo === "" || admissionNo === "" || admissionDate === "" || residentName === "" || employmentName === "" || designation === "" || addressContact === "" || joiningDate === "" || signature === "") {
+                alert("All fields are required!");
+                return false; // Prevent form submission
+            }
+
+            // Additional validation logic as needed
+
+            return true; // Allow form submission
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+{% else %}
+        <p>User not logged in.</p>
+{% endif %}
 </body>
+
 </html>

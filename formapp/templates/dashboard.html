@@ -1,5 +1,3 @@
-<!-- provision_list.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +6,8 @@
     <title>Provision List</title>
 </head>
 <body>
+ {% if user %}
+        <p>Welcome, {{ user }}!</p>
 
 <h2>Provision List</h2>
 
@@ -34,5 +34,9 @@
     </tbody>
 </table>
 
+
+{% else %}
+        <p>User not logged in.</p>
+{% endif %}
 </body>
 </html>

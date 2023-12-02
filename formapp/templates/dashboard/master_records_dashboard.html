@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
     data-sidebar-image="none" data-preloader="disable">
@@ -5,10 +6,10 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Education - Admin Dashboard </title>
+    <title> Dashboard </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">=
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{% static 'main/assets/images/favicon.icon' %} ">
+    <link rel="shortcut icon" href="{% static 'main/assets/images/favicon.icon' %}">
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
     <!--datatable responsive css-->
@@ -127,7 +128,7 @@
                                         src="{% static 'main/assets/images/users/avatar-1.jpg' %}" alt="Header Avatar">
                                     <span class="text-start ms-xl-2">
                                         <span
-                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Admin</span>
+                                            class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><p>{{ user }}!</p></span>
                                         <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Thaagam
                                             Foundation</span>
                                     </span>
@@ -337,12 +338,13 @@
                                      Visitor Register
                                     </a>
                                 </li>
-                              </ul>
-                            </div>
-                        </li>
+
+                    </ul>
+
+                    </div>
                     </ul>
                 </div>
-                <!-- Sidebar -->
+                        <!-- Sidebar -->
             </div>
 
 
@@ -360,7 +362,6 @@
         <!-- Left Sidebar End -->
         <!-- Vertical Overlay-->
         <div class="vertical-overlay"></div>
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -401,8 +402,10 @@
                                     <div class="col-lg-12">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h5 class="card-title mb-0">MasterRecord</h5>
-                                                <h5 style="text-align:right; padding-right:30px; "><a href="{% url 'master_records' %}">Add Data</a></h5>
+                                                <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">MasterRecord</h5>
+                                                <h5 style="text-align:right; padding-right:30px; "> <a href="{% url 'master_records' %}" class="btn rounded-pill btn-success waves-light">
+                                                    <i class="ri ri-add-circle-line align-middle"></i> Add Data
+                                                </a></h5>
 
 
                                             </div>
@@ -447,7 +450,27 @@
                                                             <tr>
                                                                 <td>{{ item.S_no }}</td>
                                                                 <td>{{ item.name }}</td>
-                                                                <td>{{ item.photo }}</td>
+                                                                <td>
+                                                                    {% if item.photo_url %}
+                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body text-center">
+                                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% else %}
+                                                                    No photo available
+                                                                    {% endif %}
+                                                                </td>
                                                                 <td>{{ item.Aid_no }}</td>
                                                                 <td>{{ item.Age_gender }}</td>
                                                                 <td>{{ item.dob }}</td>
@@ -501,7 +524,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Thaagam Tech Team
+                                Design & Develop by ❤ M7 CORP
                             </div>
                         </div>
                     </div>
@@ -529,7 +552,6 @@
             </div>
         </div>
     </div>
-
 
 
 
@@ -568,6 +590,10 @@
     <!-- App js -->
     <script src="{% static 'main/assets/js/app.js' %}"></script>
     <script src="{% static 'main/assets/js/custom.js' %}"></script>
+
+
+
+
 </body>
 
 </html>
