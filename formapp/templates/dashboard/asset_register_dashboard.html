@@ -1,0 +1,150 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        <div class="main-content">
+
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col">
+
+                            <div class="h-100">
+                                <div class="row mb-3 pb-1">
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                            <div class="flex-grow-1">
+                                                <h4 class="fs-24 mb-1 g-msg"></h4>
+                                            </div>
+                                            <div class="mt-3 mt-lg-0">
+                                                <form action="javascript:void(0);">
+                                                    <div class="row g-3 mb-0 align-items-center">
+
+                                                        <div class="col-auto">
+                                                            <span class="badge p-2 fs-6 bg-success date-button"></span>
+                                                        </div>
+
+                                                    </div>
+                                                    <!--end row-->
+                                                </form>
+                                            </div>
+
+                                      </div><!-- end card header -->
+                                    </div>
+                                    <!--end col-->
+                                </div>
+                                <!--end row-->
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Asset Register</h5>
+                                            <h5 style="text-align:right; padding-right:30px; "> <a href="{% url 'asset_form' %}" class="btn rounded-pill btn-success waves-light">
+                                                <i class="ri ri-add-circle-line align-middle"></i> Add Data
+                                            </a></h5>
+                                            </div>
+                                            <div class="card-body">
+                                              <div class="table-responsive">
+                                                <table id="example"
+                                                    class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                                                    style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SI NO</th>
+                                                            <th>Date of Purchase</th>
+                                                            <th>Name of the Asset</th>
+                                                            <th>No of items Purchased</th>
+                                                            <th>Cost(Rs)</th>
+                                                            <th>Bill Number or Voucher Number</th>
+                                                            <th>Place were asset is Placed in the shelter</th>
+                                                            <th>Owner of Asset</th>
+                                                            <th>Dispose Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for item in data %}
+                                                            <tr>
+                                                                <td>{{ item.s_no }}</td>
+                                                                <td>{{ item.date_purchase }}</td>
+                                                                <td>{{ item.name_asset }}</td>
+                                                                <td>{{ item.no_of_items }}</td>
+                                                                <td>  &#x20B9; {{ item.cost }}</td>
+                                                                <td>{{ item.bill_no }}</td>
+                                                                <td>{{ item.place_asset }}</td>
+                                                                <td>{{ item.owner_asset }}</td>
+                                                                <td>{{ item.dispose_date }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                     </tbody>
+                                                </table>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                </div>
+                                <!--end row-->
+
+                            </div> <!-- end .h-100-->
+
+                        </div> <!-- end col -->
+
+
+                    </div>
+
+                </div>
+                <!-- container-fluid -->
+            </div>
+            <!-- End Page-content -->
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> © Thaagam.
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="text-sm-end d-none d-sm-block">
+                                Design & Develop by ❤ M7 CORP
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+
+
+
+    <!--start back-to-top-->
+    <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+
+    <!--preloader-->
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner-border text-primary avatar-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- JAVASCRIPT -->
+  {%  endblock %}

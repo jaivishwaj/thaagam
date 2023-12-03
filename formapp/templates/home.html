@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
+  data-sidebar-image="none" data-preloader="disable">
+{% load static %}
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+  <meta content="Themesbrand" name="author" />
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="{% static 'assets/images/favicon.icon' %}" />
+
+  <!--Swiper slider css-->
+  <link href="{% static 'main/assets/libs/swiper/swiper-bundle.min.css' %}" rel="stylesheet" type="text/css" />
+
+  <!-- Layout config Js -->
+  <script src="{% static 'main/assets/js/layout.js'  %}"></script>
+  <!-- Bootstrap Css -->
+  <link href="{% static 'main/assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+  <!-- Icons Css -->
+  <link href="{% static 'main/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+  <!-- App Css-->
+  <link href="{% static 'main/assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
+  <!-- custom Css-->
+  <link href="{% static 'main/assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
+  <style>
+
+  </style>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#navbar-example">
+  {% if user %}
+        <p>Welcome, {{ user }}!</p>
+  <!-- Begin page -->
+  <div class="layout-wrapper landing">
+    <nav class="navbar navbar-expand-lg navbar-landing navbar-light fixed-top" id="navbar">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <img src="{% static 'main/assets/images/logo/black_trans.png' %}" class="card- card-logo-dark" alt="logo dark" height="55" />
+          <img src="{% static 'main/assets/images/logo/white_trans.png' %}" class="card-logo card-logo-light" alt="logo light"
+            height="55" />
+        </a>
+        <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <i class="mdi mdi-menu"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
+            <li class="nav-item">
+              <a class="nav-link active" href="#hero"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#wallet"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#marketplace"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#categories"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#creators"></a>
+            </li>
+          </ul>
+
+          <div class="">
+            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="bg-overlay bg-overlay-pattern"></div>
+    <!-- end navbar -->
+
+
+
+
+    <!-- start hero section -->
+    <section style="padding: 300px 0 300px 0;" class="section nft-hero" id="hero">
+      <div style="opacity: 0.5;" class="bg-overlay"></div>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 col-sm-10">
+            <div class="text-center">
+              <h1 class="display-4 fw-medium mb-4 lh-base text-white">
+                Welcome to Thaagam Foundation
+                <span class="text-success">GCC</span>
+              </h1>
+              <p class="lead text-white-50 lh-base mb-4 pb-2">
+                At Thaagam Foundation GCC, we are committed to making a positive impact on the lives of those in need.
+                Our foundation operates with a vision of fostering community development, education, and social welfare
+                in the Gulf Cooperation Council (GCC) region.
+              </p>
+
+              <!-- <div class="hstack gap-2 justify-content-center">
+                <a href="apps-nft-create.html" class="btn btn-primary">Create Own
+                  <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+                <a href="apps-nft-explore.html" class="btn btn-danger">Explore Now
+                  <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+              </div> -->
+            </div>
+          </div>
+          <!--end col-->
+        </div>
+        <!-- end row -->
+      </div>
+      <!-- end container -->
+    </section>
+    <!-- end hero section -->
+
+
+    <!-- start Work Process -->
+    <section  class="section bg-light" id="creators">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="text-center mb-5">
+              <h2 class="mb-3 fw-semibold lh-base">Forms</h2>
+            </div>
+          </div>
+        </div>
+        <!-- end row -->
+        <div class="row">
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                      src="{% static 'main/assets/images/nft/Accident.png' %}"
+                      alt=""
+                      class="avatar-sm object-fit-cover rounded"
+                    />
+                  </div>
+                  <div class="my-2 flex-grow-1">
+                    <a href="{% url 'accident_register_dashboard' %}">
+                      <h3 class="mb-1 text-center">Accident Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/action.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="my-2 flex-grow-1">
+                    <a href="{% url 'action_plan_dashboard' %}">
+                      <h3 class="mb-1 text-center">Action Plan</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/Assets.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="my-2 flex-grow-1">
+                    <a href="{% url 'asset_register_dashboard' %}">
+                      <h3 class="mb-1 text-center">Asset Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/Awarnes.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="my-2 flex-grow-1">
+                    <a href="{% url 'awarnes_register_dashboard' %}">
+                      <h3 class="mb-1 text-center">Awarness Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/Bp.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="my-2 flex-grow-1">
+                    <a href="{% url 'bp_form_dashboard' %}">
+                      <h3 class="mb-1 text-center">BP Form</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/case_history-01.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="my-2 flex-grow-1">
+                    <a href="{% url 'case_history_record_dashboard' %}">
+                      <h3 class="mb-1 text-center">Case History Record</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/counselling-01.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="my-2 flex-grow-1">
+                    <a href="{% url 'counselling_register_dashboard' %}">
+                      <h3 class="mb-1 text-center">Counselling Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/death_register.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="my-2 flex-grow-1">
+                    <a href="{% url 'death_register_dashboard' %}">
+                      <h3 class="mb-1 text-center">Death Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/employe.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="my-2 flex-grow-1">
+                    <a href="{% url 'employment_linkage_form_dashboard' %}">
+                      <h3 class="mb-1 text-center">Employment Linkage Form</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-12 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-center">
+                    <img
+                    src="{% static 'main/assets/images/nft/master.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded "
+                  />
+                    <a href="{% url 'master_records_dashboard' %}">
+                      <h3 class="pt-3 ps-3 text-center">Master Records</h3>
+                    </a>
+                </div>
+              </div>
+            </div>
+          </div>
+            <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/food.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="my-2 flex-grow-1">
+                    <a href="{% url 'food_menu_dashboard' %}">
+                      <h3 class="mb-1 text-center">Food Menu</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/medical-img.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'medical_register_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Medical Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/medicine_img.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'medicine_register_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Medicine Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/night_survery.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'night_survey_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Night Survey</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/performance_app.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'performance_appraisal_dashboard' %}">
+                      <h3 class="mb-1 text-center">Performance Appraisal</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/personal_info.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'personal_info_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Personal Information</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/provision.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'provision_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Provision</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/rehabitation.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'rehabitation_dashboard' %}">
+                      <h3 class="mb-1 mt-2 text-center">Rehabitation</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/Assets.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'reintegration_register_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Reintegration Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/resident_atten.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'resident_attendance_form_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Resident Attendance Form</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/salary.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'salary_register_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Salary Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/skills-removebg-preview.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'skill_training_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Skill Training</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/night_survery.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'smc_register_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">SMC Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/social.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'social_entertainment_form_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Social Entertainment</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/staff-attendance.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'staff_attendance_register_dashboard' %}">
+
+                      <h3 class="mb-1 text-center">Staff Attendance Register</h3>
+                    </a>
+
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/personal_info.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'staff_movement_note_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Staff Movement Note</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/stock-register.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'stock_register_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Stock Register</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/vistor.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'visitor_registration_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Visitor Registration</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+           <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/inspection.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'inspection_register_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Inspection Record</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end col-->
+
+        </div>
+      </div>
+      <!-- end container -->
+    </section>
+    <!-- end Work Process -->
+
+
+
+    <!-- Start footer -->
+    <footer class="custom-footer bg-dark py-4 position-relative">
+      <div class="container">
+
+
+        <div class="row text-center text-sm-start align-items-center ">
+          <div class="col-sm-12">
+            <div>
+              <p class="copy-rights mb-0 text-center">
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                © Thaagam - GCC
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+    <!-- end footer -->
+
+    <!--start back-to-top-->
+    <button onclick="topFunction()" class="btn btn-danger btn-icon landing-back-top" id="back-to-top">
+      <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+  </div>
+  <!-- end layout wrapper -->
+
+  <!-- JAVASCRIPT -->
+  <script src="{% static 'main/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'main/assets/libs/simplebar/simplebar.min.js' %}"></script>
+  <script src="{% static 'main/assets/libs/node-waves/waves.min.js' %}"></script>
+  <script src="{% static 'main/assets/libs/feather-icons/feather.min.js' %}"></script>
+  <script src="{% static 'main/assets/js/pages/plugins/lord-icon-2.1.0.js' %}"></script>
+  <script src="{% static 'main/assets/js/plugins.js' %}"></script>
+
+  <!--Swiper slider js-->
+  <script src="{% static 'main/assets/libs/swiper/swiper-bundle.min.js' %}"></script>
+
+  <script src="{% static 'main/assets/js/pages/nft-landing.init.js' %}"></script>
+
+{% else %}
+        <p>User not logged in.</p>
+{% endif %}
+</body>
+
+</html>

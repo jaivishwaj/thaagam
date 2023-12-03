@@ -1,0 +1,66 @@
+  @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+  body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    /* background-color: rgb(255, 251, 251); */
+  }
+  /* form {
+    box-shadow: 0px 0px 8px rgb(228, 228, 228);
+    border-radius: 5px;
+    padding: 20px;
+} */
+.container-fluid{
+  position: relative;
+  background-image: url("../images/5621334.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+.card{
+  position: relative;
+  box-shadow: 0px 0px 10px 0px rgb(163, 163, 163);
+  border: none;
+  z-index: 100;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    outline: none;
+    background: #f1f5f9;
+    border: 2px solid transparent;
+    padding: 10px 40px;
+    border-radius: 50px;
+    box-shadow: 0px 0px 4px #004a94;
+}
+.form-group textarea{
+  border-radius: 60px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    box-shadow: none;
+    border: 2px solid #004a94;
+}
+.form-group label{
+  color: rgb(90, 90, 90);
+}
+
+.them-btn {
+    background-color: #004a94;
+    padding: 10px 25px;
+    border-radius: 5px;
+    color: white;
+    outline: none;
+    border: none;
+    transition: all ease-in-out 0.5s;
+    border-radius: 50px;
+}
+.them-btn:hover{
+  background-color: #3075c4;
+}

@@ -1,99 +1,82 @@
 <!DOCTYPE html>
 <html>
-
+{% load static %}
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://googleapis.com/icon?family=Material+Icons">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/assets/css/style.css' %}">
+    <title>Medicine Register</title>
     <style>
-        body {
-            font-family: Roboto, sans-serif;
-        }
 
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input[type="date"],
-        input[type="text"],
-        input[type="number"],
-        textarea {
-            width: calc(100% - 16px);
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 
 <body>
-    <h2 class="text-center mt-5">Medicine Register</h2>
-    <br>
-    <div class="container">
-        <form action="{% url 'success_page' %}" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
+ {% if user %}
+        <p>Welcome, {{ user }}!</p>
+
+    <div class="container-fluid ">
+        <div class="row justify-content-center d-flex align-items-center" style="height: 100vh;">
+            <div class="col-md-7">
+                <div class="card p-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'medicine_register_dashboard' %}" class="btn-close" aria-label="Close"></a>
+                        </div>
+                        <form action="" method="post">
+                             {% csrf_token %}
+                            <h2 class="text-center text-muted mt-3">Medicine Register</h2>
+                            <div class="row">
+                                <div class="form-group mt-4 col-md-6">
+                                        <label for="uqid" class="">Unique Id</label>
+                                        <input type="number" class="form-control mt-2"id="uqid" name="uqid" placeholder="Enter Unique Id" required />
+                                </div>
+                                <div class="form-group col-md-6 mt-4">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control mt-2" id="name" name="name" required>
+                                </div>
+
+                                <div class="form-group col-md-6 mt-4">
+                                    <label for="age">Age</label>
+                                    <input type="number" class="form-control mt-2" id="age" name="age" min="1" max="100" required>
+                                </div>
+
+                                <div class="form-group col-md-12 mt-4">
+                                    <label for="type_of_disease">Type of Disease</label>
+                                    <input type="text" class="form-control mt-2" id="type_of_disease" name="type_of_disease"
+                                        required>
+                                </div>
+
+                                <div class="form-group col-md-12 mt-4">
+                                    <label for="tablet_details">Tablet Details</label>
+                                    <textarea name="tablet_details" class="form-control mt-2" id="tablet_details" cols="30"
+                                        rows="3"></textarea>
+                                </div>
+
+                                <!--            <div class="form-group form-check">-->
+                                <!--                <input type="checkbox" id="morning" name="morning" >-->
+                                <!--                <label for="morning">Morning</label>-->
+
+                                <!--                <input type="checkbox" id="afternoon" name="afternoon">-->
+                                <!--                <label for="afternoon">Afternoon</label>-->
+
+                                <!--                <input type="checkbox" id="night" name="night">-->
+                                <!--                <label for="night">Night</label>-->
+                                <!--            </div>-->
+
+                                <div class="form-group mt-4 mb-3 d-flex justify-content-center">
+                                    <button type="submit" class="them-btn">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="age">Age</label>
-                <input type="number" id="age" name="age" required>
-            </div>
-
-            <div class="form-group">
-                <label for="disease">Type of Disease</label>
-                <input type="text" id="disease" name="disease" required>
-            </div>
-
-            <div class="form-group">
-                <label for="disease">Tablet Details</label>
-                <textarea name="disease_summary" id="disease_summary" cols="30" rows="4"></textarea>
-            </div>
-
-
-            <div class="form-group form-check">
-                <input type="checkbox" id="morning" name="morning" >
-                <label for="morning">Morning</label>
-
-                <input type="checkbox" id="afternoon" name="afternoon">
-                <label for="afternoon">Afternoon</label>
-
-                <input type="checkbox" id="night" name="night">
-                <label for="night">Night</label>
-
-
-
-
-
-            </div>
-
-
-
-
-
-
-            <div class="form-group text-center">
-                <button type="submit" class="btn btn-success">Submit</button>
-            </div>
-        </form>
+        </div>
     </div>
+
+{% else %}
+        <p>User not logged in.</p>
+{% endif %}
 </body>
 
 </html>

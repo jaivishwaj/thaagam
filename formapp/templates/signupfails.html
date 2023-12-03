@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Details Already Exist</title>
+</head>
+<body>
+ {% if user %}
+        <p>Welcome, {{ user }}!</p>
+  <h1>Details Already Exist</h1>
+  <p>Your details and email are already on record.</p>
+  <!-- You might include additional information or a form here -->
+
+{% else %}
+        <p>User not logged in.</p>
+{% endif %}
+</body>
+</html>
