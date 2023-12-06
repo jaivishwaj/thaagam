@@ -54,6 +54,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>Uqid</th>
                                                             <th>Name of the Pupil</th>
                                                             <th>Date of Birth</th>
                                                             <th>Attendance</th>
@@ -65,6 +66,7 @@
                                                     <tbody>
                                                          {% for item in data %}
                                                                <tr>
+                                                                   <td>{{ item.uqid }}</td>
                                                                    <td>{{ item.pupilName }}</td>
                                                                    <td>{{ item.dob }}</td>
                                                                    <td>{{ item.attendance }}</td>

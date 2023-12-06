@@ -54,7 +54,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>S-NO</th>
+                                                            <th>Uqid</th>
                                                             <th>Admission No</th>
                                                             <th>Admission Date</th>
                                                             <th>Name of the Resident</th>
@@ -68,6 +68,7 @@
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
+                                                                <td>{{ item.uqid }}</td>
                                                                 <td>{{ item.si_no }}</td>
                                                                 <td>{{ item.admission_no }}</td>
                                                                 <td>{{ item.admission_date }}</td>

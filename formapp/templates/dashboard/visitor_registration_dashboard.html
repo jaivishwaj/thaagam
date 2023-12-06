@@ -54,10 +54,10 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>Uqid</th>
                                                             <th>Date </th>
                                                             <th>Name of Visitor / Client</th>
                                                             <th>Purpose Of Visit</th>
-                                                           
                                                             <th>In Time</th>
                                                             <th>Out Time</th>
                                                             <th>Contact No</th>
@@ -67,13 +67,12 @@
                                                     <tbody>
                                                          {% for item in data %}
                                                                <tr>
+                                                                   <td>{{ item.uqid }}</td>
                                                                    <td>{{ item.date }}</td>
                                                                    <td>{{ item.name }}</td>
-
                                                                    <td>{{ item.whom_to_see }}</td>
                                                                    <td>{{ item.in_time }}</td>
                                                                    <td>{{ item.out_time }}</td>
-                                                                   
                                                                    <td>{{ item.phone_number }}</td>
                                                                    <td>{{ item.signature }}</td>
                                                                </tr>

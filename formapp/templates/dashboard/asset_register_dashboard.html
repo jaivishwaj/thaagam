@@ -55,7 +55,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>SI NO</th>
+                                                            <th>Uqid</th>
                                                             <th>Date of Purchase</th>
                                                             <th>Name of the Asset</th>
                                                             <th>No of items Purchased</th>
@@ -69,7 +69,7 @@
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
-                                                                <td>{{ item.s_no }}</td>
+                                                                <td>{{ item.uqid }}</td>
                                                                 <td>{{ item.date_purchase }}</td>
                                                                 <td>{{ item.name_asset }}</td>
                                                                 <td>{{ item.no_of_items }}</td>

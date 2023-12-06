@@ -56,7 +56,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-
+                                                            <th>Uqid</th>
                                                             <th>Name of the Material</th>
                                                             <th>Total Quantity</th>
                                                             <th>Utilized Quantity</th>
@@ -67,6 +67,7 @@
                                                     <tbody>
                                                        {% for item in data %}
                                                             <tr>
+                                                                <td>{{ item.uqid }}</td>
                                                                 <td>{{ item.material_name }}</td>
                                                                 <td>{{ item.total_quantity }}</td>
                                                                 <td>{{ item.utilized_quantity }}</td>

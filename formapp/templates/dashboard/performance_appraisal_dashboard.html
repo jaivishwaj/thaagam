@@ -54,7 +54,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-
+                                                            <th>Uqid</th>
                                                             <th>Date</th>
                                                             <th>Children's Strength at the Beginning of the Month</th>
                                                             <th>New Admission</th>
@@ -71,6 +71,7 @@
                                                     <tbody>
                                                          {% for item in data %}
                                                                <tr>
+                                                                   <td>{{ item.uqid }}</td>
                                                                    <td>{{ item.date }}</td>
                                                                    <td>{{ item.beginning_children }}</td>
                                                                    <td>{{ item.new_admission }}</td>
@@ -110,6 +111,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
+
                             <script>
                                 document.write(new Date().getFullYear())
                             </script> © Thaagam.

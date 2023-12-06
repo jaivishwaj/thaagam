@@ -55,7 +55,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>SI NO</th>
+                                                            <th>Uqid</th>
                                                             <th>Date of Plan</th>
                                                             <th>Detailed Notes on Action Plan</th>
                                                             <th>Action Plan Date</th>
@@ -64,6 +64,7 @@
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
+                                                                <td>{{ item.uqid }}</td>
                                                                 <td>{{ item.sl_no }}</td>
                                                                 <td>{{ item.date_of_plan }}</td>
                                                                 <td>{{ item.detailed_notes }}</td>

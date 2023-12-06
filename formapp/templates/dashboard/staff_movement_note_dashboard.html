@@ -52,6 +52,7 @@
                                                 <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>Uqid</th>
                                                             <th>Date of plan</th>
                                                             <th>Working Area</th>
                                                             <th>Nature Of Work</th>
@@ -62,6 +63,7 @@
                                                     <tbody>
                                                         {% for item in data %}
                                                         <tr>
+                                                            <td>{{ item.uqid }}</td>
                                                             <td>{{ item.date_of_plan }}</td>
                                                             <td>{{ item.working_area }}</td>
                                                             <td>{{ item.nature_of_work }}</td>

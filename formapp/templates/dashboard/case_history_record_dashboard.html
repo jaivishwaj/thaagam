@@ -59,6 +59,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>Uqid</th>
                                                             <th>Photo</th>
                                                             <th>Name of the Person</th>
                                                             <th>Age</th>
@@ -82,6 +83,7 @@
                                                         {% for item in data %}
                                                             <tr>
                                                                 <td>
+                                                                    <td>{{ item.uqid }}</td>
                                                                     {% if item.photo_url %}
                                                                     <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
                                                                     <!-- Modal -->

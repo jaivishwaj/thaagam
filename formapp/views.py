@@ -160,43 +160,32 @@ def home(request):
 
 
 # @login_required(login_url='login')
-def provision_form(request):
-    user = None
-    if 'user' in request.session:
-        user = request.session['user']
-    if request.method == "POST":
-        material_name = request.POST.get("material_name")
+def signupuser(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        mobile_number = request.POST.get('mobile_number')
+        confrimpassword = request.POST.get('confrimpassword')
 
-        total_quantity = request.POST.get("total_quantity")
-        utilized_quantity = request.POST.get("utilized_quantity")
-        balance_quantity = request.POST.get("balance_quantity")
-        remarks = request.POST.get("remarks")
-        data = provision.objects.create(
-            material_name=material_name,
+        User = get_user_model()  # Get the custom user model
+        if not User.objects.filter(username=username).exists():
+            # Create a new user instance and set the username
+            user = User.objects.create_user(username=username, password=password)
+            Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
+            # Save the user
+            Userprofile.save()
+            user.save()
+            return redirect('login')  # Redirect to login upon successful registration
+        else:
+            # Authentication failed, handle accordingly (e.g., display an error message)
 
-            total_quantity=total_quantity,
-            utilized_quantity=utilized_quantity,
-            balance_quantity=balance_quantity,
-            remarks=remarks,
-        )
-        data.save()
-        return redirect("provision_dashboard")
+            return redirect('signup')
 
-    return render(request, "provision.html",{'user': user})
+    return render(request, 'signup.html')
 
+from django.contrib.auth import authenticate,login
 
-# def index_dashboard(request):
-#     datas = provision.objects.all()
-#     return render(request, 'index_dashboard.html',{'data':datas})
-
-
-def provision_dashboard(request):
-    if not request.user.is_authenticated:
-        # Redirect to login page with a message
-        return redirect("login")
-    else:
-     datas = provision.objects.all()
-     return render(request, "dashboard/provision_dashboard.html",{"data": datas})
 
 
 def accident_register_form(request):
@@ -1280,7 +1269,6 @@ def staff_movement_form(request):
                   work_done_by=work_done_by,
                   sign=sign,
               )
-
               data.save()
 
               return redirect("staff_movement_note_dashboard")
@@ -1393,14 +1381,4 @@ def master_records_dashboard(request):
     else:
         datas = MasterRecords.objects.all()
         return render(request, "dashboard/master_records_dashboard.html", {"data": datas})
-
-
-
-
-
-
-
-
-
-
 
