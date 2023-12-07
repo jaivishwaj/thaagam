@@ -35,6 +35,16 @@ class provision(models.Model):
 
 
 
+
+
+
+
+
+
+
+
+
+
 class Reintegration(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     admission_no = models.IntegerField()

@@ -89,6 +89,7 @@ from django.contrib.auth import authenticate,login
 
 #----------------------------------------------------------!-------------------------------------------------------------
 # def loginuser(request):
+
 #     if request.method == 'POST':
 #         email = request.POST.get('email')
 #         password = request.POST.get('password')
@@ -132,6 +133,7 @@ def loginuser(request):
             return redirect('signup')
 
     return render(request, 'login.html')
+
 
 #========================================================!===============================================================
 
@@ -306,8 +308,6 @@ def visitor_registration_dashboard(request):
      return render(
         request, "dashboard/visitor_registration_dashboard.html", {"data": datas}
     )
-
-
 def performance_appraisal_form(request):
     user = None
     if 'user' in request.session:
@@ -354,6 +354,43 @@ def performance_appraisal_dashboard(request):
      datas = PerformanceAppraisal.objects.all()
      return render(
         request, "dashboard/performance_appraisal_dashboard.html", {"data": datas})
+
+
+def provision_form(request):
+    if request.method == 'POST':
+        material_name = request.POST['material_name']
+        total_quantity = request.POST['total_quantity']
+        utilized_quantity = request.POST['utilized_quantity']
+        balance_quantity = request.POST['balance_quantity']
+        remarks = request.POST['remarks']
+        data=provision.objects.create(
+            material_name=material_name,
+            total_quantity=total_quantity,
+            utilized_quantity=utilized_quantity,
+            balance_quantity=balance_quantity,
+            remarks=remarks
+        )
+        data.save()
+        return redirect('provision_dashboard')
+
+    return render(request, 'provision.html')
+
+
+
+
+    
+
+
+
+def provision_dashboard(request):
+    if not request.user.is_authenticated:
+        # Redirect to login page with a message
+        return redirect("login")
+    else:
+     datas = provision.objects.all()
+     return render(
+        request, "dashboard/provision_dashboard.html", {"data": datas}
+    )
 
 
 def resident_form(request):
@@ -458,6 +495,7 @@ def inspection_register(request):
         return redirect("inspection_register_dashboard")
 
     return render(request, "inspection_register.html",{'user': user})
+
 
 
 def inspection_register_dashboard(request):
