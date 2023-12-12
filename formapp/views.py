@@ -59,6 +59,7 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
 # from .models import userprofile
+from django.contrib.auth.models import User
 
 
 def signupuser(request):
@@ -80,13 +81,12 @@ def signupuser(request):
             return redirect('login')  # Redirect to login upon successful registration
         else:
             # Authentication failed, handle accordingly (e.g., display an error message)
-
+            messages.info(request, f'The Username Exit plz sign in with new username or try with different spelling')
             return redirect('signup')
 
     return render(request, 'signup.html')
 
 from django.contrib.auth import authenticate,login
-
 #----------------------------------------------------------!-------------------------------------------------------------
 # def loginuser(request):
 
@@ -130,9 +130,11 @@ def loginuser(request):
         else:
             # Authentication failed, handle accordingly (e.g., display an error message)
 
-            return redirect('signup')
+            messages.info(request, f'account does not exit plz sign in (or) the username and Password does not match')
 
     return render(request, 'login.html')
+
+
 
 
 #========================================================!===============================================================
@@ -162,29 +164,29 @@ def home(request):
 
 
 # @login_required(login_url='login')
-def signupuser(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        email = request.POST.get('email')
-        mobile_number = request.POST.get('mobile_number')
-        confrimpassword = request.POST.get('confrimpassword')
-
-        User = get_user_model()  # Get the custom user model
-        if not User.objects.filter(username=username).exists():
-            # Create a new user instance and set the username
-            user = User.objects.create_user(username=username, password=password)
-            Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
-            # Save the user
-            Userprofile.save()
-            user.save()
-            return redirect('login')  # Redirect to login upon successful registration
-        else:
-            # Authentication failed, handle accordingly (e.g., display an error message)
-
-            return redirect('signup')
-
-    return render(request, 'signup.html')
+# def signupuser(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         email = request.POST.get('email')
+#         mobile_number = request.POST.get('mobile_number')
+#         confrimpassword = request.POST.get('confrimpassword')
+#
+#         User = get_user_model()  # Get the custom user model
+#         if not User.objects.filter(username=username).exists():
+#             # Create a new user instance and set the username
+#             user = User.objects.create_user(username=username, password=password)
+#             Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
+#             # Save the user
+#             Userprofile.save()
+#             user.save()
+#             return redirect('login')  # Redirect to login upon successful registration
+#         else:
+#             # Authentication failed, handle accordingly (e.g., display an error message)
+#
+#             messages.info(request, f'account username is already  exit plz try another username ')
+#
+#     return render(request, 'signup.html')
 
 from django.contrib.auth import authenticate,login
 
@@ -202,7 +204,9 @@ def accident_register_form(request):
         accident_condition = request.POST.get("accident_condition")
         accident_place = request.POST.get("accident_place")
         signature = request.POST.get("signature")
-        data = AccidentRegister.objects.create(uqid=uqid,
+        logged_in_user = request.user
+        username = logged_in_user.username
+        data = AccidentRegister.objects.create(user=username, uqid=uqid,
             date=date,
             inmate_name=inmate_name,
             age_gender=age_gender,
@@ -212,19 +216,21 @@ def accident_register_form(request):
         )
         data.save()
         return redirect("accident_register_dashboard")
-    return render(request, "accident_register.html",{'user': user})
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
+    return render(request, "accident_register.html", {'user': user})
 
+# from django.shortcuts import objects
 
 def accident_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
        return redirect("login")
-    datas = AccidentRegister.objects.all()
-    return render(
-        request, "dashboard/accident_register_dashboard.html", {"data": datas})
-
-
+    else:
+      logged_in_username = request.user.username
+      datas = AccidentRegister.objects.filter(user=logged_in_username)
+      return render( request, "dashboard/accident_register_dashboard.html", {"data": datas})
 def reintegration_form(request):
     user = None
     if 'user' in request.session:
@@ -240,8 +246,10 @@ def reintegration_form(request):
         follow_up_conduct = request.POST.get("follow_up_conduct")
         follows = request.POST.get("follows")
         staff_event_close = request.POST.get("staff_event_close")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        data = Reintegration.objects.create(
+        data = Reintegration.objects.create(user=username,
             admission_no=admission_no,
             uqid=uqid,
             resident_name=resident_name,
@@ -256,19 +264,19 @@ def reintegration_form(request):
         data.save()
 
         return redirect("reintegration_register_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "reintegration_register.html",{'user': user})
-
-
 def reintegration_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = Reintegration.objects.all()
-     return render(
-        request, "dashboard/reintegration_register_dashboard.html", {"data": datas}
-    )
+
+     logged_in_username = request.user.username
+     datas = Reintegration.objects.filter(user=logged_in_username)
+     return render(request, "dashboard/reintegration_register_dashboard.html", {"data": datas})
 
 def visitor_register_form(request):
     user = None
@@ -284,7 +292,9 @@ def visitor_register_form(request):
         out_time = request.POST.get("out_time")
         phone_number = request.POST.get("phone_number")
         signature = request.POST.get("signature")
-        data = VisitorRegister.objects.create(
+        logged_in_user = request.user
+        username = logged_in_user.username
+        data = VisitorRegister.objects.create(user=username,
             date=date,
             uqid=uqid,
             name=name,
@@ -292,10 +302,12 @@ def visitor_register_form(request):
             in_time=in_time,
             out_time=out_time,
             phone_number=phone_number,
-            signature=signature,
+            signature=signature
         )
         data.save()
         return redirect("visitor_registration_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
     return render(request, "visitor_registration.html",{'user': user})
 
 
@@ -304,10 +316,10 @@ def visitor_registration_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = VisitorRegister.objects.all()
+     logged_in_username = request.user.username
+     datas = VisitorRegister.objects.filter(user=logged_in_username)
      return render(
-        request, "dashboard/visitor_registration_dashboard.html", {"data": datas}
-    )
+        request, "dashboard/visitor_registration_dashboard.html", {"data": datas})
 def performance_appraisal_form(request):
     user = None
     if 'user' in request.session:
@@ -325,8 +337,10 @@ def performance_appraisal_form(request):
         death = request.POST.get("death")
         end_strength = request.POST.get("end_strength")
         rescue = request.POST.get("rescue")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        data = PerformanceAppraisal.objects.create(
+        data = PerformanceAppraisal.objects.create(user=username,
             date=date,
             uqid=uqid,
             beginning_children=beginning_children,
@@ -338,32 +352,39 @@ def performance_appraisal_form(request):
             left=left,
             death=death,
             end_strength=end_strength,
-            rescue=rescue,
+            rescue=rescue
+
+
         )
         data.save()
         return redirect("performance_appraisal_dashboard")  # Redirect to appropriate page after form submission
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "performance_appraisal.html",{'user': user})
-
-
 def performance_appraisal_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = PerformanceAppraisal.objects.all()
+     logged_in_username = request.user.username
+     datas = PerformanceAppraisal.objects.filter(user=logged_in_username)
      return render(
         request, "dashboard/performance_appraisal_dashboard.html", {"data": datas})
 
 
+
 def provision_form(request):
     if request.method == 'POST':
+
         material_name = request.POST['material_name']
         total_quantity = request.POST['total_quantity']
         utilized_quantity = request.POST['utilized_quantity']
         balance_quantity = request.POST['balance_quantity']
         remarks = request.POST['remarks']
-        data=provision.objects.create(
+        logged_in_user = request.user
+        username = logged_in_user.username
+        data=provision.objects.create(user=username,
             material_name=material_name,
             total_quantity=total_quantity,
             utilized_quantity=utilized_quantity,
@@ -372,25 +393,22 @@ def provision_form(request):
         )
         data.save()
         return redirect('provision_dashboard')
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, 'provision.html')
-
-
-
-
-    
-
-
-
 def provision_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
         return redirect("login")
+
     else:
-     datas = provision.objects.all()
+
+     logged_in_username = request.user.username
+     datas = provision.objects.filter(user=logged_in_username)
+
      return render(
-        request, "dashboard/provision_dashboard.html", {"data": datas}
-    )
+        request, "dashboard/provision_dashboard.html", {"data": datas})
 
 
 def resident_form(request):
@@ -405,8 +423,10 @@ def resident_form(request):
         daysPresent = request.POST.get("daysPresent")
         schoolFee = request.POST.get("schoolFee")
         dayOfPayment = request.POST.get("dayOfPayment")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        data = Resident.objects.create(
+        data = Resident.objects.create(user=username,
             pupilName=pupilName,
             dob=dob,uqid=uqid,
             attendance=attendance,
@@ -418,7 +438,8 @@ def resident_form(request):
         data.save()
 
         return redirect("resident_attendance_form_dashboard")
-
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
     return render(request, "resident_attendance.html",{'user': user})
 
 
@@ -427,10 +448,10 @@ def resident_attendance_form_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = Resident.objects.all()
+     logged_in_username = request.user.username
+     datas = Resident.objects.filter(user=logged_in_username)
      return render(
-        request, "dashboard/resident_attendance_form_dashboard.html", {"data": datas}
-    )
+        request, "dashboard/resident_attendance_form_dashboard.html", {"data": datas})
 
 
 def social_entertainment_form(request):
@@ -443,15 +464,19 @@ def social_entertainment_form(request):
         admission = request.POST.get("admission")
         name = request.POST.get("name")
         workDetails = request.POST.get("workDetails")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
         # Create a new instance of your model
-        data = SocialEntertainment.objects.create(
+        data = SocialEntertainment.objects.create(user=username,
             date=date,uqid=uqid, admission=admission, name=name, workDetails=workDetails
         )
 
         data.save()
 
         return redirect("social_entertainment_form_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "social_entertainment_record.html",{'user': user})
 
@@ -461,7 +486,8 @@ def social_entertainment_form_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = SocialEntertainment.objects.all()
+     logged_in_username = request.user.username
+     datas = SocialEntertainment.objects.filter(user=logged_in_username)
      return render(
         request, "dashboard/social_entertainment_form_dashboard.html", {"data": datas})
 
@@ -478,9 +504,12 @@ def inspection_register(request):
         date = request.POST.get("date")
         time = request.POST.get("time")
         sign = request.POST.get("sign")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
         # Create an instance of the model and save data
-        data = Inspectionregister.objects.create(
+        data = Inspectionregister.objects.create(user=username,
+
 
             designation=designation,
             name=name,
@@ -493,6 +522,8 @@ def inspection_register(request):
 
         # Redirect after successful submission (optional)
         return redirect("inspection_register_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "inspection_register.html",{'user': user})
 
@@ -503,9 +534,69 @@ def inspection_register_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = Inspectionregister.objects.all()
-     return render(
-        request, "dashboard/inspection_records_dashboard.html", {"data": datas})
+     logged_in_username = request.user.username
+     datas = Inspectionregister.objects.filter(user=logged_in_username)
+     return render(request, "dashboard/inspection_records_dashboard.html", {"data": datas})
+
+
+# def case_history_form(request):
+#     user = None
+#     if 'user' in request.session:
+#         user = request.session['user']
+#     if request.method == "POST":
+#         logged_in_user= request.user
+#         form_data = {
+#             "name": request.POST.get("name"),
+#             "age": request.POST.get("age"),
+#             "sex": request.POST.get("sex"),
+#             "uqid": request.POST.get("uqid"),
+#             "religion": request.POST.get("religion"),
+#             "maritalStatus": request.POST.get("maritalStatus"),
+#             "identificationMark": request.POST.get("identificationMark"),
+#             "educationBackground": request.POST.get("educationBackground"),
+#             "occupation": request.POST.get("occupation"),
+#             "address": request.POST.get("address"),
+#             "residentContactNumber": request.POST.get("residentContactNumber"),
+#             "relativeOrFriendsContact": request.POST.get("relativeOrFriendsContact"),
+#             "idProofAvailable": request.POST.get("idProofAvailable"),
+#             "idProofDetails": request.POST.get("idProofDetails"),
+#             "policeMemoAvailable": request.POST.get("policeMemoAvailable"),
+#             "policeStationDetails": request.POST.get("policeStationDetails"),
+#             "uploaded_file": request.FILES.get("photo"),
+#             "logged_in_user" : request.user,
+#             "username" :logged_in_user.username
+#
+#
+#         }
+#
+#         # Implement form validation here
+#
+#         if form_data["uploaded_file"]:
+#             # Securely handle file upload
+#             filename = f"{form_data['name']}.jpg"
+#             photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
+#
+#             if not os.path.exists(photos_dir):
+#                 os.makedirs(photos_dir)
+#
+#             save_path = os.path.join(photos_dir, filename)
+#
+#             with open(save_path, "wb") as destination:
+#                 for chunk in form_data["uploaded_file"].chunks():
+#                     destination.write(chunk)
+#
+#             relative_file_path = os.path.join("photos", filename)
+#
+#             # Create CaseHistory object and save data
+#             data = CaseHistory(
+#                 photo_url=relative_file_path,
+#                 **{k: v for k, v in form_data.items() if k != "uploaded_file"}
+#             )
+#             data.save()
+#
+#             return redirect("case_history_record_dashboard")
+#
+#     return render(request, "case_history.html",{'user': user})
 
 
 def case_history_form(request):
@@ -513,31 +604,29 @@ def case_history_form(request):
     if 'user' in request.session:
         user = request.session['user']
     if request.method == "POST":
-        form_data = {
-            "name": request.POST.get("name"),
-            "age": request.POST.get("age"),
-            "sex": request.POST.get("sex"),
-            "uqid": request.POST.get("uqid"),
-            "religion": request.POST.get("religion"),
-            "maritalStatus": request.POST.get("maritalStatus"),
-            "identificationMark": request.POST.get("identificationMark"),
-            "educationBackground": request.POST.get("educationBackground"),
-            "occupation": request.POST.get("occupation"),
-            "address": request.POST.get("address"),
-            "residentContactNumber": request.POST.get("residentContactNumber"),
-            "relativeOrFriendsContact": request.POST.get("relativeOrFriendsContact"),
-            "idProofAvailable": request.POST.get("idProofAvailable"),
-            "idProofDetails": request.POST.get("idProofDetails"),
-            "policeMemoAvailable": request.POST.get("policeMemoAvailable"),
-            "policeStationDetails": request.POST.get("policeStationDetails"),
-            "uploaded_file": request.FILES.get("photo"),
-        }
-
-        # Implement form validation here
-
-        if form_data["uploaded_file"]:
-            # Securely handle file upload
-            filename = f"{form_data['name']}.jpg"
+        name = request.POST.get("name")
+        age = request.POST.get("age")
+        sex = request.POST.get("sex")
+        uqid = request.POST.get("uqid")
+        religion = request.POST.get("religion")
+        maritalStatus = request.POST.get("maritalStatus")
+        identificationMark = request.POST.get("identificationMark")
+        educationBackground = request.POST.get("educationBackground")
+        occupation = request.POST.get("occupation")
+        address = request.POST.get("address")
+        residentContactNumber = request.POST.get("residentContactNumber")
+        relativeOrFriendsContact = request.POST.get("relativeOrFriendsContact")
+        idProofAvailable = request.POST.get("idProofAvailable")
+        idProofDetails = request.POST.get("idProofDetails")
+        policeMemoAvailable = request.POST.get("policeMemoAvailable")
+        policeStationDetails = request.POST.get("policeStationDetails")
+        logged_in_user = request.user
+        username = logged_in_user.username
+        uploaded_file = request.FILES.get("photo")
+        relative_file_path = ""
+        if uploaded_file:
+            # Save photo to directory
+            filename = f"{name}.jpg"
             photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
 
             if not os.path.exists(photos_dir):
@@ -546,28 +635,51 @@ def case_history_form(request):
             save_path = os.path.join(photos_dir, filename)
 
             with open(save_path, "wb") as destination:
-                for chunk in form_data["uploaded_file"].chunks():
+                for chunk in uploaded_file.chunks():
                     destination.write(chunk)
 
             relative_file_path = os.path.join("photos", filename)
 
-            # Create CaseHistory object and save data
-            data = CaseHistory(
-                photo_url=relative_file_path,
-                **{k: v for k, v in form_data.items() if k != "uploaded_file"}
-            )
-            data.save()
 
-            return redirect("case_history_record_dashboard")
+        data = CaseHistory.objects.create(photo_url = relative_file_path,
+                                                user=username,
+                                                name=name,
+                                                age=age,
+                                                sex=sex,
+                                                uqid=uqid,
+                                                religion=religion,
+                                                maritalStatus=maritalStatus,
+                                                identificationMark=identificationMark,
+                                                educationBackground=educationBackground,
+                                                occupation=occupation,
+                                                address=address,
+                                                residentContactNumber=residentContactNumber,
+                                                relativeOrFriendsContact=relativeOrFriendsContact,
+                                                idProofAvailable=idProofAvailable,
+                                                idProofDetails=idProofDetails,
+                                                policeMemoAvailable=policeMemoAvailable,
+                                                policeStationDetails=policeStationDetails)
+        data.save()
+        return redirect('case_history_record_dashboard')
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
-    return render(request, "case_history.html",{'user': user})
+    return render(request,'case_history.html',{'user': user})
+
+
+
+
+
+
+
 
 def case_history_record_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = CaseHistory.objects.all()
+     logged_in_username = request.user.username
+     datas = CaseHistory.filter(user=logged_in_username)
      return render(request, "dashboard/case_history_record_dashboard.html",{"data": datas})
 
 def personal_info_form(request):
@@ -582,13 +694,14 @@ def personal_info_form(request):
         street_address2 = request.POST.get("street_address_2")
         state = request.POST.get("state")
         city = request.POST.get("city")
-
         postal = request.POST.get("postal_code")
         phone_number = request.POST.get("phone_number")
         home_phone_number = request.POST.get("home_phone_number")
         email = request.POST.get("email")
         birthdate = request.POST.get("birthdate")
         uploadfile = request.FILES.get("upload_file")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
         if uploadfile:
             # Save photo to directory
@@ -606,7 +719,7 @@ def personal_info_form(request):
 
             relative_file_path = os.path.join("photos", filename)
 
-            data = PersonalInfo.objects.create(
+            data = PersonalInfo.objects.create(user=username,
                 photo_url=relative_file_path,
                 uqid=uqid,
                 name=name,
@@ -624,6 +737,8 @@ def personal_info_form(request):
 
             data.save()
             return redirect("personal_info_dashboard")
+        else:
+            messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "personal_information.html",{'user': user})
 
@@ -633,7 +748,8 @@ def personal_info_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = PersonalInfo.objects.all()
+     logged_in_username = request.user.username
+     datas = PersonalInfo.objects.filter(user=logged_in_username)
      return render(
         request, "dashboard/personal_information_dashboard.html",{"data": datas})
 
@@ -646,8 +762,10 @@ def actionplan_register_form(request):
         date_of_plan = request.POST.get("date_of_plan")
         detailed_notes = request.POST.get("detailed_notes")
         action_plan_date = request.POST.get("action_plan_date")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        data = ActionplanRegister.objects.create(
+        data = ActionplanRegister.objects.create(user=username,
             date_of_plan=date_of_plan,
             detailed_notes=detailed_notes,
             action_plan_date=action_plan_date,
@@ -656,6 +774,8 @@ def actionplan_register_form(request):
         data.save()
 
         return redirect("action_plan_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "actionplan_register.html",{'user': user})
 
@@ -665,7 +785,8 @@ def action_plan_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = ActionplanRegister.objects.all()
+     logged_in_username = request.user.username
+     datas = ActionplanRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/action_plan_dashboard.html",{"data": datas})
 
 
@@ -679,8 +800,10 @@ def awarnes_register_form(request):
         place = request.POST.get("place")
         details = request.POST.get("details")
         participants = request.POST.get("participants")
+        logged_in_user = request.user
+        username = logged_in_user.username
+        data = AwarnesRegister.objects.create(user=username,
 
-        data = AwarnesRegister.objects.create(
             date=date,
             time=time,
             place=place,
@@ -691,6 +814,8 @@ def awarnes_register_form(request):
         data.save()
 
         return redirect("awarnes_register_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "awarnes_register.html",{'user': user})
 
@@ -700,7 +825,8 @@ def awarnes_register_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = AwarnesRegister.objects.all()
+     logged_in_username = request.user.username
+     datas = AwarnesRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/awarnes_register_dashboard.html",{"data": datas})
 
 
@@ -718,8 +844,9 @@ def asset_form(request):
         place_asset = request.POST.get("place_asset")
         owner_asset = request.POST.get("owner_asset")
         dispose_date = request.POST.get("dispose_date")
-
-        data = Asset.objects.create(
+        logged_in_user = request.user
+        username = logged_in_user.username
+        data = Asset.objects.create(user=username,
             uqid=uqid,
             date_purchase=date_purchase,
             name_asset=name_asset,
@@ -734,6 +861,8 @@ def asset_form(request):
         data.save()
 
         return redirect("asset_register_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "asset.html",{'user': user})
 def asset_register_dashboard(request):
@@ -741,7 +870,8 @@ def asset_register_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = Asset.objects.all()
+     logged_in_username = request.user.username
+     datas = Asset.objects.filter(user=logged_in_username)
      return render(request, "dashboard/asset_register_dashboard.html",{"data": datas})
 
 
@@ -756,14 +886,19 @@ def bp_pulsenote(request):
         pulse = request.POST.get("pulse")
         bp = request.POST.get("bp")
         temperature = request.POST.get("temperature")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        data = BpPulsenote.objects.create(
+        data = BpPulsenote.objects.create(user=username,
             date=date, uqid=uqid, name=name, pulse=pulse, bp=bp, temperature=temperature
         )
+
 
         data.save()
 
         return redirect("bp_form_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "bp_pulsenote.html",{'user': user})
 
@@ -773,7 +908,8 @@ def bp_form_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = BpPulsenote.objects.all()
+     logged_in_username = request.user.username
+     datas = BpPulsenote.objects.filter(user=logged_in_username)
      return render(request, "dashboard/bp_form_dashboard.html",{"data": datas})
 
 
@@ -788,8 +924,11 @@ def counselling_register_form(request):
         number_of_sessions = request.POST.get("number_of_sessions")
         observation_identification = request.POST.get("observation_identification")
         signature = request.POST.get("signature")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        data = CounsellingRegister.objects.create(
+
+        data = CounsellingRegister.objects.create(user=username,
             date=date,
             uqid=uqid,
             name=name,
@@ -801,17 +940,17 @@ def counselling_register_form(request):
         data.save()
 
         return redirect("counselling_register_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "counselling_register.html",{'user': user})
-
-
-
 def counselling_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = CounsellingRegister.objects.all()
+     logged_in_username = request.user.username
+     datas = CounsellingRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/counselling_register_dashboard.html", {"data": datas})
 
 
@@ -828,8 +967,10 @@ def medical_camp_form(request):
         complaints = request.POST.get("complaints")
         others = request.POST.get("others")
         treatment = request.POST.get("treatment")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        data = MedicalCamp.objects.create(
+        data = MedicalCamp.objects.create(user=username,
             date=date,
             uqid=uqid,
             place=place,
@@ -842,6 +983,8 @@ def medical_camp_form(request):
         data.save()
 
         return redirect("medical_register_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "medical_camp.html",{'user': user})
 
@@ -851,7 +994,8 @@ def medical_register_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = MedicalCamp.objects.all()
+     logged_in_username = request.user.username
+     datas = MedicalCamp.objects.filter(user=logged_in_username)
      return render(request, "dashboard/medical_register_dashboard.html",{"data": datas})
 
 
@@ -865,11 +1009,10 @@ def medicine_form(request):
         age = request.POST.get("age")
         type_of_disease = request.POST.get("type_of_disease")
         tablet_details = request.POST.get("tablet_details")
-        # morning = request.POST.get('morning')
-        # afternoon = request.POST.get('afternoon')
-        # night = request.POST.get('night')
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        datas = Medicine.objects.create(uqid=uqid,
+        datas = Medicine.objects.create(uqid=uqid,user=username,
             name=name,
             age=age,
             type_of_disease=type_of_disease,
@@ -882,6 +1025,8 @@ def medicine_form(request):
         datas.save()
 
         return redirect("medicine_register_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "medicine.html",{'user': user})
 
@@ -891,7 +1036,8 @@ def medicine_register_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = Medicine.objects.all()
+     logged_in_username = request.user.username
+     datas = Medicine.objects.filter(user=logged_in_username)
      return render(request, "dashboard/medicine_register_dashboard.html",{"data": datas})
 
 
@@ -906,7 +1052,9 @@ def night_survey_form(request):
         place = request.POST.get("place")
         details_of_visit = request.POST.get("details_of_visit")
         number_of_rescue = request.POST.get("number_of_rescue")
-        data = NightSurvey.objects.create(
+        logged_in_user = request.user
+        username = logged_in_user.username
+        data = NightSurvey.objects.create(user=username,
             date=date,
             uqid=uqid,
             time=time,
@@ -916,6 +1064,8 @@ def night_survey_form(request):
         )
         data.save()
         return redirect("night_survey_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "night_survey.html",{'user': user})
 
@@ -925,7 +1075,8 @@ def night_survey_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = NightSurvey.objects.all()
+     logged_in_username = request.user.username
+     datas = NightSurvey.objects.filter(user=logged_in_username)
      return render(request, "dashboard/night_survey_dashboard.html",{"data": datas})
 
 
@@ -938,7 +1089,9 @@ def skill_training_form(request):
         date = request.POST.get("date")
         resident_name = request.POST.get("resident_name")
         skill_training_details = request.POST.get("skill_training_details")
-        datas = SkillTraining.objects.create(
+        logged_in_user = request.user
+        username = logged_in_user.username
+        datas = SkillTraining.objects.create(user=username,
             uqid=uqid,
             date=date,
             resident_name=resident_name,
@@ -946,6 +1099,8 @@ def skill_training_form(request):
         )
         datas.save()
         return redirect("skill_training_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "skill_training.html",{'user': user})
 
@@ -955,7 +1110,8 @@ def skill_training_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = SkillTraining.objects.all()
+     logged_in_username = request.user.username
+     datas = SkillTraining.objects.filter(user=logged_in_username)
      return render(request, "dashboard/skill_training_dashboard.html",{"data": datas})
 
 
@@ -976,7 +1132,9 @@ def smc_register_form(request):
         gcc_officials_name = request.POST.get("gcc_officials_name")
         police_officials_name = request.POST.get("police_officials_name")
         residents_name = request.POST.get("residents_name")
-        datas = SmcRegister.objects.create(
+        logged_in_user = request.user
+        username = logged_in_user.username
+        datas = SmcRegister.objects.create(user=username,
             date=date,
             time=time,
             introduction_of_meeting=introduction_of_meeting,
@@ -990,6 +1148,8 @@ def smc_register_form(request):
         )
         datas.save()
         return redirect("smc_register_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "smc_register.html",{'user': user})
 
@@ -999,7 +1159,8 @@ def smc_register_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = SmcRegister.objects.all()
+     logged_in_username = request.user.username
+     datas = SmcRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/smc_register_dashboard.html",{"data": datas})
 
 
@@ -1016,6 +1177,8 @@ def staff_attendance_form(request):
         working_days = request.POST.get("working_days")
         leave_days = request.POST.get("leave_days")
         remarks = request.POST.get("remarks")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
         # if (
         #     sno
@@ -1028,7 +1191,7 @@ def staff_attendance_form(request):
         #     and remarks
         # ):
             # Create StaffAttendance object
-        datas = StaffAttendance.objects.create(
+        datas = StaffAttendance.objects.create(user=username,
             uqid=uqid,
             name=name,
             designation=designation,
@@ -1042,10 +1205,7 @@ def staff_attendance_form(request):
         # No need to call datas.save() again; create() saves the object
         return redirect("staff_attendance_register_dashboard")
     else:
-            # Handle invalid or missing data here
-            # You can render the form again with an error message
-      error_message = "Some data is missing. Please fill in all fields."
-      return redirect( "staff_attendance_form",{"error_message": error_message})
+        messages.info(request, f'the form is not saved please re enter the form')
     return render(request, "staff_attendance.html",{'user': user})
 
 
@@ -1054,7 +1214,8 @@ def staff_attendance_register_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-      datas = StaffAttendance.objects.all()
+      logged_in_username = request.user.username
+      datas = StaffAttendance.objects.filter(user=logged_in_username)
       return render(
           request, "dashboard/staff_attendance_register_dashboard.html", {"data": datas})
 
@@ -1070,7 +1231,9 @@ def stock_form(request):
         receipt = request.POST.get("receipt")
         issued = request.POST.get("issued")
         balance = request.POST.get("balance")
-        datas = Stock.objects.create(
+        logged_in_user = request.user
+        username = logged_in_user.username
+        datas = Stock.objects.create(user=username,
             date=date,
             uqid=uqid,
             particulars=particulars,
@@ -1080,6 +1243,8 @@ def stock_form(request):
         )
         datas.save()
         return redirect("stock_register_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "stock_register.html",{'user': user})
 
@@ -1089,7 +1254,8 @@ def stock_register_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = Stock.objects.all()
+     logged_in_username = request.user.username
+     datas = Stock.objects.filter(user=logged_in_username)
      return render(request, "dashboard/stock_register_dashboard.html",{"data": datas})
 
 
@@ -1107,7 +1273,9 @@ def employment_link_form(request):
         designation = request.POST.get("designation")
         joining_date = request.POST.get("joining_date")
         signature = request.POST.get("signature")
-        datas = EmploymentLink.objects.create(
+        logged_in_user = request.user
+        username = logged_in_user.username
+        datas = EmploymentLink.objects.create(user=username,
             uqid=uqid,
             admission_no=admission_no,
             admission_date=admission_date,
@@ -1121,6 +1289,8 @@ def employment_link_form(request):
 
         datas.save()
         return redirect("employment_linkage_form_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "employment_link.html",{'user': user})
 
@@ -1130,7 +1300,8 @@ def employment_linkage_form_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-      datas = EmploymentLink.objects.all()
+      logged_in_username = request.user.username
+      datas = EmploymentLink.objects.filter(user=logged_in_username)
       return render( request, "dashboard/employment_linkage_form_dashboard.html",{"data": datas})
 
 
@@ -1149,7 +1320,9 @@ def rehabitation_form(request):
         mode_of_rescue = request.POST.get("mode_of_rescue")
         mode_of_rehabilitation = request.POST.get("mode_of_rehabilitation")
         follow_up = request.POST.get("follow_up")
-        datas = Rehabitation.objects.create(
+        logged_in_user = request.user
+        username = logged_in_user.username
+        datas = Rehabitation.objects.create(user=username,
             uqid=uqid,
             admission_number=admission_number,
             name_of_the_resident=name_of_the_resident,
@@ -1163,6 +1336,8 @@ def rehabitation_form(request):
         )
         datas.save()
         return redirect("rehabitation_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "rehabitation.html",{'user': user})
 
@@ -1172,7 +1347,8 @@ def rehabitation_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = Rehabitation.objects.all()
+     logged_in_username = request.user.username
+     datas = Rehabitation.objects.filter(user=logged_in_username)
      return render(request, "dashboard/rehabitation_dashboard.html",{"data": datas})
 
 
@@ -1191,8 +1367,10 @@ def death_register_form(request):
             "legal_producer_taken_if_unclaimed"
         )
         remarks = request.POST.get("remarks")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        data = DeathRegister.objects.create(
+        data = DeathRegister.objects.create(user=username,
             uqid=uqid,
             name_of_the_death_person=name_of_the_death_person,
             date_of_death=date_of_death,
@@ -1204,7 +1382,8 @@ def death_register_form(request):
         )
         data.save()
         return redirect("death_register_dashboard")
-
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
     return render(request, "death_register.html",{'user': user})
 
 
@@ -1213,7 +1392,8 @@ def death_register_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = DeathRegister.objects.all()
+     logged_in_username = request.user.username
+     datas = DeathRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/death_register_dashboard.html", {"data": datas})
 
 
@@ -1231,8 +1411,10 @@ def food_menu_form(request):
         no_of_resident3 = request.POST.get("no_of_resident3")
         dinner = request.POST.get("dinner")
         no_of_resident4 = request.POST.get("no_of_resident4")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        data = FoodMenu(
+        data = FoodMenu(user=username,
             date=date,
             morning_snacks=morning_snacks,
             no_of_resident1=no_of_resident1,
@@ -1245,6 +1427,8 @@ def food_menu_form(request):
         )
         data.save()
         return redirect("food_menu_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
     return render(request, "food_menu.html",{'user': user})
 
 
@@ -1253,7 +1437,8 @@ def food_menu_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-       datas = FoodMenu.objects.all()
+       logged_in_username = request.user.username
+       datas = FoodMenu.objects.filter(user=logged_in_username)
        return render(request, "dashboard/food_menu_dashboard.html", {"data": datas})
 
 
@@ -1268,13 +1453,15 @@ def salary_register_form(request):
         designation = request.POST.get("designation")
         salary = request.POST.get("salary")
         sign = request.POST.get("sign")
+        logged_in_user = request.user
+        username = logged_in_user.username
 
-        data = SalaryRegister(
-            date=date,uqid=uqid, name=name, designation=designation, salary=salary, sign=sign
-        )
+        data = SalaryRegister(user=username,date=date,uqid=uqid, name=name, designation=designation, salary=salary, sign=sign)
 
         data.save()
         return redirect("salary_register_dashboard")
+    else:
+        messages.info(request, f'the form is not saved please re enter the form')
     return render(request, "salary_register.html",{'user': user})
 
 
@@ -1283,7 +1470,8 @@ def salary_register_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-       datas = SalaryRegister.objects.all()
+       logged_in_username = request.user.username
+       datas = SalaryRegister.objects.filter(user=logged_in_username)
        return render(request, "dashboard/salary_register_dashboard.html",{"data": datas})
 
 
@@ -1298,8 +1486,10 @@ def staff_movement_form(request):
               nature_of_work = request.POST.get("Nature_of_Work")
               work_done_by = request.POST.get("Work_done_By")
               sign = request.POST.get("Sign")
+              logged_in_user = request.user
+              username = logged_in_user.username
 
-              data = StaffMovement(
+              data = StaffMovement(user=username,
                   date_of_plan=date_of_plan,
                   uqid=uqid,
                   working_area=working_area,
@@ -1310,6 +1500,9 @@ def staff_movement_form(request):
               data.save()
 
               return redirect("staff_movement_note_dashboard")
+        else:
+            messages.info(request, f'the form is not saved please re enter the form')
+
         return render(request, "staff_movement_note.html",{'user': user})
 
 # @login_required(login_url='/login/')
@@ -1318,7 +1511,8 @@ def staff_movement_note_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-     datas = StaffMovement.objects.all()
+     logged_in_username = request.user.username
+     datas = StaffMovement.objects.filter(user=logged_in_username)
      return render(request, "dashboard/staff_movement_note_dashboard.html",{"data": datas})
 
 
@@ -1351,6 +1545,8 @@ def master_records_form(request):
               Remarks = request.POST.get("Remarks")
               Signature = request.POST.get("Signature")
               uploaded_file = request.FILES.get("photo")
+              logged_in_user = request.user
+              username = logged_in_user.username
               relative_file_path = ""
               if uploaded_file:
                   # Save photo to directory
@@ -1368,7 +1564,7 @@ def master_records_form(request):
 
                   relative_file_path = os.path.join("photos", filename)
 
-              data = MasterRecords.objects.create(
+              data = MasterRecords.objects.create(user=username,
                   photo_url=relative_file_path,
                   uqid=uqid,
                   name=name,
@@ -1394,6 +1590,8 @@ def master_records_form(request):
               )
               data.save()
               return redirect("master_records_dashboard")
+          else:
+              messages.info(request, f'the form is not saved please re enter the form')
 
           return render(request, "master_records.html",{"user":user})
 
@@ -1417,6 +1615,12 @@ def master_records_dashboard(request):
         # Redirect to login page with a message
         return redirect("login")
     else:
-        datas = MasterRecords.objects.all()
+        logged_in_username = request.user.username
+        datas = MasterRecords.objects.filter(user=logged_in_username)
         return render(request, "dashboard/master_records_dashboard.html", {"data": datas})
+
+
+
+
+
 

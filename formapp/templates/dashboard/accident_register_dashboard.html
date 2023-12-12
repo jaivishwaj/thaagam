@@ -64,19 +64,20 @@
                                                             <th>Accident Condition</th>
                                                             <th>Accident Place</th>
                                                             <th>Signature</th>
+                                                            <th>User</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                          {% for item in data %}
                                                             <tr>
                                                                 <td>{{ item.uqid }}</td>
-                                                                <td>{{ item.sl_no }}</td>
                                                                 <td>{{ item.date }}</td>
                                                                 <td>{{ item.inmate_name }}</td>
                                                                 <td>{{ item.age_gender }}</td>
                                                                 <td>{{ item.accident_condition }}</td>
                                                                 <td>{{ item.accident_place }}</td>
                                                                 <td>{{ item.signature }}</td>
+                                                                <td>{{ item.user }}</td>
                                                             </tr>
                                                         {% endfor %}
                                                      </tbody>

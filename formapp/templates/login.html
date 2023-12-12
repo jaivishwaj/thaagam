@@ -35,7 +35,17 @@
     <link href="{% static 'main/assets/css/app.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{% static 'main/assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
-  </head></body>
+  </head>
+  {% if messages %}
+  {% for message in messages %}
+
+  <script>
+    alert("{{ message }}");
+  </script>
+
+  {% endfor %}
+  {% endif %}
+<body>
 
     <div class="auth-page-wrapper pt-5">
       <!-- auth page bg -->
