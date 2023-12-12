@@ -623,7 +623,7 @@ def case_history_form(request):
         logged_in_user = request.user
         username = logged_in_user.username
         uploaded_file = request.FILES.get("photo")
-        relative_file_path = ""
+
         if uploaded_file:
             # Save photo to directory
             filename = f"{name}.jpg"
@@ -641,7 +641,7 @@ def case_history_form(request):
             relative_file_path = os.path.join("photos", filename)
 
 
-        data = CaseHistory.objects.create(photo_url = relative_file_path,
+            data = CaseHistory.objects.create(photo_url = relative_file_path,
                                                 user=username,
                                                 name=name,
                                                 age=age,
@@ -659,8 +659,8 @@ def case_history_form(request):
                                                 idProofDetails=idProofDetails,
                                                 policeMemoAvailable=policeMemoAvailable,
                                                 policeStationDetails=policeStationDetails)
-        data.save()
-        return redirect('case_history_record_dashboard')
+            data.save()
+            return redirect('case_history_record_dashboard')
     else:
         messages.info(request, f'the form is not saved please re enter the form')
 
@@ -675,11 +675,10 @@ def case_history_form(request):
 
 def case_history_record_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
-        return redirect("login")
+       return redirect("login")
     else:
      logged_in_username = request.user.username
-     datas = CaseHistory.filter(user=logged_in_username)
+     datas = CaseHistory.objects.filter(user=logged_in_username)
      return render(request, "dashboard/case_history_record_dashboard.html",{"data": datas})
 
 def personal_info_form(request):
@@ -752,7 +751,6 @@ def personal_info_dashboard(request):
      datas = PersonalInfo.objects.filter(user=logged_in_username)
      return render(
         request, "dashboard/personal_information_dashboard.html",{"data": datas})
-
 
 def actionplan_register_form(request):
     user = None
