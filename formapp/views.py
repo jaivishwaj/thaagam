@@ -666,13 +666,6 @@ def case_history_form(request):
 
     return render(request,'case_history.html',{'user': user})
 
-
-
-
-
-
-
-
 def case_history_record_dashboard(request):
     if not request.user.is_authenticated:
        return redirect("login")
@@ -1016,9 +1009,6 @@ def medicine_form(request):
             type_of_disease=type_of_disease,
             tablet_details=tablet_details,
         )
-        # morning=morning,
-        # afternoon=afternoon,
-        # night=night)
 
         datas.save()
 
@@ -1177,18 +1167,6 @@ def staff_attendance_form(request):
         remarks = request.POST.get("remarks")
         logged_in_user = request.user
         username = logged_in_user.username
-
-        # if (
-        #     sno
-        #     and name
-        #     and designation
-        #     and working_hours
-        #     and days
-        #     and working_days
-        #     and leave_days
-        #     and remarks
-        # ):
-            # Create StaffAttendance object
         datas = StaffAttendance.objects.create(user=username,
             uqid=uqid,
             name=name,
@@ -1338,7 +1316,6 @@ def rehabitation_form(request):
         messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "rehabitation.html",{'user': user})
-
 
 def rehabitation_dashboard(request):
     if not request.user.is_authenticated:
