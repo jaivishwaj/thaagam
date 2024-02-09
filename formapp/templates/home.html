@@ -26,25 +26,46 @@
   <link href="{% static 'main/assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
   <style>
 
+    .user_name{
+      color: white;
+      font-weight: 700;
+      font-size: 28px;
+      margin-top: 10px;
+      margin-right: 5px;
+    }
+    .find-btn{
+      color: white;
+      background-color:#f06548;
+      padding: 10px 49px;
+      border-radius:25px;
+      font-weight:600;
+      font-size:16px
+    }
+    .find-btn:hover{
+      background-color: #f06548;
+      color: white;
+
+    }
+
+
   </style>
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbar-example">
-  {% if user %}
-        <p>Welcome, {{ user }}!</p>
+ 
   <!-- Begin page -->
   <div class="layout-wrapper landing">
     <nav class="navbar navbar-expand-lg navbar-landing navbar-light fixed-top" id="navbar">
-      <div class="container">
-        <a class="navbar-brand" href="/home/">
+      <div class="container-fluid">
+        <a class="navbar-brand" style="margin-left: 10px;" href="/home/">
           <img src="{% static 'main/assets/images/logo/black_trans.png' %}" class="card- card-logo-dark" alt="logo dark" height="55" />
           <img src="{% static 'main/assets/images/logo/white_trans.png' %}" class="card-logo card-logo-light" alt="logo light"
             height="55" />
         </a>
-        <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse"
+        <button style="border:1px solid white" class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
           aria-label="Toggle navigation">
-          <i class="mdi mdi-menu"></i>
+          <i style="color:white ;" class="mdi mdi-menu"></i>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -66,9 +87,13 @@
             </li>
           </ul>
 
-          <div class="">
+          <div style="margin-right: 60px;">
             <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
           </div>
+          {% if user %}
+          <div>
+          <p class="user_name">Welcome, <span style="color:#ef6b36"> {{ user }}! </span></p>
+        </div>
         </div>
       </div>
     </nav>
@@ -101,6 +126,9 @@
                 <a href="apps-nft-explore.html" class="btn btn-danger">Explore Now
                   <i class="ri-arrow-right-line align-middle ms-1"></i></a>
               </div> -->
+              <div style="margin-top: 80px;">
+                <h2  class="btn find-btn"> Find <span><img style="width:20px;color:white" src="{% static 'main/assets/images/logo/new_black_search.png' %}" alt=""></span> </h2>
+              </div>
             </div>
           </div>
           <!--end col-->
@@ -117,8 +145,9 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-8">
-            <div class="text-center mb-5">
-              <h2 class="mb-3 fw-semibold lh-base">Forms</h2>
+            <div class="text-center mb-5" style="display: flex;justify-content:center;align-items:center">
+              <h2 style="width: 125px;font-weight: 700; font-size: 40px; color: #242121ce; border-bottom: 5px solid #ef6b36" class="mb-3 fw-semibold lh-base">Forms</h2>
+
             </div>
           </div>
         </div>
@@ -272,7 +301,7 @@
                   </div>
                   <div class="my-2 flex-grow-1">
                     <a href="{% url 'case_history_record_dashboard' %}">
-                      <h3 class="mb-1 text-center">Case History Record</h3>
+                      <h3 class="mb-1 text-center case_history">Case History Record</h3>
                     </a>
                     <!-- <p class="text-muted mb-0">
                         <i class="mdi mdi-ethereum text-primary fs-14"></i>
@@ -377,7 +406,7 @@
                     class="avatar-sm object-fit-cover rounded "
                   />
                     <a href="{% url 'master_records_dashboard' %}">
-                      <h3 class="pt-3 ps-3 text-center">Master Records</h3>
+                      <h3 class="pt-3 ps-3 text-center master_records">Master Records</h3>
                     </a>
                 </div>
               </div>
@@ -959,6 +988,43 @@
   <script src="{% static 'main/assets/libs/swiper/swiper-bundle.min.js' %}"></script>
 
   <script src="{% static 'main/assets/js/pages/nft-landing.init.js' %}"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+  <script>
+   
+    $(document).ready(function(){
+     
+      $('.find-btn').click(function(){
+        var windowHeight = $(window).height();
+        $('html,body').animate({ scrollTop: windowHeight +100},0)
+        $('html,body').animate()
+       
+      })
+    })
+   
+  </script>
+
+  <script>
+   
+
+
+   $(document).ready(function(){
+    $(window).scroll(function(){
+      var scroll=$(this).scrollTop();
+      if(scroll>=200){
+        $('.user_name').css('color','black');
+      }
+      else{
+        $('.user_name').css('color','white')
+      }
+    })
+   })
+    
+    
+  </script>
 
 {% else %}
         <p>User not logged in.</p>

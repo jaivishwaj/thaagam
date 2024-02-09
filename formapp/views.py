@@ -1689,5 +1689,23 @@ def master_records_dashboard(request):
 
 
 
+# # views.py
+# from django.shortcuts import render
+# from .models import Record
+
+# def search_records(request):
+#     if request.method == 'GET':
+#         uqid = request.GET.get('uqid', None)
+#         if uqid:
+#             # Perform a search based on the uqid
+#             records = Record.objects.filter(uqid=uqid)
+#             return render(request, 'records.html', {'records': records})
+#         else:
+#             # If no uqid is provided, return an empty result
+#             return render(request, 'records.html', {'records': []})
+#     else:
+#         # If the request method is not GET, return an empty result
+#         return render(request, 'records.html', {'records': []})
+
 
 
