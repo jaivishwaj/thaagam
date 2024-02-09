@@ -36,22 +36,11 @@ class provision(models.Model):
         return str(self.material_name)
 
 
-
-
-
-
-
-
-
-
-
-
-
 class Reintegration(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     admission_no = models.IntegerField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     resident_name = models.CharField(max_length=255)
     date_of_joining = models.DateField()
     date_of_leaving = models.DateField(null=True, blank=True)
@@ -72,7 +61,7 @@ class VisitorRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     name = models.CharField(max_length=255)
     whom_to_see = models.CharField(max_length=255)
     in_time = models.TimeField()
@@ -94,7 +83,7 @@ class VisitorRegister(models.Model):
 class PerformanceAppraisal(models.Model):
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     beginning_children = models.IntegerField()
     new_admission = models.CharField(max_length=100)
     total_strength = models.IntegerField()
@@ -116,7 +105,7 @@ class Resident(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     pupilName = models.CharField(max_length=100)
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     dob = models.DateField()
     attendance = models.CharField(max_length=255, default='-')
     daysPresent = models.IntegerField()
@@ -131,7 +120,7 @@ class SocialEntertainment(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     admission = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     workDetails = models.TextField()
@@ -143,7 +132,7 @@ class SocialEntertainment(models.Model):
 class CaseHistory(models.Model):
     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     name = models.CharField(max_length=100)
     age = models.IntegerField()
     sex = models.CharField(max_length=10)
@@ -227,7 +216,7 @@ class AccidentRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     user = models.CharField(max_length=200)
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     date = models.DateField()
     inmate_name = models.CharField(max_length=100)
     age_gender = models.IntegerField()
@@ -256,7 +245,7 @@ class Asset(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date_purchase = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     name_asset = models.CharField(max_length=100)
     no_of_items = models.IntegerField()
     cost = models.IntegerField()
@@ -272,7 +261,7 @@ class BpPulsenote(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     name = models.CharField(max_length=100)
     pulse = models.IntegerField()
     bp = models.IntegerField()
@@ -286,7 +275,7 @@ class CounsellingRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     name = models.CharField(max_length=100)
     number_of_sessions = models.IntegerField()
     observation_identification = models.TextField()
@@ -300,7 +289,7 @@ class MedicalCamp(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     place = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     age = models.IntegerField()
@@ -316,7 +305,7 @@ class Medicine(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     name = models.CharField(max_length=100)
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     age = models.IntegerField()
     type_of_disease = models.CharField(max_length=100)
     tablet_details = models.TextField()
@@ -332,7 +321,7 @@ class NightSurvey(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     time = models.TimeField()
     place = models.CharField(max_length=255)
     details_of_visit = models.TextField()
@@ -344,7 +333,7 @@ class NightSurvey(models.Model):
 class PersonalInfo(models.Model):
     name = models.CharField(max_length=100, default="")
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     date = models.DateField(default=timezone.now)
     street_address = models.CharField(max_length=150, default="")
     street_address_2 = models.CharField(max_length=150, blank=True)
@@ -401,7 +390,7 @@ class StaffAttendance(models.Model):
 
     name = models.CharField(max_length=100)
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     designation = models.CharField(max_length=255)
     working_hours = models.TimeField()
     days = models.IntegerField()
@@ -417,7 +406,7 @@ class Stock(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     particulars = models.CharField(max_length=255)
     receipt = models.CharField(max_length=255)
     issued = models.IntegerField()
@@ -429,7 +418,7 @@ class Stock(models.Model):
 
 class EmploymentLink(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     user = models.CharField(max_length=200)
     admission_no = models.IntegerField()
     admission_date = models.DateField()
@@ -450,7 +439,7 @@ class Rehabitation(models.Model):
         ('female', 'Female'),
         ('others', 'Others'),
     ]
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     user = models.CharField(max_length=200)
     admission_number = models.CharField(max_length=50)
     name_of_the_resident = models.CharField(max_length=100)
@@ -507,7 +496,7 @@ class SalaryRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     name = models.CharField(max_length=100)
     designation = models.CharField(max_length=100)
     salary = models.IntegerField()
@@ -521,7 +510,7 @@ class StaffMovement(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date_of_plan = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     working_area = models.CharField(max_length=255)
     nature_of_work = models.CharField(max_length=255)
     work_done_by = models.CharField(max_length=255)
@@ -557,7 +546,7 @@ class MasterRecords(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
     user = models.CharField(max_length=200)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     name = models.CharField(max_length=100)
     Aid_no = models.IntegerField()
     Age_gender = models.CharField(max_length=50)

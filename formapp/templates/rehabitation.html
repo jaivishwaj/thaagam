@@ -13,14 +13,14 @@
 
 <body>
  {% if user %}
-        <p>Welcome, {{ user }}!</p>
+        <!-- <p>Welcome, {{ user }}!</p> -->
     <div class="container-fluid ">
         <div class="row justify-content-center d-flex align-items-center" style="height: 100vh;">
             <div class="col-md-7">
                 <div class="card p-4 mb-2">
                     <div class="card-body">
                         <div class="d-flex justify-content-end">
-                            <a href="{% url 'rehabitaion_dashboard' %}" class="btn-close" aria-label="Close"></a>
+                            <a href="{% url 'rehabitation_dashboard' %}" class="btn-close" aria-label="Close"></a>
                         </div>
                         <form action="" method="post">
                             {% csrf_token %}

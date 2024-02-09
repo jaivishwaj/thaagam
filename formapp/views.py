@@ -86,7 +86,7 @@ def signupuser(request):
 
     return render(request, 'signup.html')
 
-from django.contrib.auth import authenticate,login
+
 #----------------------------------------------------------!-------------------------------------------------------------
 # def loginuser(request):
 
@@ -113,6 +113,7 @@ from django.contrib.auth import authenticate,login
 #             return redirect('loginfails')
 #     return render(request, 'login.html')
 #----------------------------------------------------------^-------------------------------------------------------------
+from django.contrib.auth import authenticate,login
 def loginuser(request):
     if request.method == 'POST':
         username = request.POST.get('username')  # Assuming 'username' is the field name
@@ -188,10 +189,9 @@ def home(request):
 #
 #     return render(request, 'signup.html')
 
+
+
 from django.contrib.auth import authenticate,login
-
-
-
 def accident_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1491,84 +1491,176 @@ def staff_movement_note_dashboard(request):
      return render(request, "dashboard/staff_movement_note_dashboard.html",{"data": datas})
 
 
+# def master_records_form(request):
+#           user = None
+#           if 'user' in request.session:
+#              user = request.session['user']
+#           if request.method == "POST":
+#               uqid = request.POST.get("uqid")
+#               name = request.POST.get("name")
+#               Aid_no = request.POST.get("Aid_no")
+#               Age_gender = request.POST.get("Age_gender")
+#               dob = request.POST.get("dob")
+#               Date_Of_Admission = request.POST.get("Date_Of_Admission")
+#               Date_Of_Leaving = request.POST.get("Date_Of_Leaving")
+#               Family_Contact_No = request.POST.get("Family_Contact_No")
+#               Relation = request.POST.get("Relation")
+#               Permanent_Address = request.POST.get("Permanent_Address")
+#               Mode_Of_Identification_Rescue = request.POST.get(
+#                   "Mode_Of_Identification_Rescue"
+#               )
+#               Identification_Mark = request.POST.get("Identification_Mark")
+#               Identification_Papers = request.POST.get("Identification_Papers")
+#               Rehabilitation_Measures = request.POST.get("Rehabilitation_Measures")
+#               Reason_For_Leaving_Shelter = request.POST.get("Reason_For_Leaving_Shelter")
+#               Follow_Up_Action = request.POST.get("Follow_Up_Action")
+#               Second_Follow_Up = request.POST.get("Second_Follow_Up")
+#               Medical_Status = request.POST.get("Medical_Status")
+#               File_Closure_Status = request.POST.get("File_Closure_Status")
+#               Remarks = request.POST.get("Remarks")
+#               Signature = request.POST.get("Signature")
+#               uploaded_file = request.FILES.get("photo")
+#               logged_in_user = request.user
+#               username = logged_in_user.username
+#               relative_file_path = ""
+#               if uploaded_file:
+#                   # Save photo to directory
+#                   filename = f"{name}.jpg"
+#                   photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
+
+#                   if not os.path.exists(photos_dir):
+#                       os.makedirs(photos_dir)
+
+#                   save_path = os.path.join(photos_dir, filename)
+
+#                   with open(save_path, "wb") as destination:
+#                       for chunk in uploaded_file.chunks():
+#                           destination.write(chunk)
+
+#                   relative_file_path = os.path.join("photos", filename)
+
+#               data = MasterRecords.objects.create(user=username,
+#                   photo_url=relative_file_path,
+#                   uqid=uqid,
+#                   name=name,
+#                   Aid_no=Aid_no,
+#                   Age_gender=Age_gender,
+#                   dob=dob,
+#                   Date_Of_Admission=Date_Of_Admission,
+#                   Date_Of_Leaving=Date_Of_Leaving,
+#                   Family_Contact_No=Family_Contact_No,
+#                   Relation=Relation,
+#                   Permanent_Address=Permanent_Address,
+#                   Mode_Of_Identification_Rescue=Mode_Of_Identification_Rescue,
+#                   Identification_Mark=Identification_Mark,
+#                   Identification_Papers=Identification_Papers,
+#                   Rehabilitation_Measures=Rehabilitation_Measures,
+#                   Reason_For_Leaving_Shelter=Reason_For_Leaving_Shelter,
+#                   Follow_Up_Action=Follow_Up_Action,
+#                   Second_Follow_Up=Second_Follow_Up,
+#                   Medical_Status=Medical_Status,
+#                   File_Closure_Status=File_Closure_Status,
+#                   Remarks=Remarks,
+#                   Signature=Signature,
+#               )
+#               data.save()
+#               return redirect("master_records_dashboard")
+#           else:
+#               messages.info(request, f'the form is not saved please re enter the form')
+
+#           return render(request, "master_records.html",{"user":user})
+
+import random
+import string
+
+def generate_unique_id(length=4):
+    # Generate a unique identifier using alphanumeric characters
+    characters = string.ascii_letters + string.digits
+    unique_id = ''.join(random.choice(characters) for _ in range(length))
+    return unique_id
+
 def master_records_form(request):
-          user = None
-          if 'user' in request.session:
-             user = request.session['user']
-          if request.method == "POST":
-              uqid = request.POST.get("uqid")
-              name = request.POST.get("name")
-              Aid_no = request.POST.get("Aid_no")
-              Age_gender = request.POST.get("Age_gender")
-              dob = request.POST.get("dob")
-              Date_Of_Admission = request.POST.get("Date_Of_Admission")
-              Date_Of_Leaving = request.POST.get("Date_Of_Leaving")
-              Family_Contact_No = request.POST.get("Family_Contact_No")
-              Relation = request.POST.get("Relation")
-              Permanent_Address = request.POST.get("Permanent_Address")
-              Mode_Of_Identification_Rescue = request.POST.get(
-                  "Mode_Of_Identification_Rescue"
-              )
-              Identification_Mark = request.POST.get("Identification_Mark")
-              Identification_Papers = request.POST.get("Identification_Papers")
-              Rehabilitation_Measures = request.POST.get("Rehabilitation_Measures")
-              Reason_For_Leaving_Shelter = request.POST.get("Reason_For_Leaving_Shelter")
-              Follow_Up_Action = request.POST.get("Follow_Up_Action")
-              Second_Follow_Up = request.POST.get("Second_Follow_Up")
-              Medical_Status = request.POST.get("Medical_Status")
-              File_Closure_Status = request.POST.get("File_Closure_Status")
-              Remarks = request.POST.get("Remarks")
-              Signature = request.POST.get("Signature")
-              uploaded_file = request.FILES.get("photo")
-              logged_in_user = request.user
-              username = logged_in_user.username
-              relative_file_path = ""
-              if uploaded_file:
-                  # Save photo to directory
-                  filename = f"{name}.jpg"
-                  photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
+    user = None
+    if 'user' in request.session:
+        user = request.session['user']
+    if request.method == "POST":
+        # Generate a unique ID
+        uqid = generate_unique_id()
 
-                  if not os.path.exists(photos_dir):
-                      os.makedirs(photos_dir)
+        name = request.POST.get("name")
+        Aid_no = request.POST.get("Aid_no")
+        Age_gender = request.POST.get("Age_gender")
+        dob = request.POST.get("dob")
+        Date_Of_Admission = request.POST.get("Date_Of_Admission")
+        Date_Of_Leaving = request.POST.get("Date_Of_Leaving")
+        Family_Contact_No = request.POST.get("Family_Contact_No")
+        Relation = request.POST.get("Relation")
+        Permanent_Address = request.POST.get("Permanent_Address")
+        Mode_Of_Identification_Rescue = request.POST.get("Mode_Of_Identification_Rescue")
+        Identification_Mark = request.POST.get("Identification_Mark")
+        Identification_Papers = request.POST.get("Identification_Papers")
+        Rehabilitation_Measures = request.POST.get("Rehabilitation_Measures")
+        Reason_For_Leaving_Shelter = request.POST.get("Reason_For_Leaving_Shelter")
+        Follow_Up_Action = request.POST.get("Follow_Up_Action")
+        Second_Follow_Up = request.POST.get("Second_Follow_Up")
+        Medical_Status = request.POST.get("Medical_Status")
+        File_Closure_Status = request.POST.get("File_Closure_Status")
+        Remarks = request.POST.get("Remarks")
+        Signature = request.POST.get("Signature")
+        uploaded_file = request.FILES.get("photo")
+        logged_in_user = request.user
+        username = logged_in_user.username
+        relative_file_path = ""
+        if uploaded_file:
+            # Save photo to directory
+            filename = f"{name}.jpg"
+            photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
 
-                  save_path = os.path.join(photos_dir, filename)
+            if not os.path.exists(photos_dir):
+                os.makedirs(photos_dir)
 
-                  with open(save_path, "wb") as destination:
-                      for chunk in uploaded_file.chunks():
-                          destination.write(chunk)
+            save_path = os.path.join(photos_dir, filename)
 
-                  relative_file_path = os.path.join("photos", filename)
+            with open(save_path, "wb") as destination:
+                for chunk in uploaded_file.chunks():
+                    destination.write(chunk)
 
-              data = MasterRecords.objects.create(user=username,
-                  photo_url=relative_file_path,
-                  uqid=uqid,
-                  name=name,
-                  Aid_no=Aid_no,
-                  Age_gender=Age_gender,
-                  dob=dob,
-                  Date_Of_Admission=Date_Of_Admission,
-                  Date_Of_Leaving=Date_Of_Leaving,
-                  Family_Contact_No=Family_Contact_No,
-                  Relation=Relation,
-                  Permanent_Address=Permanent_Address,
-                  Mode_Of_Identification_Rescue=Mode_Of_Identification_Rescue,
-                  Identification_Mark=Identification_Mark,
-                  Identification_Papers=Identification_Papers,
-                  Rehabilitation_Measures=Rehabilitation_Measures,
-                  Reason_For_Leaving_Shelter=Reason_For_Leaving_Shelter,
-                  Follow_Up_Action=Follow_Up_Action,
-                  Second_Follow_Up=Second_Follow_Up,
-                  Medical_Status=Medical_Status,
-                  File_Closure_Status=File_Closure_Status,
-                  Remarks=Remarks,
-                  Signature=Signature,
-              )
-              data.save()
-              return redirect("master_records_dashboard")
-          else:
-              messages.info(request, f'the form is not saved please re enter the form')
+            relative_file_path = os.path.join("photos", filename)
 
-          return render(request, "master_records.html",{"user":user})
+        data = MasterRecords.objects.create(user=username,
+            photo_url=relative_file_path,
+            uqid=uqid,
+            name=name,
+            Aid_no=Aid_no,
+            Age_gender=Age_gender,
+            dob=dob,
+            Date_Of_Admission=Date_Of_Admission,
+            Date_Of_Leaving=Date_Of_Leaving,
+            Family_Contact_No=Family_Contact_No,
+            Relation=Relation,
+            Permanent_Address=Permanent_Address,
+            Mode_Of_Identification_Rescue=Mode_Of_Identification_Rescue,
+            Identification_Mark=Identification_Mark,
+            Identification_Papers=Identification_Papers,
+            Rehabilitation_Measures=Rehabilitation_Measures,
+            Reason_For_Leaving_Shelter=Reason_For_Leaving_Shelter,
+            Follow_Up_Action=Follow_Up_Action,
+            Second_Follow_Up=Second_Follow_Up,
+            Medical_Status=Medical_Status,
+            File_Closure_Status=File_Closure_Status,
+            Remarks=Remarks,
+            Signature=Signature,
+        )
+        data.save()
+        return redirect("master_records_dashboard")
+    else:
+        messages.info(request, 'The form is not saved. Please re-enter the form')
+
+    return render(request, "master_records.html", {"user": user})
+
+
+
+
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
