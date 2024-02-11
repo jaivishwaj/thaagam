@@ -1,6 +1,6 @@
 from django import forms
-from .models import provision,Reintegration,VisitorRegister,PerformanceAppraisal,Resident,SocialEntertainment,CaseHistory,ActionplanRegister,AwarnessRegister,BpPulsenote,CounsellingRegister,MedicalCamp,Medicine,NightSurvey,SkillTraining,SmcRegister,StaffAttendence,Stock,EmploymentLink,Rehabitation,DeathRegister,AccidentRegister
-
+from .models import provision,Reintegration,VisitorRegister,PerformanceAppraisal,Resident,SocialEntertainment,CaseHistory,ActionplanRegister,AwarnessRegister,BpPulsenote,CounsellingRegister,MedicalCamp,Medicine,NightSurvey,SkillTraining,SmcRegister,StaffAttendence,Stock,EmploymentLink,Rehabitation,DeathRegister,AccidentRegister,Record
+ 
 class ProvisionForm(forms.ModelForm):
     class Meta:
         model = provision
@@ -127,4 +127,10 @@ class DeathRegisterForms(forms.ModelForm):
 class AccidentRegisterForms(forms.ModelForm):
     class Meta:
         model = AccidentRegister
+        fields = '__all__'
+
+
+class RecordForm(forms.ModelForm):
+    class Meta:
+        model = Record
         fields = '__all__'

@@ -534,14 +534,6 @@ class userprofile(models.Model):
         return str(self.username)
 
 
-
-
-
-
-
-
-
-
 class MasterRecords(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
@@ -574,3 +566,40 @@ class MasterRecords(models.Model):
 
 
 
+# from django.db import models
+
+# class Record(models.Model):
+#     uqid = models.CharField(max_length=100)
+#     # Other fields for your record details
+
+#     def __str__(self):
+#         return self.uqid
+
+
+
+
+class Record(models.Model):
+    uqid = models.CharField(max_length=100,null=True,blank=True)
+    get_records_by_uqid = models.ForeignKey(MasterRecords, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.uqid
+
+    @classmethod
+    def get_records_by_uqid(cls, uqid):
+        """
+        Retrieve all records with the given uqid.
+        """
+        return cls.objects.filter(uqid=uqid)
+
+# class Form(models.Model):
+#     # Define your form fields here
+#     pass
+
+# class Record(models.Model):
+#     uqid = models.CharField(max_length=100,null=True,blank=True)
+#     # form = models.ForeignKey(Form, on_delete=models.CASCADE)
+#     # Other fields for the record
+
+#     def __str__(self):
+#         return self.uqid    

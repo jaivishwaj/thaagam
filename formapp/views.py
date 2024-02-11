@@ -61,6 +61,9 @@ from django.contrib.auth import get_user_model
 # from .models import userprofile
 from django.contrib.auth.models import User
 
+from .models import Record
+from django.core.paginator import Paginator
+from django.http import JsonResponse
 
 def signupuser(request):
     if request.method == 'POST':
@@ -1689,23 +1692,121 @@ def master_records_dashboard(request):
 
 
 
-# # views.py
-# from django.shortcuts import render
-# from .models import Record
-
-# def search_records(request):
-#     if request.method == 'GET':
-#         uqid = request.GET.get('uqid', None)
+# def records(request):
+#     if request.method == 'POST':
+#         uqid = request.POST.get('uqid', None)
 #         if uqid:
 #             # Perform a search based on the uqid
 #             records = Record.objects.filter(uqid=uqid)
-#             return render(request, 'records.html', {'records': records})
+#             return render(request, 'dashboard/records.html', {'records': records})
 #         else:
 #             # If no uqid is provided, return an empty result
-#             return render(request, 'records.html', {'records': []})
+#             return render(request, 'dashboard/records.html', {'records': []})
 #     else:
 #         # If the request method is not GET, return an empty result
-#         return render(request, 'records.html', {'records': []})
+#         return render(request, 'dashboard/records.html', {'records': []})
+
+
+def records(request):
+    
+    if 'uqid' in request.GET:
+        uqid = request.GET['uqid']
+        records = Record.objects.filter(uqid__icontains=uqid)
+    else:
+        records = Record.objects.all()
+    
+    context = {'records': records}
+    return render(request, 'dashboard/records.html', context)
 
 
 
+def record_edit(request, record_id):
+    record = get_object_or_404(Record, id=record_id)
+    if request.method == 'POST':
+        form = RecordForm(request.POST, instance=record)
+        if form.is_valid():
+            form.save()
+            return redirect('records', record_id=record.id)
+    else:
+        form = RecordForm(instance=record)
+    return render(request, 'dashboard/edit_records.html', {'form': form})
+
+
+def record_delete(request, record_id):
+    record = get_object_or_404(Record, id=record_id)
+    if request.method == 'POST':
+        record.delete()
+        return redirect('records')
+    # return render(request, 'dashboard/delete_records.html', {'record': record})
+
+
+
+# def search_records(request):
+#     if 'uqid' in request.GET:
+#         uqid = request.GET['uqid']
+#         records = Record.objects.filter(uqid__icontains=uqid)
+#         return render(request, 'search_results.html', {'records': records, 'uqid': uqid})
+#     else:
+#         return render(request, 'search_results.html', {'records': None, 'uqid': None})
+
+
+
+# def search_records(request):
+#     if 'uqid' in request.GET:
+#         uqid = request.GET['uqid']
+#         # Filter records based on the search query (uqid)
+#         matched_records = Record.objects.filter(uqid__icontains=uqid)
+#         context = {'matched_records': matched_records, 'search_query': uqid}
+#         return render(request, 'records.html', context)
+#     else:
+#         # If there's no search query, return an empty result
+#         return render(request, 'records.html', {'matched_records': None})
+
+
+def search(request):
+    search_query = request.GET.get("search_query", "")
+    page_number = request.GET.get("page", 1)
+    results_per_page = 10
+
+    # Filter records based on search query (uqid)
+    matched_records = Record.objects.filter(uqid__icontains=search_query)
+
+    # Paginate the results
+    paginator = Paginator(matched_records, results_per_page)
+    page = paginator.get_page(page_number)
+
+    # Format results for JSON response
+    results = [
+        {
+            "uqid": record.uqid,
+            "name": record.name,
+            "date_of_admission": record.date_of_admission,
+            "date_of_leaving": record.date_of_leaving,
+            "family_contact_no": record.family_contact_no,
+            "relation": record.relation,
+            "permanent_address": record.permanent_address,
+            "mode_of_identification_rescue": record.mode_of_identification_rescue,
+            "identification_mark": record.identification_mark,
+            "identification_papers": record.identification_papers,
+            "rehabilitation_measures": record.rehabilitation_measures,
+            "reason_for_leaving_shelter": record.reason_for_leaving_shelter,
+            "follow_up_action": record.follow_up_action,
+            "second_follow_up": record.second_follow_up,
+            "medical_status": record.medical_status,
+            "file_closure_status": record.file_closure_status,
+            "remarks": record.remarks,
+            "signature": record.signature or "",
+            "image": record.image.url if record.image else None,
+            "uqid": record.uqid
+        }
+        for record in page
+    ]
+
+    return JsonResponse(
+        {
+            "results": results,
+            "search_query": search_query,
+            "has_previous": page.has_previous(),
+            "has_next": page.has_next(),
+        }
+    )
