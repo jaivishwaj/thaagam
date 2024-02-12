@@ -55,7 +55,8 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>Uqid</th>
+                                                            <th>S NO</th>
+                                                            <!-- <th>Uqid</th> -->
                                                             <th>Date of Purchase</th>
                                                             <th>Name of the Asset</th>
                                                             <th>No of items Purchased</th>
@@ -64,20 +65,25 @@
                                                             <th>Place were asset is Placed in the shelter</th>
                                                             <th>Owner of Asset</th>
                                                             <th>Dispose Date</th>
+                                                            <th>Action</th>
+                                                            
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
-                                                                <td>{{ item.uqid }}</td>
+                                                                <td>{{ forloop.counter }}</td>
+                                                                <!-- <td>{{ item.uqid }}</td> -->
                                                                 <td>{{ item.date_purchase }}</td>
                                                                 <td>{{ item.name_asset }}</td>
                                                                 <td>{{ item.no_of_items }}</td>
-                                                                <td>  &#x20B9; {{ item.cost }}</td>
+                                                                <td>{{ item.cost }}</td>
                                                                 <td>{{ item.bill_no }}</td>
                                                                 <td>{{ item.place_asset }}</td>
                                                                 <td>{{ item.owner_asset }}</td>
                                                                 <td>{{ item.dispose_date }}</td>
+                                                                <td> <a href="{% url 'record_edit' %}" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 10px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td></td>
                                                             </tr>
                                                         {% endfor %}
                                                      </tbody>
@@ -147,4 +153,64 @@
 
 
     <!-- JAVASCRIPT -->
+
+
+
+    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Add Notes</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                          <div class="col-md-5">
+                            <label  class="form-label fs-16">Date & time:</label>
+                          </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="text" class="form-control"  data-flatpickr
+                              data-date-format="d M, Y H:i" placeholder="Select Date & Time">
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Receipt Name:</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control"  placeholder="Enter your Receipt Name" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Receipt Mobile No:</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="text" class="form-control"  placeholder="Enter your Receipt Mobile No:" />
+                          </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Previous Notes:</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="number" class="form-control" 
+                                    placeholder="Enter your Previous Notes" />
+                            </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Add Notes:</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                              <textarea class="form-control"  placeholder="Enter your Add Notes"></textarea>
+                          </div>
+                          
+                          </div>
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
   {%  endblock %}

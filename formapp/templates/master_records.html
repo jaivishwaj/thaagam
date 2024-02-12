@@ -30,10 +30,11 @@
           
               <h2 class="mt-3 text-center f-bold">MASTER RECORDS</h2>
           <div class="row">
-               <div class="form-group mt-4 col-md-6">
+               <!-- <div class="form-group mt-4 col-md-6">
                     <label for="uqid" class="">Unique Id</label>
-                    <input type="number" class="form-control mt-2"id="uqid" name="uqid" placeholder="Enter Unique Id"  />
-               </div>
+                    <input type="number" class="form-control mt-2"id="uqid" name="uqid" placeholder="Enter Unique Id" readonly />
+               </div> -->
+
 
 
                 <div class="form-group col-md-6 mt-4">
@@ -115,6 +116,18 @@
                 <div class="form-group col-md-6 mt-4">
                   <label for="File_Closure_Status">FILE CLOSURE STATUS:</label>
                   <input type="text" class="form-control mt-2" id="File_Closure_Status" name="File_Closure_Status" required>
+                </div>
+                <div class="form-group col-md-6 mt-4">
+                  <label for="File_Closure_Status">POLICE MEMO AVILABLE:</label>
+                  <select name="police_memo" id="police_memo" class="form-control mt-2" required>
+                    <option selected>--- Select Police Memo ---</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-12 mt-4 police-station-details" style="display: none;">
+                  <label for="File_Closure_Status">POLICE STATIONS DETAILS:</label>
+                  <input type="text" class="form-control mt-2"  name="police-station-details" required>
                 </div>
                 <div class="form-group col-md-6 mt-4">
                   <label for="Remarks">Remarks:</label>

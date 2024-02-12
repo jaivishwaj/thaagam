@@ -228,7 +228,7 @@ class AccidentRegister(models.Model):
         return str(self.uqid)
 
 class AwarnesRegister(models.Model):
-    # uqid = AlphaNumericField(unique=True, editable=False)
+    uqid = models.CharField(max_length=4)
     date = models.DateField()
     user = models.CharField(max_length=200)
     time = models.TimeField()
@@ -458,7 +458,7 @@ class Rehabitation(models.Model):
 
 class DeathRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
-    uqid = models.IntegerField()
+    uqid = models.CharField(max_length=4)
     user = models.CharField(max_length=200)
     name_of_the_death_person = models.CharField(max_length=100)
     age_sex = models.CharField(max_length=20, null=True, blank=True)
@@ -557,6 +557,8 @@ class MasterRecords(models.Model):
     Second_Follow_Up = models.TextField()
     Medical_Status = models.CharField(max_length=50)
     File_Closure_Status = models.CharField(max_length=50)
+    police_memo = models.CharField(max_length=100, blank=True, null=True)
+    police_Station = models.CharField(max_length=100, blank=True, null=True)
     Remarks = models.TextField()
     Signature = models.CharField(max_length=100)
 
@@ -566,31 +568,31 @@ class MasterRecords(models.Model):
 
 
 
-# from django.db import models
-
-# class Record(models.Model):
-#     uqid = models.CharField(max_length=100)
-#     # Other fields for your record details
-
-#     def __str__(self):
-#         return self.uqid
-
-
-
+from django.db import models
 
 class Record(models.Model):
-    uqid = models.CharField(max_length=100,null=True,blank=True)
-    get_records_by_uqid = models.ForeignKey(MasterRecords, on_delete=models.CASCADE, null=True, blank=True)
+    uqid = models.CharField(max_length=100)
+    # Other fields for your record details
 
     def __str__(self):
         return self.uqid
 
-    @classmethod
-    def get_records_by_uqid(cls, uqid):
-        """
-        Retrieve all records with the given uqid.
-        """
-        return cls.objects.filter(uqid=uqid)
+
+
+
+# class Record(models.Model):
+#     uqid = models.CharField(max_length=100,null=True,blank=True)
+#     get_records_by_uqid = models.ForeignKey(MasterRecords, on_delete=models.CASCADE, null=True, blank=True)
+
+#     def __str__(self):
+#         return self.uqid
+
+#     @classmethod
+#     def get_records_by_uqid(cls, uqid):
+#         """
+#         Retrieve all records with the given uqid.
+#         """
+#         return cls.objects.filter(uqid=uqid)
 
 # class Form(models.Model):
 #     # Define your form fields here

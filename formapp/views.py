@@ -56,7 +56,7 @@ from django.contrib.auth.decorators import login_required
 from .models import provision
 
 from django.contrib.auth import logout
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 # from .models import userprofile
 from django.contrib.auth.models import User
@@ -789,6 +789,7 @@ def awarnes_register_form(request):
     if 'user' in request.session:
         user = request.session['user']
     if request.method == "POST":
+        uqid = request.POST.get("uqid")
         date = request.POST.get("date")
         time = request.POST.get("time")
         place = request.POST.get("place")
@@ -797,7 +798,7 @@ def awarnes_register_form(request):
         logged_in_user = request.user
         username = logged_in_user.username
         data = AwarnesRegister.objects.create(user=username,
-
+            uqid=uqid,
             date=date,
             time=time,
             place=place,
@@ -829,7 +830,7 @@ def asset_form(request):
     if 'user' in request.session:
         user = request.session['user']
     if request.method == "POST":
-        uqid = request.POST.get("uqid")
+        # uqid = request.POST.get("uqid")
         date_purchase = request.POST.get("date_purchase")
         name_asset = request.POST.get("name_asset")
         no_of_items = request.POST.get("no_of_items")
@@ -841,7 +842,7 @@ def asset_form(request):
         logged_in_user = request.user
         username = logged_in_user.username
         data = Asset.objects.create(user=username,
-            uqid=uqid,
+            # uqid=uqid,
             date_purchase=date_purchase,
             name_asset=name_asset,
             no_of_items=no_of_items,
@@ -1608,6 +1609,8 @@ def master_records_form(request):
         Second_Follow_Up = request.POST.get("Second_Follow_Up")
         Medical_Status = request.POST.get("Medical_Status")
         File_Closure_Status = request.POST.get("File_Closure_Status")
+        police_memo = request.POST.get("police_memo")
+        police_Station = request.POST.get("police_Station")
         Remarks = request.POST.get("Remarks")
         Signature = request.POST.get("Signature")
         uploaded_file = request.FILES.get("photo")
@@ -1651,6 +1654,8 @@ def master_records_form(request):
             Second_Follow_Up=Second_Follow_Up,
             Medical_Status=Medical_Status,
             File_Closure_Status=File_Closure_Status,
+            police_memo=police_memo,
+            police_Station=police_Station,
             Remarks=Remarks,
             Signature=Signature,
         )
@@ -1707,18 +1712,25 @@ def master_records_dashboard(request):
 #         return render(request, 'dashboard/records.html', {'records': []})
 
 
+# def records(request):
+    
+#     if 'uqid' in request.GET:
+#         uqid = request.GET['uqid']
+#         records = Record.objects.filter(uqid__icontains=uqid)
+#     else:
+#         records = Record.objects.all()
+    
+#     context = {'records': records}
+#     return render(request, 'dashboard/records.html', context)
+
+
+
 def records(request):
-    
-    if 'uqid' in request.GET:
-        uqid = request.GET['uqid']
-        records = Record.objects.filter(uqid__icontains=uqid)
-    else:
-        records = Record.objects.all()
-    
-    context = {'records': records}
-    return render(request, 'dashboard/records.html', context)
-
-
+    if request.method == 'GET':
+        uqid = request.GET.get('uqid','')
+        master_records = MasterRecords.objects.filter(uqid=uqid)
+        return render(request, 'dashboard/records.html', {'master_records': master_records})
+        
 
 def record_edit(request, record_id):
     record = get_object_or_404(Record, id=record_id)
@@ -1751,62 +1763,14 @@ def record_delete(request, record_id):
 
 
 
-# def search_records(request):
-#     if 'uqid' in request.GET:
-#         uqid = request.GET['uqid']
-#         # Filter records based on the search query (uqid)
-#         matched_records = Record.objects.filter(uqid__icontains=uqid)
-#         context = {'matched_records': matched_records, 'search_query': uqid}
-#         return render(request, 'records.html', context)
-#     else:
-#         # If there's no search query, return an empty result
-#         return render(request, 'records.html', {'matched_records': None})
-
-
 def search(request):
-    search_query = request.GET.get("search_query", "")
-    page_number = request.GET.get("page", 1)
-    results_per_page = 10
+    if 'uqid' in request.GET:
+        uqid = request.GET['uqid']
+        # Filter records based on the search query (uqid)
+        matched_records = Record.objects.filter(uqid__icontains=uqid)
+        context = {'matched_records': matched_records, 'search_query': uqid}
+        return render(request, 'dashboard/records.html', context)
+    else:
+        # If there's no search query, return an empty result
+        return render(request, 'dashboard/records.html', {'matched_records': None})
 
-    # Filter records based on search query (uqid)
-    matched_records = Record.objects.filter(uqid__icontains=search_query)
-
-    # Paginate the results
-    paginator = Paginator(matched_records, results_per_page)
-    page = paginator.get_page(page_number)
-
-    # Format results for JSON response
-    results = [
-        {
-            "uqid": record.uqid,
-            "name": record.name,
-            "date_of_admission": record.date_of_admission,
-            "date_of_leaving": record.date_of_leaving,
-            "family_contact_no": record.family_contact_no,
-            "relation": record.relation,
-            "permanent_address": record.permanent_address,
-            "mode_of_identification_rescue": record.mode_of_identification_rescue,
-            "identification_mark": record.identification_mark,
-            "identification_papers": record.identification_papers,
-            "rehabilitation_measures": record.rehabilitation_measures,
-            "reason_for_leaving_shelter": record.reason_for_leaving_shelter,
-            "follow_up_action": record.follow_up_action,
-            "second_follow_up": record.second_follow_up,
-            "medical_status": record.medical_status,
-            "file_closure_status": record.file_closure_status,
-            "remarks": record.remarks,
-            "signature": record.signature or "",
-            "image": record.image.url if record.image else None,
-            "uqid": record.uqid
-        }
-        for record in page
-    ]
-
-    return JsonResponse(
-        {
-            "results": results,
-            "search_query": search_query,
-            "has_previous": page.has_previous(),
-            "has_next": page.has_next(),
-        }
-    )

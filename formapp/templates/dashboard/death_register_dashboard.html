@@ -56,6 +56,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>S No</th>
                                                             <th>Uqid</th>
                                                             <th>Name of the Death Person</th>
                                                             <th>Age / sex</th>
@@ -71,8 +72,8 @@
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
+                                                                <td>{{ forloop.counter }}</td>
                                                                 <td>{{ item.uqid }}</td>
-                                                                <td>{{ item.sno }}</td>
                                                                 <td>{{ item.name_of_the_death_person }}</td>
                                                                 <td>{{ item.age_sex }}</td>
                                                                 <td>{{ item.date_of_death }}</td>

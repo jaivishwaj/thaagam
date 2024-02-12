@@ -54,23 +54,28 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th> S No</th>
                                                             <th>Uqid</th>
                                                             <th>Date</th>
                                                             <th>Time</th>
                                                             <th>Place</th>
                                                             <th>Details Of the Programme</th>
                                                             <th>Who Part in the Programme</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                        {% for item in data %}
                                                             <tr>
+                                                                <td>{{forloop.counter}}</td>
                                                                 <td>{{ item.uqid }}</td>
                                                                 <td>{{ item.date }}</td>
                                                                 <td>{{ item.time }}</td>
                                                                 <td>{{ item.place }}</td>
                                                                 <td>{{ item.details }}</td>
                                                                 <td>{{ item.participants }}</td>
+                                                                <td> <a href="{% url 'record_edit' %}" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 10px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td>
                                                             </tr>
                                                        {% endfor %}
                                                      </tbody>
