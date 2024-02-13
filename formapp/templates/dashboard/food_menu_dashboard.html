@@ -54,7 +54,8 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>Uqid</th>
+                                                            <!-- <th>Uqid</th> -->
+                                                            <th>S No</th>
                                                             <th>Date</th>
                                                             <th>Morning Snacks</th>
                                                             <th>No of Resident</th>
@@ -69,7 +70,8 @@
                                                     <tbody>
                                                        {% for item in data %}
                                                             <tr>
-                                                                <td>{{ item.uqid }}</td>
+                                                                <!-- <td>{{ item.uqid }}</td> -->
+                                                                <td>{{ forloop.counter }}</td>
                                                                 <td>{{ item.date }}</td>
                                                                 <td>{{ item.morning_snacks }}</td>
                                                                 <td>{{ item.no_of_resident1 }}</td>
