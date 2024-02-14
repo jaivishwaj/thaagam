@@ -1577,20 +1577,21 @@ def staff_movement_note_dashboard(request):
 import random
 import string
 
-def generate_unique_id(length=4):
-    # Generate a unique identifier using alphanumeric characters
-    characters = string.ascii_letters + string.digits
-    unique_id = ''.join(random.choice(characters) for _ in range(length))
-    return unique_id
+
+
+# def generate_unique_id(length=4):
+#     # Generate a unique identifier using alphanumeric characters
+#     characters = string.ascii_letters + string.digits
+#     unique_id = ''.join(random.choice(characters) for _ in range(length))
+#     return unique_id
 
 def master_records_form(request):
     user = None
     if 'user' in request.session:
         user = request.session['user']
     if request.method == "POST":
-        # Generate a unique ID
-        uqid = generate_unique_id()
-
+        
+        id = request.POST.get("id")
         name = request.POST.get("name")
         Aid_no = request.POST.get("Aid_no")
         Age_gender = request.POST.get("Age_gender")
@@ -1633,9 +1634,11 @@ def master_records_form(request):
 
             relative_file_path = os.path.join("photos", filename)
 
+    
+
         data = MasterRecords.objects.create(user=username,
             photo_url=relative_file_path,
-            uqid=uqid,
+            id=id,
             name=name,
             Aid_no=Aid_no,
             Age_gender=Age_gender,
@@ -1660,6 +1663,9 @@ def master_records_form(request):
             Signature=Signature,
         )
         data.save()
+
+        # MasterRecords.objects.all().delete()
+
         return redirect("master_records_dashboard")
     else:
         messages.info(request, 'The form is not saved. Please re-enter the form')

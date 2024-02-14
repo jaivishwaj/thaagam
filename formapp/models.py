@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import RegexValidator
+import random
 # class AlphaNumericField(models.CharField):
 #     def _init_(self, *args, **kwargs):
 #         kwargs['max_length'] = 6  # Set fixed max_length for alphanumeric field
@@ -529,7 +530,7 @@ class userprofile(models.Model):
     password = models.CharField(max_length=50)
     confrimpassword = models.CharField(max_length=50)
 
-    #
+    
     def __str__(self):
         return str(self.username)
 
@@ -538,7 +539,7 @@ class MasterRecords(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
     user = models.CharField(max_length=200)
-    uqid = models.CharField(max_length=4)
+    id = models.AutoField(primary_key=True, unique=True, editable=False)
     name = models.CharField(max_length=100)
     Aid_no = models.IntegerField()
     Age_gender = models.CharField(max_length=50)
@@ -562,8 +563,55 @@ class MasterRecords(models.Model):
     Remarks = models.TextField()
     Signature = models.CharField(max_length=100)
 
+
+    # @classmethod
+    # def truncate(cls):
+    #     with connection.cursor() as cursor:
+    #         cursor.execute('TRUNCATE TABLE {} CASCADE'.format(cls._meta.db_table))
+
     def __str__(self):
-        return f"{self.uqid} - {self.name}"
+        return f"{self.id} - {self.name}"
+
+
+# class MasterRecords(models.Model):
+#     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
+#     user = models.CharField(max_length=200)
+#     id = models.AutoField(primary_key=True, unique=True, editable=False)
+#     name = models.CharField(max_length=100)
+#     Aid_no = models.IntegerField()
+#     Age_gender = models.CharField(max_length=50)
+#     dob = models.DateField()
+#     Date_Of_Admission = models.DateField()
+#     Date_Of_Leaving = models.DateField()
+#     Family_Contact_No = models.CharField(max_length=20)
+#     Relation = models.CharField(max_length=50)
+#     Permanent_Address = models.TextField()
+#     Mode_Of_Identification_Rescue = models.CharField(max_length=100)
+#     Identification_Mark = models.CharField(max_length=100)
+#     Identification_Papers = models.CharField(max_length=100)
+#     Rehabilitation_Measures = models.TextField()
+#     Reason_For_Leaving_Shelter = models.TextField()
+#     Follow_Up_Action = models.TextField()
+#     Second_Follow_Up = models.TextField()
+#     Medical_Status = models.CharField(max_length=50)
+#     File_Closure_Status = models.CharField(max_length=50)
+#     police_memo = models.CharField(max_length=100, blank=True, null=True)
+#     police_Station = models.CharField(max_length=100, blank=True, null=True)
+#     Remarks = models.TextField()
+#     Signature = models.CharField(max_length=100)
+
+#     def save(self, *args, **kwargs):
+#         if not self.id:  # If the instance does not have an ID, create one
+#             last_record = MasterRecords.objects.order_by('-id').first()  # Get the last record
+#             if last_record:
+#                 self.id = last_record.id + 1  # Increment the ID by 1
+#             else:
+#                 self.id = 1  # Set the ID to 1 if there are no existing records
+#         super().save(*args, **kwargs)  # Call the parent class save method
+
+#     def __str__(self):
+#         return f"{self.id} - {self.name}"
+
 
 
 
