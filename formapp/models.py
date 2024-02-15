@@ -55,14 +55,11 @@ class Reintegration(models.Model):
         return str(self.admission_no)
 
 
-
-
-
 class VisitorRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.CharField(max_length=4)
+   
     name = models.CharField(max_length=255)
     whom_to_see = models.CharField(max_length=255)
     in_time = models.TimeField()
@@ -133,7 +130,7 @@ class SocialEntertainment(models.Model):
 class CaseHistory(models.Model):
     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
     user = models.CharField(max_length=200)
-    uqid = models.CharField(max_length=4)
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     age = models.IntegerField()
     sex = models.CharField(max_length=10)
@@ -322,7 +319,7 @@ class NightSurvey(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.CharField(max_length=4)
+    # uqid = models.CharField(max_length=4)
     time = models.TimeField()
     place = models.CharField(max_length=255)
     details_of_visit = models.TextField()
@@ -407,7 +404,7 @@ class Stock(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
     user = models.CharField(max_length=200)
-    uqid = models.CharField(max_length=4)
+    
     particulars = models.CharField(max_length=255)
     receipt = models.CharField(max_length=255)
     issued = models.IntegerField()

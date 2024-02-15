@@ -55,23 +55,28 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>Uqid</th>
+                                                            <th>S.No</th>
+                                                            
                                                             <th>Date</th>
                                                             <th>Time</th>
                                                             <th>Place(Area)</th>
                                                             <th>Details of Night Visit</th>
                                                             <th>Number of Rescue</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                          {% for item in data %}
-                                                               <tr>
-                                                                   <td>{{ item.uqid }}</td>
+                                                               <tr> 
+                                                                <td>{{ forloop.counter }}</td>
+                                                                   
                                                                    <td>{{ item.date }}</td>
                                                                    <td>{{ item.time }}</td>
                                                                    <td>{{ item.place }}</td>
                                                                    <td>{{ item.details_of_visit }}</td>
                                                                    <td>{{ item.number_of_rescue }}</td>
+                                                                   <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td>
                                                                </tr>
                                                         {% endfor %}
                                                      </tbody>
@@ -117,7 +122,64 @@
 
     </div>
     <!-- END layout-wrapper -->
-
+    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            
+                            <div class="col-md-5">
+                                <label class="form-label fs-16">Date :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="date" class="form-control" name="Date" />
+                            </div>
+                            
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Time :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="time" class="form-control" name="Time" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Place(Area) :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Place(Area)" />
+                            </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16"> Details of Night Visit :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="Details of Night Visits" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Number of Rescue :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="Number of Rescue" />
+                          </div>
+                          </div>
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
 
     <!--start back-to-top-->

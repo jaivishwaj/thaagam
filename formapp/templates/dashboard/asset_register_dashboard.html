@@ -82,7 +82,7 @@
                                                                 <td>{{ item.place_asset }}</td>
                                                                 <td>{{ item.owner_asset }}</td>
                                                                 <td>{{ item.dispose_date }}</td>
-                                                                <td> <a href="{% url 'record_edit' %}" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 10px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                <td> <a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
                                                                     data-bs-target=".edit_donor_search">Edit</a></td></td>
                                                             </tr>
                                                         {% endfor %}
@@ -160,43 +160,61 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 overflow-hidden">
                 <div class="modal-header p-3">
-                    <h4 class="card-title mb-0"> Add Notes</h4>
+                    <h4 class="card-title mb-0"> Edit</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="row">
                           <div class="col-md-5">
-                            <label  class="form-label fs-16">Date & time:</label>
+                            <label  class="form-label fs-16">Date of Purchase :</label>
                           </div>
                             <div class="col-md-7 mb-3">
                               <input type="text" class="form-control"  data-flatpickr
-                              data-date-format="d M, Y H:i" placeholder="Select Date & Time">
+                              data-date-format="d M, Y H:i" name="date" >
                             </div>
                             <div class="col-md-5">
-                                <label  class="form-label fs-16">Receipt Name:</label>
+                                <label  class="form-label fs-16">Name of the Asset :</label>
                             </div>
                             <div class="col-md-7 mb-3">
-                                <input type="text" class="form-control"  placeholder="Enter your Receipt Name" />
+                                <input type="text" class="form-control"  name="name_of_asset" />
                             </div>
                             <div class="col-md-5">
-                                <label  class="form-label fs-16">Receipt Mobile No:</label>
+                                <label  class="form-label fs-16">No of items Purchased:</label>
                             </div>
                             <div class="col-md-7 mb-3">
-                              <input type="text" class="form-control"  placeholder="Enter your Receipt Mobile No:" />
+                              <input type="text" class="form-control" name="items_purchased" />
                           </div>
                             <div class="col-md-5">
-                                <label  class="form-label fs-16">Previous Notes:</label>
+                                <label  class="form-label fs-16">Cost(Rs) :</label>
                             </div>
                             <div class="col-md-7 mb-3">
-                                <input type="number" class="form-control" 
-                                    placeholder="Enter your Previous Notes" />
+                                <input type="text" class="form-control" 
+                                    name="cost" />
                             </div>
                             <div class="col-md-5">
-                              <label  class="form-label fs-16">Add Notes:</label>
+                              <label  class="form-label fs-16">Bill Number or Voucher Number :</label>
                           </div>
                           <div class="col-md-7 mb-3">
-                              <textarea class="form-control"  placeholder="Enter your Add Notes"></textarea>
+                            <input type="text" class="form-control" name="bill_number" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Place were asset is Placed in the shelter :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" name="place_were_asset_placed_shelter" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Owner of Asset :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" name="owner_asset" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Dispose Date :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" name="dispose_date" />
                           </div>
                           
                           </div>

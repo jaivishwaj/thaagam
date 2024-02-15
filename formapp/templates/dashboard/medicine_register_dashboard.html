@@ -54,22 +54,27 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>S.No</th>
                                                             <th>Uqid</th>
                                                             <th>Name</th>
                                                             <th>Age</th>
                                                             <th>Type of Disease</th>
                                                             <th>Table Details</th>
+                                                            <th>Action</th>
 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
+                                                                <td>{{ forloop.counter }}</td>
                                                                 <td>{{ item.uqid }}</td>
                                                                 <td>{{ item.name }}</td>
                                                                 <td>{{ item.age }}</td>
                                                                 <td>{{ item.type_of_disease }}</td>
                                                                 <td>{{ item.tablet_details }}</td>
+                                                                <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td>
 
                                                             </tr>
                                                         {% endfor %}
@@ -124,6 +129,58 @@
  
     </div>
     <!-- END layout-wrapper -->
+    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            
+                            <div class="col-md-5">
+                                <label class="form-label fs-16">Name :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" name="Name" />
+                            </div>
+                            
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Age :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="number" class="form-control" name="Age" />
+                          </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Type of Disease :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Type of Disease" />
+                            </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16"> Table Details :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="Table Details" />
+                          </div>
+                          </div>
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 
 
 

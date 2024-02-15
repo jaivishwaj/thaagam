@@ -53,7 +53,7 @@
                                                     class="table table-bordered dt-responsive nowrap table-striped align-middle"
                                                     style="width:100%">
                                                     <thead>
-                                                        <tr>
+                                                        <tr><th>S.No</th>
                                                             <th>Uqid</th>
                                                             <th>Admission Number</th>
                                                             <th>Name of the Resident</th>
@@ -64,11 +64,13 @@
                                                             <th>Mode Of Rescue</th>
                                                             <th>Mode Of Rehabilitation</th>
                                                             <th>Follow Up</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                          {% for item in data %}
                                                                <tr>
+                                                                <td>{{ forloop.counter}}</td>
                                                                    <td>{{ item.uqid }}</td>
                                                                    <td>{{ item.admission_number }}</td>
                                                                    <td>{{ item.name_of_the_resident }}</td>
@@ -79,6 +81,8 @@
                                                                    <td>{{ item.mode_of_rescue }}</td>
                                                                    <td>{{ item.mode_of_rehabilitation }}</td>
                                                                    <td>{{ item.follow_up }}</td>
+                                                                   <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td>
 
 
                                                                </tr>
@@ -104,6 +108,94 @@
                 <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
+            <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0"> Edit</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    
+                                    <div class="col-md-5">
+                                        <label class="form-label fs-16">Admission Number :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <input type="number" class="form-control" name="Admission Number"/>
+                                    </div>
+                                    
+                                    <div class="col-md-5">
+                                        <label  class="form-label fs-16">Name of the Resident:</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                      <input type="text" class="form-control" name="Name of the Resident" />
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label  class="form-label fs-16">Age :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <input type="text" class="form-control" 
+                                            name="Age" />
+                                    </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16">Sex :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="text" class="form-control" 
+                                    name="Sex" />
+                                  </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16">Date Of Joining :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="date" class="form-control" 
+                                    name="Date Of Joining" />
+                                  </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16">Date Of Leaving :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="date" class="form-control" 
+                                    name="Date Of Leaving" />
+                                  </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16">Mode Of Rescue :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="text" class="form-control" 
+                                    name="Mode Of Rescue" />
+                                  </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16">Mode Of Rehabilitation :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="text" class="form-control" 
+                                    name="Mode Of Rehabilitation" />
+                                  </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16">Follow Up :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="text" class="form-control" 
+                                    name="Follow Up" />
+                                  </div>
+                                    
+                                  </div>
+                                <div class="text-start mt-3">
+                                    <button type="submit" class="btn btn-danger">
+                                        submit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        
 
             <footer class="footer">
                 <div class="container-fluid">

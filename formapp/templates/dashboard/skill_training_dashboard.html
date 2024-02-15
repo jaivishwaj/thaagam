@@ -55,19 +55,24 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>S.No</th>
                                                             <th>Uqid</th>
                                                             <th>Date</th>
                                                             <th>Name of the Resident</th>
                                                             <th>Skill Training Details</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for item in data %}
                                                         <tr>
+                                                            <td>{{ forloop.counter }}</td>
                                                             <td>{{ item.uqid }}</td>
                                                             <td>{{item.date}}</td>
                                                             <td>{{item.resident_name}}</td>
                                                             <td>{{item.skill_training_details}}</td>
+                                                            <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                data-bs-target=".edit_donor_search">Edit</a></td>
                                                         </tr>
                                                         {% endfor %}
                                                     </tbody>
@@ -113,6 +118,52 @@
 
     </div>
     <!-- END layout-wrapper -->
+    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            
+                            <div class="col-md-5">
+                                <label class="form-label fs-16">Date  :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="date" class="form-control" name="Date"/>
+                            </div>
+                            
+                            <div class="col-md-5">
+                                <label class="form-label fs-16">Name of the Resident :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="text" class="form-control" name="Name of the Resident" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Skill Training Details :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Skill Training Details" />
+                            </div>
+                            
+                            
+                          </div>
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
 
 

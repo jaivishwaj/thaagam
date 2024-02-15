@@ -64,6 +64,7 @@ from django.contrib.auth.models import User
 from .models import Record
 from django.core.paginator import Paginator
 from django.http import JsonResponse
+from django.contrib import messages
 
 def signupuser(request):
     if request.method == 'POST':
@@ -224,6 +225,54 @@ def accident_register_form(request):
 
     return render(request, "accident_register.html", {'user': user})
 
+
+# def accident_register_form(request):
+#     user = None
+#     if 'user' in request.session:
+#         user = request.session['user']
+
+#     if request.method == "POST":
+#         id = request.POST.get("uqid")
+#         date = request.POST.get("date")
+#         inmate_name = request.POST.get("inmate_name")
+#         age_gender = request.POST.get("age_gender")
+#         accident_condition = request.POST.get("accident_condition")
+#         accident_place = request.POST.get("accident_place")
+#         signature = request.POST.get("signature")
+#         logged_in_user = request.user
+#         username = logged_in_user.username
+        
+#         # Check if a record with the same 'uqid' exists
+#         accident_register_instance = AccidentRegister.objects.filter(id=id).first()
+
+#         if accident_register_instance:  # If a record exists, update it
+#             accident_register_instance.date = date
+#             accident_register_instance.inmate_name = inmate_name
+#             accident_register_instance.age_gender = age_gender
+#             accident_register_instance.accident_condition = accident_condition
+#             accident_register_instance.accident_place = accident_place
+#             accident_register_instance.signature = signature
+#             accident_register_instance.save()
+#         else:  # Otherwise, create a new record
+#             data = AccidentRegister.objects.create(
+#                 user=username, 
+#                 id=id,
+#                 date=date,
+#                 inmate_name=inmate_name,
+#                 age_gender=age_gender,
+#                 accident_condition=accident_condition,
+#                 accident_place=accident_place,
+#                 signature=signature
+#             )
+#             data.save()
+        
+#         return redirect("accident_register_dashboard")
+#     else:
+#         messages.info(request, f'The form is not saved. Please re-enter the form.')
+#         return render(request, "accident_register.html", {'user': user})
+
+
+
 # from django.shortcuts import objects
 
 def accident_register_dashboard(request):
@@ -289,7 +338,7 @@ def visitor_register_form(request):
     if request.method == "POST":
         date = request.POST.get("date")
         name = request.POST.get("name")
-        uqid = request.POST.get("uqid")
+       
         whom_to_see = request.POST.get("whom_to_see")
         in_time = request.POST.get("in_time")
         out_time = request.POST.get("out_time")
@@ -299,7 +348,7 @@ def visitor_register_form(request):
         username = logged_in_user.username
         data = VisitorRegister.objects.create(user=username,
             date=date,
-            uqid=uqid,
+           
             name=name,
             whom_to_see=whom_to_see,
             in_time=in_time,
@@ -607,10 +656,10 @@ def case_history_form(request):
     if 'user' in request.session:
         user = request.session['user']
     if request.method == "POST":
+        id = request.POST.get("id")
         name = request.POST.get("name")
         age = request.POST.get("age")
         sex = request.POST.get("sex")
-        uqid = request.POST.get("uqid")
         religion = request.POST.get("religion")
         maritalStatus = request.POST.get("maritalStatus")
         identificationMark = request.POST.get("identificationMark")
@@ -645,11 +694,11 @@ def case_history_form(request):
 
 
             data = CaseHistory.objects.create(photo_url = relative_file_path,
+                                                id=id,
                                                 user=username,
                                                 name=name,
                                                 age=age,
                                                 sex=sex,
-                                                uqid=uqid,
                                                 religion=religion,
                                                 maritalStatus=maritalStatus,
                                                 identificationMark=identificationMark,
@@ -1039,7 +1088,7 @@ def night_survey_form(request):
         user = request.session['user']
     if request.method == "POST":
         date = request.POST.get("date")
-        uqid = request.POST.get("uqid")
+       
         time = request.POST.get("time")
         place = request.POST.get("place")
         details_of_visit = request.POST.get("details_of_visit")
@@ -1048,7 +1097,7 @@ def night_survey_form(request):
         username = logged_in_user.username
         data = NightSurvey.objects.create(user=username,
             date=date,
-            uqid=uqid,
+    
             time=time,
             place=place,
             details_of_visit=details_of_visit,
@@ -1206,7 +1255,7 @@ def stock_form(request):
         user = request.session['user']
     if request.method == "POST":
         date = request.POST.get("date")
-        uqid = request.POST.get("uqid")
+        
         particulars = request.POST.get("particulars")
         receipt = request.POST.get("receipt")
         issued = request.POST.get("issued")
@@ -1215,7 +1264,7 @@ def stock_form(request):
         username = logged_in_user.username
         datas = Stock.objects.create(user=username,
             date=date,
-            uqid=uqid,
+            
             particulars=particulars,
             receipt=receipt,
             issued=issued,
@@ -1750,12 +1799,12 @@ def record_edit(request, record_id):
     return render(request, 'dashboard/edit_records.html', {'form': form})
 
 
-def record_delete(request, record_id):
-    record = get_object_or_404(Record, id=record_id)
-    if request.method == 'POST':
-        record.delete()
-        return redirect('records')
-    # return render(request, 'dashboard/delete_records.html', {'record': record})
+# def record_delete(request, record_id):
+#     record = get_object_or_404(Record, id=record_id)
+#     if request.method == 'POST':
+#         record.delete()
+#         return redirect('records')
+#     # return render(request, 'dashboard/delete_records.html', {'record': record})
 
 
 

@@ -54,7 +54,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>S No</th>
+                                                            <th>S.No</th>
                                                             <th>Uqid</th>
                                                             <th>Admission No</th>
                                                             <th>Admission Date</th>
@@ -64,13 +64,15 @@
                                                             <th>Designation</th>
                                                             <th>Date of Joining</th>
                                                             <th>Signature</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for item in data %}
-                                                            <tr>
+                                                            <tr> 
                                                                 <td>{{ forloop.counter }}</td>
                                                                 <td>{{ item.uqid }}</td>
+                                                            
                                                                 <td>{{ item.admission_no }}</td>
                                                                 <td>{{ item.admission_date }}</td>
                                                                 <td>{{ item.resident_name }}</td>
@@ -79,6 +81,8 @@
                                                                 <td>{{ item.designation }}</td>
                                                                 <td>{{ item.joining_date }}</td>
                                                                 <td>{{ item.signature }}</td>
+                                                                <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td>
 
                                                             </tr>
                                                         {% endfor %}
@@ -103,6 +107,88 @@
                 <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
+
+            <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0"> Edit</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    
+                                    <div class="col-md-5">
+                                        <label class="form-label fs-16">Admission No :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <input type="number" class="form-control" name="Admission No" />
+                                    </div>
+                                    
+                                    <div class="col-md-5">
+                                        <label  class="form-label fs-16">Admission Date :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                      <input type="date" class="form-control" name="Admission Date" />
+                                  </div>
+                                    <div class="col-md-5">
+                                        <label  class="form-label fs-16">Name of the Resident:</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <input type="text" class="form-control" 
+                                            name="Name of the Resident" />
+                                    </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16">Name of the Employment Linkage :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="text" class="form-control" 
+                                    name="Name of the Employment Linkageh" />
+                                  </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16">Address and Contact Details :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="text" class="form-control" 
+                                    name="Address and Contact Details" />
+                                  </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16"> Designation :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="text" class="form-control" 
+                                    name="Designation" />
+                                  </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16">Date of Joining :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="text" class="form-control" 
+                                    name="Date of Joining" />
+                                  </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16"> Signature :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="text" class="form-control" 
+                                    name="Signature" />
+                                  </div>
+                                    
+                                    
+                                  </div>
+                                <div class="text-start mt-3">
+                                    <button type="submit" class="btn btn-danger">
+                                        submit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>  
 
             <footer class="footer">
                 <div class="container-fluid">

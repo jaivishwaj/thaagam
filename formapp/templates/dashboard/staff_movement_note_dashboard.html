@@ -52,23 +52,28 @@
                                                 <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>S.No</th>
                                                             <th>Uqid</th>
                                                             <th>Date of plan</th>
                                                             <th>Working Area</th>
                                                             <th>Nature Of Work</th>
                                                             <th>Work Done By</th>
                                                             <th>Sign</th>
+                                                            <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for item in data %}
-                                                        <tr>
+                                                        <tr><td>{{forloop.counter}}</td>
                                                             <td>{{ item.uqid }}</td>
                                                             <td>{{ item.date_of_plan }}</td>
                                                             <td>{{ item.working_area }}</td>
                                                             <td>{{ item.nature_of_work }}</td>
                                                             <td>{{ item.work_done_by }}</td>
                                                             <td>{{ item.sign }}</td>
+                                                            <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                data-bs-target=".edit_donor_search">Edit</a></td>
+
                                                         </tr>
                                                         {% endfor %}
                                                     </tbody>
@@ -92,6 +97,67 @@
                 <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
+            <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0"> Edit</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    
+                                    <div class="col-md-5">
+                                        <label class="form-label fs-16">Date of plan  :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <input type="text" class="form-control" name="Date of plan"/>
+                                    </div>
+                                    
+                                    <div class="col-md-5">
+                                        <label class="form-label fs-16">Working Area :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                      <input type="text" class="form-control" name=">Working Area" />
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label  class="form-label fs-16">Nature Of Work :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <input type="text" class="form-control" 
+                                            name="Nature Of Work" />
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label  class="form-label fs-16">Work Done By :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <input type="text" class="form-control" 
+                                            name="Work Done By" />
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label  class="form-label fs-16">Sign :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <input type="text" class="form-control" 
+                                            name="Sign" />
+                                    </div>
+                                   
+                                   
+                                    
+                                  </div>
+                                <div class="text-start mt-3">
+                                    <button type="submit" class="btn btn-danger">
+                                        submit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
 
             <footer class="footer">
                 <div class="container-fluid">

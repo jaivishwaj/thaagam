@@ -76,7 +76,7 @@ urlpatterns = [
     path('records/', views.records, name='records'),
     path('search/', views.search, name='search'),
     path('record_edit/', views.record_edit, name='record_edit'),
-    path('record_delete/', views.record_delete, name='record_delete'),
+    # path('record_delete/', views.record_delete, name='record_delete'),
     # <a href="{% url 'staff_attendance_register_dashboard' %}">Staff Attendance Dashboard</a>
 
 ]
