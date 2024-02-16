@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-*@l999&g22lhsdyq-3l_)6-3b2w)m7)y9*(e8o!2_&as$u%ku!
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["127.0.0.1","https://05a8-115-97-253-131.ngrok-free.app ","05a8-115-97-253-131.ngrok-free.app"]
+ALLOWED_HOSTS = ["127.0.0.1","https://7aaf-115-97-253-131.ngrok-free.app ","7aaf-115-97-253-131.ngrok-free.app"]
+
+CSRF_TRUSTED_ORIGINS = [' https://7aaf-115-97-253-131.ngrok-free.app.ngrok.io']
 
 
 # Application definition
@@ -131,3 +133,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+

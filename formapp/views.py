@@ -65,7 +65,9 @@ from .models import Record
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def signupuser(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -118,6 +120,8 @@ def signupuser(request):
 #     return render(request, 'login.html')
 #----------------------------------------------------------^-------------------------------------------------------------
 from django.contrib.auth import authenticate,login
+@csrf_exempt
+
 def loginuser(request):
     if request.method == 'POST':
         username = request.POST.get('username')  # Assuming 'username' is the field name
@@ -196,43 +200,12 @@ def home(request):
 
 
 from django.contrib.auth import authenticate,login
-def accident_register_form(request):
-    user = None
-    if 'user' in request.session:
-        user = request.session['user']
-    if request.method == "POST":
-        uqid = request.POST.get("uqid")
-        date = request.POST.get("date")
-        inmate_name = request.POST.get("inmate_name")
-        age_gender = request.POST.get("age_gender")
-        accident_condition = request.POST.get("accident_condition")
-        accident_place = request.POST.get("accident_place")
-        signature = request.POST.get("signature")
-        logged_in_user = request.user
-        username = logged_in_user.username
-        data = AccidentRegister.objects.create(user=username, uqid=uqid,
-            date=date,
-            inmate_name=inmate_name,
-            age_gender=age_gender,
-            accident_condition=accident_condition,
-            accident_place=accident_place,
-            signature=signature,
-        )
-        data.save()
-        return redirect("accident_register_dashboard")
-    else:
-        messages.info(request, f'the form is not saved please re enter the form')
-
-    return render(request, "accident_register.html", {'user': user})
-
-
 # def accident_register_form(request):
 #     user = None
 #     if 'user' in request.session:
 #         user = request.session['user']
-
 #     if request.method == "POST":
-#         id = request.POST.get("uqid")
+#         uqid = request.POST.get("uqid")
 #         date = request.POST.get("date")
 #         inmate_name = request.POST.get("inmate_name")
 #         age_gender = request.POST.get("age_gender")
@@ -241,40 +214,106 @@ def accident_register_form(request):
 #         signature = request.POST.get("signature")
 #         logged_in_user = request.user
 #         username = logged_in_user.username
-        
-#         # Check if a record with the same 'uqid' exists
-#         accident_register_instance = AccidentRegister.objects.filter(id=id).first()
-
-#         if accident_register_instance:  # If a record exists, update it
-#             accident_register_instance.date = date
-#             accident_register_instance.inmate_name = inmate_name
-#             accident_register_instance.age_gender = age_gender
-#             accident_register_instance.accident_condition = accident_condition
-#             accident_register_instance.accident_place = accident_place
-#             accident_register_instance.signature = signature
-#             accident_register_instance.save()
-#         else:  # Otherwise, create a new record
-#             data = AccidentRegister.objects.create(
-#                 user=username, 
-#                 id=id,
-#                 date=date,
-#                 inmate_name=inmate_name,
-#                 age_gender=age_gender,
-#                 accident_condition=accident_condition,
-#                 accident_place=accident_place,
-#                 signature=signature
-#             )
-#             data.save()
-        
+#         data = AccidentRegister.objects.create(user=username, uqid=uqid,
+#             date=date,
+#             inmate_name=inmate_name,
+#             age_gender=age_gender,
+#             accident_condition=accident_condition,
+#             accident_place=accident_place,
+#             signature=signature,
+#         )
+#         data.save()
 #         return redirect("accident_register_dashboard")
 #     else:
-#         messages.info(request, f'The form is not saved. Please re-enter the form.')
-#         return render(request, "accident_register.html", {'user': user})
+#         messages.info(request, f'the form is not saved please re enter the form')
 
+#     return render(request, "accident_register.html", {'user': user})
+
+@csrf_exempt
+def accident_register_form(request):
+    user = None
+    if 'user' in request.session:
+        user = request.session['user']
+    
+    if request.method == "POST":
+        print('post datas',request.POST)
+        uqid = request.POST.get("uqid")
+        date = request.POST.get("date")
+        inmate_name = request.POST.get("inmate_name")
+        age_gender = request.POST.get("age_gender")
+        accident_condition = request.POST.get("accident_condition")
+        accident_place = request.POST.get("accident place")
+        signature = request.POST.get("signature")
+        
+        logged_in_user = request.user
+        username = logged_in_user.username
+        print('username : ',username)
+        
+        # Check if an object with the given uqid already exists
+        accident_register_object = AccidentRegister.objects.filter(uqid=uqid).first()
+        if accident_register_object:
+            # Update the fields of the existing AccidentRegister object
+            accident_register_object.date = date
+            accident_register_object.inmate_name = inmate_name
+            accident_register_object.age_gender = age_gender
+            accident_register_object.accident_condition = accident_condition
+            accident_register_object.accident_place = accident_place
+            accident_register_object.signature = signature
+            accident_register_object.user = username
+
+            # Save the changes to the database
+            accident_register_object.save()
+            return redirect("accident_register_dashboard")
+        else:
+            # If the object with the given uqid does not exist, display an error message
+            messages.error(request, 'Accident Register with the provided UQID does not exist.')
+
+    return render(request, "accident_register.html", {'user': user})
+
+
+
+
+
+# "def accident_register_form(request, pk):
+#     user = None
+#     if 'user' in request.session:
+#         user = request.session['user']
+
+#     # Fetch the existing AccidentRegister object based on the primary key (pk)
+#     accident_register_instance = get_object_or_404(AccidentRegister)
+
+#     if request.method == "POST":
+
+#         # Retrieve the updated data from the form
+#         uqid = request.POST.get("uqid")
+#         date = request.POST.get("date")
+#         inmate_name = request.POST.get("inmate_name")
+#         age_gender = request.POST.get("age_gender")
+#         accident_condition = request.POST.get("accident_condition")
+#         accident_place = request.POST.get("accident_place")
+#         signature = request.POST.get("signature")
+        
+#         # Update the fields of the existing AccidentRegister object
+#         accident_register_instance.uqid = uqid
+#         accident_register_instance.date = date
+#         accident_register_instance.inmate_name = inmate_name
+#         accident_register_instance.age_gender = age_gender
+#         accident_register_instance.accident_condition = accident_condition
+#         accident_register_instance.accident_place = accident_place
+#         accident_register_instance.signature = signature
+        
+#         # Save the changes to the database
+#         accident_register_instance.save()
+        
+#         # Redirect to the accident register dashboard or any other appropriate page
+#         return redirect("accident_register_dashboard")
+#     else:
+#         # Handle GET requests for editing the accident register
+#         return render(request, "accident_register_form.html", {'user': user, 'accident_register_instance': accident_register_instance})
 
 
 # from django.shortcuts import objects
-
+@csrf_exempt
 def accident_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -283,10 +322,51 @@ def accident_register_dashboard(request):
       logged_in_username = request.user.username
       datas = AccidentRegister.objects.filter(user=logged_in_username)
       return render( request, "dashboard/accident_register_dashboard.html", {"data": datas})
-def reintegration_form(request):
+    
+
+# def reintegration_form(request):
+#     user = None
+#     if 'user' in request.session:
+#         user = request.session['user']
+#     if request.method == "POST":
+#         admission_no = request.POST.get("admission_no")
+#         uqid = request.POST.get("uqid")
+#         resident_name = request.POST.get("resident_name")
+#         date_of_joining = request.POST.get("date_of_joining")
+#         date_of_leaving = request.POST.get("date_of_leaving")
+#         reason_for_leaving = request.POST.get("reason_for_leaving")
+#         address = request.POST.get("address")
+#         follow_up_conduct = request.POST.get("follow_up_conduct")
+#         follows = request.POST.get("follows")
+#         staff_event_close = request.POST.get("staff_event_close")
+#         logged_in_user = request.user
+#         username = logged_in_user.username
+
+#         data = Reintegration.objects.create(user=username,
+#             admission_no=admission_no,
+#             uqid=uqid,
+#             resident_name=resident_name,
+#             date_of_joining=date_of_joining,
+#             date_of_leaving=date_of_leaving,
+#             reason_for_leaving=reason_for_leaving,
+#             address=address,
+#             follow_up_conduct=follow_up_conduct,
+#             follows=follows,
+#             staff_event_close=staff_event_close,
+#         )
+#         data.save()
+
+#         return redirect("reintegration_register_dashboard")
+#     else:
+#         messages.info(request, f'the form is not saved please re enter the form')
+
+#     return render(request, "reintegration_register.html",{'user': user})
+
+def reintegration_form(request, pk=None):
     user = None
     if 'user' in request.session:
         user = request.session['user']
+    
     if request.method == "POST":
         admission_no = request.POST.get("admission_no")
         uqid = request.POST.get("uqid")
@@ -298,37 +378,47 @@ def reintegration_form(request):
         follow_up_conduct = request.POST.get("follow_up_conduct")
         follows = request.POST.get("follows")
         staff_event_close = request.POST.get("staff_event_close")
+        
         logged_in_user = request.user
         username = logged_in_user.username
+        print('username : ',username)
 
-        data = Reintegration.objects.create(user=username,
-            admission_no=admission_no,
-            uqid=uqid,
-            resident_name=resident_name,
-            date_of_joining=date_of_joining,
-            date_of_leaving=date_of_leaving,
-            reason_for_leaving=reason_for_leaving,
-            address=address,
-            follow_up_conduct=follow_up_conduct,
-            follows=follows,
-            staff_event_close=staff_event_close,
-        )
-        data.save()
+        # Check if an object with the given uqid already exists
+        reintegration_object = Reintegration.objects.filter(uqid=uqid).first()
+        if reintegration_object:
+            # Update the fields of the existing Reintegration object
+            reintegration_object.admission_no = admission_no
+            reintegration_object.resident_name = resident_name
+            reintegration_object.date_of_joining = date_of_joining
+            reintegration_object.date_of_leaving = date_of_leaving
+            reintegration_object.reason_for_leaving = reason_for_leaving
+            reintegration_object.address = address
+            reintegration_object.follow_up_conduct = follow_up_conduct
+            reintegration_object.follows = follows
+            reintegration_object.staff_event_close = staff_event_close
+            reintegration_object.user = username
 
-        return redirect("reintegration_register_dashboard")
-    else:
-        messages.info(request, f'the form is not saved please re enter the form')
+            # Save the changes to the database
+            reintegration_object.save()
+            return redirect("reintegration_register_dashboard")
+        else:
+            # If the object with the given uqid does not exist, display an error message
+            messages.error(request, 'Reintegration with the provided UQID does not exist.')
 
-    return render(request, "reintegration_register.html",{'user': user})
+    return render(request, "reintegration_register.html", {'user': user})
+
+
+
 def reintegration_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
         return redirect("login")
     else:
+        logged_in_username = request.user.username
+        datas = Reintegration.objects.filter(user=logged_in_username)
+        return render(request, "dashboard/reintegration_register_dashboard.html", {"data": datas})
+    
 
-     logged_in_username = request.user.username
-     datas = Reintegration.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/reintegration_register_dashboard.html", {"data": datas})
 
 def visitor_register_form(request):
     user = None
@@ -372,6 +462,51 @@ def visitor_registration_dashboard(request):
      datas = VisitorRegister.objects.filter(user=logged_in_username)
      return render(
         request, "dashboard/visitor_registration_dashboard.html", {"data": datas})
+
+
+# def performance_appraisal_form(request):
+#     user = None
+#     if 'user' in request.session:
+#         user = request.session['user']
+#     if request.method == "POST":
+#         date = request.POST.get("date")
+#         uqid = request.POST.get("uqid")
+#         beginning_children = request.POST.get("beginning_children")
+#         new_admission = request.POST.get("new_admission")
+#         total_strength = request.POST.get("total_strength")
+#         reintegration = request.POST.get("reintegration")
+#         rehabilitation = request.POST.get("rehabilitation")
+#         referral = request.POST.get("referral")
+#         left = request.POST.get("left")
+#         death = request.POST.get("death")
+#         end_strength = request.POST.get("end_strength")
+#         rescue = request.POST.get("rescue")
+#         logged_in_user = request.user
+#         username = logged_in_user.username
+
+#         data = PerformanceAppraisal.objects.create(user=username,
+#             date=date,
+#             uqid=uqid,
+#             beginning_children=beginning_children,
+#             new_admission=new_admission,
+#             total_strength=total_strength,
+#             reintegration=reintegration,
+#             rehabilitation=rehabilitation,
+#             referral=referral,
+#             left=left,
+#             death=death,
+#             end_strength=end_strength,
+#             rescue=rescue
+
+
+#         )
+#         data.save()
+#         return redirect("performance_appraisal_dashboard")  # Redirect to appropriate page after form submission
+#     else:
+#         messages.info(request, f'the form is not saved please re enter the form')
+
+#     return render(request, "performance_appraisal.html",{'user': user})
+
 def performance_appraisal_form(request):
     user = None
     if 'user' in request.session:
@@ -392,28 +527,30 @@ def performance_appraisal_form(request):
         logged_in_user = request.user
         username = logged_in_user.username
 
-        data = PerformanceAppraisal.objects.create(user=username,
-            date=date,
-            uqid=uqid,
-            beginning_children=beginning_children,
-            new_admission=new_admission,
-            total_strength=total_strength,
-            reintegration=reintegration,
-            rehabilitation=rehabilitation,
-            referral=referral,
-            left=left,
-            death=death,
-            end_strength=end_strength,
-            rescue=rescue
-
-
-        )
-        data.save()
-        return redirect("performance_appraisal_dashboard")  # Redirect to appropriate page after form submission
-    else:
-        messages.info(request, f'the form is not saved please re enter the form')
+        performance_appraisal_object = PerformanceAppraisal.objects.filter(uqid=uqid).first()
+        if performance_appraisal_object:
+            performance_appraisal_object.date = date
+            performance_appraisal_object.beginning_children = beginning_children
+            performance_appraisal_object.new_admission = new_admission
+            performance_appraisal_object.total_strength = total_strength
+            performance_appraisal_object.reintegration = reintegration
+            performance_appraisal_object.rehabilitation = rehabilitation
+            performance_appraisal_object.referral = referral
+            performance_appraisal_object.left = left
+            performance_appraisal_object.death = death
+            performance_appraisal_object.end_strength = end_strength
+            performance_appraisal_object.rescue = rescue
+            performance_appraisal_object.user = username
+            performance_appraisal_object.save()
+            
+            return redirect("performance_appraisal_dashboard")  # Redirect to appropriate page after form submission
+        else:
+            messages.info(request, f'the form is not saved please re enter the form')
 
     return render(request, "performance_appraisal.html",{'user': user})
+
+
+
 def performance_appraisal_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1787,16 +1924,16 @@ def records(request):
         return render(request, 'dashboard/records.html', {'master_records': master_records})
         
 
-def record_edit(request, record_id):
-    record = get_object_or_404(Record, id=record_id)
-    if request.method == 'POST':
-        form = RecordForm(request.POST, instance=record)
-        if form.is_valid():
-            form.save()
-            return redirect('records', record_id=record.id)
-    else:
-        form = RecordForm(instance=record)
-    return render(request, 'dashboard/edit_records.html', {'form': form})
+# def record_edit(request, record_id):
+#     record = get_object_or_404(Record, id=record_id)
+#     if request.method == 'POST':
+#         form = RecordForm(request.POST, instance=record)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('records', record_id=record.id)
+#     else:
+#         form = RecordForm(instance=record)
+#     return render(request, 'dashboard/edit_records.html', {'form': form})
 
 
 # def record_delete(request, record_id):

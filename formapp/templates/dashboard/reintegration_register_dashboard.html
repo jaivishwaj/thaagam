@@ -116,75 +116,76 @@
                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                    </div>
                                                                                    <div class="modal-body">
-                                                                                       <form>
+                                                                                       <form method="POST", action="{% url 'reintegration_form' %}">
+                                                                                           {% csrf_token %}
                                                                                            <div class="row">
                                                                                                
                                                                                                <div class="col-md-5">
                                                                                                    <label class="form-label fs-16">Admission Number :</label>
                                                                                                </div>
                                                                                                <div class="col-md-7 mb-3">
-                                                                                                   <input type="number" class="form-control" name="Admission Number"/>
+                                                                                                   <input type="number" class="form-control" name="admission_no"/>
                                                                                                </div>
                                                                                                
                                                                                                <div class="col-md-5">
                                                                                                    <label  class="form-label fs-16">Name of the Resident:</label>
                                                                                                </div>
                                                                                                <div class="col-md-7 mb-3">
-                                                                                                 <input type="text" class="form-control" name="Name of the Resident" />
+                                                                                                 <input type="text" class="form-control" name="resident_name" />
                                                                                                </div>
                                                                                                <div class="col-md-5">
                                                                                                    <label  class="form-label fs-16">Date of Joining :</label>
                                                                                                </div>
                                                                                                <div class="col-md-7 mb-3">
                                                                                                    <input type="date" class="form-control" 
-                                                                                                       name="Date of Joining" />
+                                                                                                       name="date_of_joining" />
                                                                                                </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Date of Leaving :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
                                                                                                <input type="date" class="form-control" 
-                                                                                               name="Date of Leaving" />
+                                                                                               name="date_of_leaving" />
                                                                                              </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Reason for Leaving :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
                                                                                                <input type="text" class="form-control" 
-                                                                                               name="Reason for Leaving" />
+                                                                                               name="reason_for_leaving" />
                                                                                              </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Address :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
                                                                                                <input type="text" class="form-control" 
-                                                                                               name="Address" />
+                                                                                               name="address" />
                                                                                              </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Follow-up Conduct :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
                                                                                                <input type="text" class="form-control" 
-                                                                                               name="Follow-up Conduct" />
+                                                                                               name="follow_up_conduct" />
                                                                                              </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Follows :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
                                                                                                <input type="text" class="form-control" 
-                                                                                               name="Follows" />
+                                                                                               name="follows" />
                                                                                              </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Staff Event Close :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
                                                                                                <input type="text" class="form-control" 
-                                                                                               name="Staff Event Close" />
+                                                                                               name="staff_event_close" />
                                                                                              </div>
                                                                                                
                                                                                              </div>
                                                                                            <div class="text-start mt-3">
-                                                                                               <button type="submit" class="btn btn-danger">
+                                                                                               <button type="submit" class="btn btn-danger edit_submit_btn" data-uqid="{{ item.uqid }}">
                                                                                                    submit
                                                                                                </button>
                                                                                            </div>
@@ -249,7 +250,7 @@
 
 
 
-
+                                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
 
 
     <!-- JAVASCRIPT -->

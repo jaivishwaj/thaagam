@@ -80,10 +80,81 @@
                                                                 <td>{{ item.signature }}</td>
                                                                 <td>{{ item.user }}</td>
                                                                 <td>  <div>
-                                                                    <a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    <a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal"  data-bs-target="#add_notes"
                                                                     data-bs-target=".edit_donor_search">Edit</a>
                                                                 </div></td>
                                                             </tr>
+
+
+
+                                                            <!-- modal start -->
+
+                                                            <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+                                                                <div class="modal-dialog modal-dialog-centered">
+                                                                    <div class="modal-content border-0 overflow-hidden">
+                                                                        <div class="modal-header p-3">
+                                                                            <h4 class="card-title mb-0"> Edit</h4>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form method="POST" action="{% url 'accident_register_form' %}">
+                                                                                {% csrf_token %}
+                                                                                <div class="row">
+                                                                                    <div class="col-md-5">
+                                                                                        <label  class="form-label fs-16">Date:</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7 mb-3">
+                                                                                        <input type="date" class="form-control" id="date"  name="date" />
+                                                                                        <input type="text" class="form-control" id="uqid"  name="uqid" value="{{ item.uqid }}" style="display: none;"/>
+                                                                                    </div>
+                                                                                    <div class="col-md-5">
+                                                                                        <label  class="form-label fs-16">Inmate Name:</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7 mb-3">
+                                                                                      <input type="text" class="form-control" id="inmate_name"  name="inmate_name" />
+                                                                                  </div>
+                                                                                    <div class="col-md-5">
+                                                                                        <label  class="form-label fs-16">Age/Gender</label>
+                                                                                    </div>
+                                                                                    <div class="col-md-7 mb-3">
+                                                                                        <input type="text" class="form-control" id="age_gender" name="age_gender" />
+                                                                                    </div>
+                                                                                    <div class="col-md-5">
+                                                                                      <label  class="form-label fs-16">Accident Condition:</label>
+                                                                                  </div>
+                                                                                  <div class="col-md-7 mb-3">
+                                                                                    <input type="text" class="form-control" id="accident_condition"
+                                                                                    name="accident_condition" />
+                                                                                  </div>
+                                                                                    <div class="col-md-5">
+                                                                                      <label  class="form-label fs-16">Accident Place:</label>
+                                                                                  </div>
+                                                                                  <div class="col-md-7 mb-3">
+                                                                                    <input type="text" class="form-control"  id="accident_place"
+                                                                                    name="accident place" />
+                                                                                  </div>
+                                                                                    <div class="col-md-5">
+                                                                                      <label  class="form-label fs-16">Signature</label>
+                                                                                  </div>
+                                                                                  <div class="col-md-7 mb-3">
+                                                                                    <input type="text" class="form-control" id="signature"
+                                                                                    name="signature" />
+                                                                                  </div>
+                                                                                  
+                                                                                  </div>
+                                                                                <div class="text-start mt-3">
+                                                                                    <button type="submit" class="btn btn-danger edit_submit_btn" data-uqid="{{ item.uqid }}">
+                                                                                        submit
+                                                                                    </button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.modal-content -->
+                                                                </div>
+                                                                <!-- /.modal-dialog -->
+                                                            </div>
+                                                            <!-- modal end -->
                                                         {% endfor %}
                                                      </tbody>
                                                 </table>
@@ -148,69 +219,9 @@
         </div>
     </div>
 
-    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 overflow-hidden">
-                <div class="modal-header p-3">
-                    <h4 class="card-title mb-0"> Edit</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <label  class="form-label fs-16">Date:</label>
-                            </div>
-                            <div class="col-md-7 mb-3">
-                                <input type="date" class="form-control"  name="date" />
-                            </div>
-                            <div class="col-md-5">
-                                <label  class="form-label fs-16">Inmate Name:</label>
-                            </div>
-                            <div class="col-md-7 mb-3">
-                              <input type="text" class="form-control"  name="inmate_name" />
-                          </div>
-                            <div class="col-md-5">
-                                <label  class="form-label fs-16">Age/Gender</label>
-                            </div>
-                            <div class="col-md-7 mb-3">
-                                <input type="text" class="form-control" 
-                                    name="age_gender" />
-                            </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Accident Condition:</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="accident_condition" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Accident Place:</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="accident place" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Signature</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="signature" />
-                          </div>
-                          
-                          </div>
-                        <div class="text-start mt-3">
-                            <button type="submit" class="btn btn-danger">
-                                submit
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
 
 {%  endblock %}
+
