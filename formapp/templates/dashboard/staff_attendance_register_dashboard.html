@@ -63,7 +63,7 @@
                                                             <th>No.of Working Days</th>
                                                             <th>No.of Days Leaves</th>
                                                             <th>Remarks</th>
-                                                            <th>Action</th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -77,8 +77,8 @@
                                                                    <td>{{ item.working_days }}</td>
                                                                    <td>{{ item.leave_days }}</td>
                                                                    <td>{{ item.remarks }}</td>
-                                                                   <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
-                                                                    data-bs-target=".edit_donor_search">Edit</a></td>
+                                                                   {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                                </tr>
                                                         {% endfor %}
                                                      </tbody>

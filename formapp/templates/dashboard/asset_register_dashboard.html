@@ -65,7 +65,7 @@
                                                             <th>Place were asset is Placed in the shelter</th>
                                                             <th>Owner of Asset</th>
                                                             <th>Dispose Date</th>
-                                                            <th>Action</th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
                                                             
                                                         </tr>
                                                     </thead>
@@ -82,8 +82,8 @@
                                                                 <td>{{ item.place_asset }}</td>
                                                                 <td>{{ item.owner_asset }}</td>
                                                                 <td>{{ item.dispose_date }}</td>
-                                                                <td> <a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
-                                                                    data-bs-target=".edit_donor_search">Edit</a></td></td>
+                                                                {% comment %} <td> <a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td></td> {% endcomment %}
                                                             </tr>
                                                         {% endfor %}
                                                      </tbody>

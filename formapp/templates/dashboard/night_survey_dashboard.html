@@ -62,7 +62,7 @@
                                                             <th>Place(Area)</th>
                                                             <th>Details of Night Visit</th>
                                                             <th>Number of Rescue</th>
-                                                            <th>Action</th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -75,8 +75,8 @@
                                                                    <td>{{ item.place }}</td>
                                                                    <td>{{ item.details_of_visit }}</td>
                                                                    <td>{{ item.number_of_rescue }}</td>
-                                                                   <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
-                                                                    data-bs-target=".edit_donor_search">Edit</a></td>
+                                                                   {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                                </tr>
                                                         {% endfor %}
                                                      </tbody>

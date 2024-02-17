@@ -73,8 +73,9 @@ urlpatterns = [
     path('personal_info_dashboard/', views.personal_info_dashboard, name='personal_info_dashboard'),
     path('food_menu_form/', views.food_menu_form, name='food_menu_form'),
     path('food_menu_dashboard/', views.food_menu_dashboard, name='food_menu_dashboard'),
-    path('records/', views.records, name='records'),
+   
     path('search/', views.search, name='search'),
+    path('download-master-records-excel/', views.download_master_records_excel, name='download_master_records_excel'),
     # path('record_edit/', views.record_edit, name='record_edit'),
     # path('record_delete/', views.record_delete, name='record_delete'),
     # <a href="{% url 'staff_attendance_register_dashboard' %}">Staff Attendance Dashboard</a>

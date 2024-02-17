@@ -65,7 +65,7 @@
                                                                                                                        <th>Follow-up Conduct</th>
                                                                                                                        <th>Follows</th>
                                                                                                                        <th>Staff Event Close</th>
-                                                                                                                       <th>Action</th>
+                                                                                                                       {% comment %} <th>Action</th> {% endcomment %}
                                                                                                                    </tr>
                                                                                                                </thead>
                                                                                                                <tbody>
@@ -81,8 +81,8 @@
                                                                                                                               <td>{{ item.follow_up_conduct }}</td>
                                                                                                                               <td>{{ item.follows }}</td>
                                                                                                                               <td>{{ item.staff_event_close }}</td>
-                                                                                                                              <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
-                                                                                                                               data-bs-target=".edit_donor_search">Edit</a></td>
+                                                                                                                              {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                                                                               data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                            
                                                                                                                           </tr>
                                                                                                                    {% endfor %}
@@ -116,7 +116,7 @@
                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                    </div>
                                                                                    <div class="modal-body">
-                                                                                       <form method="POST", action="{% url 'reintegration_form' %}">
+                                                                                       <form method="POST", action="{% url 'reintegration_register_dashboard' %}">
                                                                                            {% csrf_token %}
                                                                                            <div class="row">
                                                                                                
@@ -124,63 +124,63 @@
                                                                                                    <label class="form-label fs-16">Admission Number :</label>
                                                                                                </div>
                                                                                                <div class="col-md-7 mb-3">
-                                                                                                   <input type="number" class="form-control" name="admission_no"/>
+                                                                                                <input type="number" class="form-control" name="admission_no" value="{{ reintegration_object.admission_no }}">
                                                                                                </div>
                                                                                                
                                                                                                <div class="col-md-5">
                                                                                                    <label  class="form-label fs-16">Name of the Resident:</label>
                                                                                                </div>
                                                                                                <div class="col-md-7 mb-3">
-                                                                                                 <input type="text" class="form-control" name="resident_name" />
+                                                                                                <input type="text" class="form-control" name="resident_name" value="{{ reintegration_object.resident_name }}">
                                                                                                </div>
                                                                                                <div class="col-md-5">
                                                                                                    <label  class="form-label fs-16">Date of Joining :</label>
                                                                                                </div>
                                                                                                <div class="col-md-7 mb-3">
-                                                                                                   <input type="date" class="form-control" 
-                                                                                                       name="date_of_joining" />
+                                                                                                <input type="date" class="form-control" name="date_of_joining" value="{{ reintegration_object.date_of_joining }}">
+
                                                                                                </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Date of Leaving :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
-                                                                                               <input type="date" class="form-control" 
-                                                                                               name="date_of_leaving" />
+                                                                                                <input type="date" class="form-control" name="date_of_leaving" value="{{ reintegration_object.date_of_leaving }}">
+
                                                                                              </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Reason for Leaving :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
-                                                                                               <input type="text" class="form-control" 
-                                                                                               name="reason_for_leaving" />
+                                                                                                <input type="text" class="form-control" name="reason_for_leaving" value="{{ reintegration_object.reason_for_leaving }}">
+
                                                                                              </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Address :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
-                                                                                               <input type="text" class="form-control" 
-                                                                                               name="address" />
+                                                                                                <input type="text" class="form-control" name="address" value="{{ reintegration_object.address }}">
+
                                                                                              </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Follow-up Conduct :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
-                                                                                               <input type="text" class="form-control" 
-                                                                                               name="follow_up_conduct" />
+                                                                                                <input type="text" class="form-control" name="follow_up_conduct" value="{{ reintegration_object.follow_up_conduct }}">
+
                                                                                              </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Follows :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
-                                                                                               <input type="text" class="form-control" 
-                                                                                               name="follows" />
+                                                                                                <input type="text" class="form-control" name="follows" value="{{ reintegration_object.follows }}">
+
                                                                                              </div>
                                                                                                <div class="col-md-5">
                                                                                                  <label  class="form-label fs-16">Staff Event Close :</label>
                                                                                              </div>
                                                                                              <div class="col-md-7 mb-3">
-                                                                                               <input type="text" class="form-control" 
-                                                                                               name="staff_event_close" />
+                                                                                                <input type="text" class="form-control" name="staff_event_close" value="{{ reintegration_object.staff_event_close }}">
+
                                                                                              </div>
                                                                                                
                                                                                              </div>

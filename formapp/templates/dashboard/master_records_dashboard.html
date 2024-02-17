@@ -35,6 +35,9 @@
     <!-- custom Css-->
     <link href="{% static 'main/assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
 </head>
 
 <body>
@@ -254,7 +257,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'inspection_register_dashboard" class="nav-link" data-key="t-chat" target="_self">
+                                    <a href="{% url 'inspection_register_dashboard' %}" class="nav-link" data-key="t-chat" target="_self">
                                     Inspection Records
                                     </a>
                                 </li>
@@ -418,7 +421,7 @@
 
                                             <div class="card-body">
                                               <div class="table-responsive">
-                                                <table id="example"
+                                                <table  id="buttons-datatables"
                                                     class="table table-bordered dt-responsive nowrap table-striped align-middle"
                                                     style="width:100%">
                                                     <thead>
@@ -460,25 +463,35 @@
                                                                 <td>{{ item.name }}</td>
                                                                 <td>
                                                                     {% if item.photo_url %}
-                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
-                                                                    <!-- Modal -->
-                                                                    <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
-                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body text-center">
-                                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
+                                                                        <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
+                                                                        <!-- Modal -->
+                                                                        <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
+                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body text-center">
+                                                                                        <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
                                                                     {% else %}
-                                                                    No photo available
+                                                                        No photo available
+                                                                    {% endif %}
+                                                                    
+                                                                    <!-- Download button -->
+                                                                    {% if item.photo_url %}
+                                                                        <a href="{{ item.photo_url.url }}" download>
+                                                                            <button class="btn btn-primary btn-sm">
+                                                                                <i class="fas fa-download"></i>
+                                                                            </button>
+                                                                        </a>
                                                                     {% endif %}
                                                                 </td>
+                                                                
                                                                 <td>{{ item.Aid_no }}</td>
                                                                 <td>{{ item.Age_gender }}</td>
                                                                 <td>{{ item.dob }}</td>

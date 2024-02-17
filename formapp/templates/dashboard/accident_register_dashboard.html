@@ -65,7 +65,7 @@
                                                             <th>Accident Place</th>
                                                             <th>Signature</th>
                                                             <th>User</th>
-                                                            <th>Action</th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -80,8 +80,8 @@
                                                                 <td>{{ item.signature }}</td>
                                                                 <td>{{ item.user }}</td>
                                                                 <td>  <div>
-                                                                    <a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal"  data-bs-target="#add_notes"
-                                                                    data-bs-target=".edit_donor_search">Edit</a>
+                                                                    {% comment %} <a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal"  data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a> {% endcomment %}
                                                                 </div></td>
                                                             </tr>
 
@@ -97,7 +97,7 @@
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <form method="POST" action="{% url 'accident_register_form' %}">
+                                                                            <form method="POST" action="/accident_register_dashboard/">
                                                                                 {% csrf_token %}
                                                                                 <div class="row">
                                                                                     <div class="col-md-5">
