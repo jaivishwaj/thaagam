@@ -59,18 +59,21 @@
                                                             <th>Nature Of Work</th>
                                                             <th>Work Done By</th>
                                                             <th>Sign</th>
+                                                            <th>Created at</th>
                                                             {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for item in data %}
-                                                        <tr><td>{{forloop.counter}}</td>
+                                                        <tr>
+                                                            <td>{{forloop.counter}}</td>
                                                             <td>{{ item.uqid }}</td>
                                                             <td>{{ item.date_of_plan }}</td>
                                                             <td>{{ item.working_area }}</td>
                                                             <td>{{ item.nature_of_work }}</td>
                                                             <td>{{ item.work_done_by }}</td>
                                                             <td>{{ item.sign }}</td>
+                                                            <td>{{ item.created_at }}</td>
                                                             {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
 

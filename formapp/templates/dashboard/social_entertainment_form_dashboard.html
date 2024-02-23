@@ -60,17 +60,20 @@
                                                             <th>Admission</th>
                                                             <th>Name</th>
                                                             <th>Work Details</th>
+                                                            <th>Created at</th>
                                                             {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                          {% for item in data %}
-                                                               <tr><td>{{ forloop.counter }}</td>
+                                                               <tr>
+                                                                <td>{{ forloop.counter }}</td>
                                                                    <td>{{ item.uqid }}</td>
                                                                    <td>{{ item.date }}</td>
                                                                    <td>{{ item.admission }}</td>
                                                                    <td>{{ item.name }}</td>
                                                                    <td>{{ item.workDetails }}</td>
+                                                                   <td>{{ item.created_at }}</td>
                                                                    {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
                                                                     data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                                </tr>

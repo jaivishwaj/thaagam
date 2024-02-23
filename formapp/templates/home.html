@@ -46,6 +46,26 @@
       color: white;
 
     }
+    .find_records{
+      position: absolute;
+      bottom: 67px;
+      font-size: 18px;
+      left: 1096px;
+      padding: 11px 36px;
+      font-size:16px
+
+    }
+    @media (max-width: 776px) {
+      .find_records {
+        position: absolute;
+        bottom: 70px;
+        font-size: 18px;
+        left: 280px;
+        padding: 8px 15px;
+        font-size:12px
+      }
+  }
+  
 
 
   </style>
@@ -101,7 +121,7 @@
     <!-- end navbar -->
     
     <!-- start hero section -->
-    <section style="padding: 300px 0 300px 0;" class="section nft-hero" id="hero">
+    <section style="padding: 300px 0 300px 0;position:relative" class="section nft-hero" id="hero">
       <div style="opacity: 0.5;" class="bg-overlay"></div>
       <div class="container">
         <div class="row justify-content-center">
@@ -138,13 +158,15 @@
 
 
     <!-- start Work Process -->
-    <section  class="section bg-light" id="creators">
+    <section  class="section bg-light"  id="creators">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10">
-            <div class="text-center mb-5" style="display: flex;justify-content:center;align-items:center;padding-left:170px">
+            <div class="text-center mb-5" style="display: flex;justify-content:center;align-items:center;">
               <h2 style="width: 125px;font-weight: 700; font-size: 40px; color: #242121ce; border-bottom: 5px solid #ef6b36" class="mb-3 fw-semibold lh-base">Forms</h2>
+              
             </div>
+            <a href="{% url 'search_results' %}" class="btn btn-danger rounded-pill find_records" >Find Records</a>
           </div>
           
         
@@ -922,6 +944,32 @@
                   <div class="ms-3 flex-grow-1">
                     <a href="{% url 'inspection_register_dashboard' %}">
                       <h3 class="mb-1 pt-2 text-center">Inspection Record</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/vistor.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'case_work_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Case Work</h3>
                     </a>
                     <!-- <p class="text-muted mb-0">
                         <i class="mdi mdi-ethereum text-primary fs-14"></i>

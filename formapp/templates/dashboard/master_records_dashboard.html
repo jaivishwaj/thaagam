@@ -430,25 +430,27 @@
                                                             <th>S-NO</th>
                                                             <th>name</th>
                                                              <th>Photo</th>
-                                                            <th>Aid_no</th>
-                                                            <th>Age_gender</th>
+                                                            <th>Aiddmission no</th>
+                                                            <th>Age/gender</th>
                                                             <th>dob</th>
-                                                            <th>Date_Of_Admission</th>
-                                                            <th>Date_Of_Leaving</th>
-                                                            <th>Family_Contact_No</th>
+                                                            <th>Date Of Admission</th>
+                                                            <th>Date Of Leaving</th>
+                                                            <th>Family Contact No</th>
                                                             <th>Relation</th>
-                                                            <th>Permanent_Address</th>
-                                                            <th>Mode_Of_Identification_Rescue</th>
-                                                            <th>Identification_Mark</th>
-                                                            <th>Identification_Papers</th>
-                                                            <th>Rehabilitation_Measures</th>
-                                                            <th>Reason_For_Leaving_Shelter</th>
-                                                            <th>Follow_Up_Action</th>
-                                                            <th>Second_Follow_Up</th>
-                                                            <th>Medical_Status</th>
-                                                            <th>File_Closure_Status</th>
-                                                            <th>Remarks</th>
+                                                            <th>Permanent Address</th>
+                                                            <th>Mode Of Identification Rescue</th>
+                                                            <th>Identification Mark</th>
+                                                            <th>Identification Papers</th>
+                                                            <th>Rehabilitation Measures</th>
+                                                            <th>Reason For Leaving Shelter</th>
+                                                            <th>Action taken</th>
+                                                            <th>Follow Up Action</th>
+                                                            
+                                                            <th>Medical Status</th>
+                                                            <th>File Closure Status</th>
+                                                            <th>Fact Finding</th>
                                                             <th>Signature</th>
+                                                            <th>Created at</th>
 
 
 
@@ -505,12 +507,14 @@
                                                                 <td>{{ item.Identification_Papers }}</td>
                                                                 <td>{{ item.Rehabilitation_Measures }}</td>
                                                                 <td>{{ item.Reason_For_Leaving_Shelter }}</td>
+                                                                <td>{{ item.Action_takenup }}</td>
                                                                 <td>{{ item.Follow_Up_Action }}</td>
-                                                                <td>{{ item.Second_Follow_Up }}</td>
+                                                            
                                                                 <td>{{ item.Medical_Status }}</td>
                                                                 <td>{{ item.File_Closure_Status }}</td>
-                                                                <td>{{ item.Remarks }}</td>
+                                                                <td>{{ item.Fact_finding }}</td>
                                                                 <td>{{ item.Signature }}</td>
+                                                                <td>{{ item.created_at }}</td>
                                                             </tr>
                                                        {% endfor %}
                                                       </tbody>

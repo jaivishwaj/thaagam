@@ -56,11 +56,12 @@
                                                         <tr>
                                                             <th>S.No</th>
                                                             <th>Uqid</th>
-                                                            <th>Date of Plan</th>
+                                                            <th>Date of Salary</th>
                                                             <th>Name</th>
                                                             <th>Designation</th>
                                                             <th>Salary</th>
                                                             <th>Sign</th>
+                                                            <th>Created at</th>
                                                             {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
@@ -72,8 +73,9 @@
                                                                    <td>{{ item.date }}</td>
                                                                    <td>{{ item.name }}</td>
                                                                    <td>{{ item.designation }}</td>
-                                                                   <td> &#8377; {{ item.salary }} </td>
+                                                                   <td>{{ item.salary }} </td>
                                                                    <td>{{ item.sign }}</td>
+                                                                   <td>{{ item.created_at }}</td>
                                                                    {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
                                                                     data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                                 </tr>

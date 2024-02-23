@@ -1,5 +1,5 @@
 from django import forms
-from .models import provision,Reintegration,VisitorRegister,PerformanceAppraisal,Resident,SocialEntertainment,CaseHistory,ActionplanRegister,AwarnessRegister,BpPulsenote,CounsellingRegister,MedicalCamp,Medicine,NightSurvey,SkillTraining,SmcRegister,StaffAttendence,Stock,EmploymentLink,Rehabitation,DeathRegister,AccidentRegister,Record
+from .models import provision,Reintegration,VisitorRegister,PerformanceAppraisal,Resident,SocialEntertainment,CaseHistory,ActionplanRegister,AwarnesRegister,BpPulsenote,CounsellingRegister,MedicalCamp,Medicine,NightSurvey,SkillTraining,SmcRegister,StaffAttendence,Stock,EmploymentLink,Rehabitation,DeathRegister,AccidentRegister,CaseWork
  
 class ProvisionForm(forms.ModelForm):
     class Meta:
@@ -50,7 +50,7 @@ class ActionplanRegisterForm(forms.ModelForm):
 
 class AwarnessRegisterForm(forms.ModelForm):
     class Meta:
-        models = AwarnessRegister
+        models = AwarnesRegister
         fields = '__all__'
 
 
@@ -130,7 +130,10 @@ class AccidentRegisterForms(forms.ModelForm):
         fields = '__all__'
 
 
-class RecordForm(forms.ModelForm):
+
+
+
+class CaseWorkForms(forms.ModelForm):
     class Meta:
-        model = Record
+        model = CaseWork
         fields = '__all__'

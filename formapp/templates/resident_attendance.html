@@ -33,7 +33,7 @@
                                         <input type="number" class="form-control mt-2"id="uqid" name="uqid" placeholder="Enter Unique Id"  />
                                 </div>
                                 <div class="form-group col-md-6 mt-3">
-                                    <label for="name_pupil"> Name Of the Pupil</label>
+                                    <label for="name_pupil"> Name Of the Resident</label>
                                    <input type="text" class="form-control mt-2" id="name_pupil" name="name_pupil"  required>
                                 </div>
                     
@@ -52,16 +52,20 @@
                                     <label for="daysPresent">Number of Days Present:</label>
                                     <input type="number" class="form-control  mt-2" id="daysPresent" min="0" max="31" name="daysPresent" >
                                 </div>
-                    
                                 <div class="form-group col-md-6 mt-3">
+                                    <label for="daysPresent">Number of Days Absent:</label>
+                                    <input type="number" class="form-control  mt-2" id="daysabsent" min="0" max="31" name="daysabsent" >
+                                </div>
+                    
+                                {% comment %} <div class="form-group col-md-6 mt-3">
                                     <label for="schoolFee">School Fee:</label>
                                     <input type="number" class="form-control  mt-2" id="schoolFee" name="schoolFee" >
-                                </div>
+                                </div> {% endcomment %}
                     
-                                <div class="form-group col-md-6 mt-3">
+                                {% comment %} <div class="form-group col-md-6 mt-3">
                                     <label for="dayOfPayment">Day of Payment:</label>
                                     <input type="date" class="form-control  mt-2" id="dayOfPayment" name="dayOfPayment" >
-                                </div>
+                                </div> {% endcomment %}
                                 <div class="form-group  mt-4 d-flex justify-content-center">
                                     <button type="submit" class="them-btn">Submit</button>
                                 </div>

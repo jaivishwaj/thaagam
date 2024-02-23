@@ -2,15 +2,6 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import RegexValidator
 import random
-# class AlphaNumericField(models.CharField):
-#     def _init_(self, *args, **kwargs):
-#         kwargs['max_length'] = 6  # Set fixed max_length for alphanumeric field
-#         super()._init_(*args, **kwargs)
-#
-#     @staticmethod
-#     def generate_alphanumeric():
-#         alphanumeric = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
-#         return alphanumeric.upper()
 
 class Inspectionregister(models.Model):
     name = models.CharField(max_length=100)
@@ -20,7 +11,7 @@ class Inspectionregister(models.Model):
     date = models.DateField()
     time = models.TimeField()
     sign = models.CharField(max_length=100)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.name)
 
@@ -32,13 +23,14 @@ class provision(models.Model):
     utilized_quantity = models.IntegerField()
     balance_quantity = models.IntegerField()
     remarks = models.TextField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.material_name)
 
 
 class Reintegration(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
+    photo_url = models.ImageField(upload_to="photos/", blank=True, null=True)
     admission_no = models.IntegerField()
     user = models.CharField(max_length=200)
     uqid = models.CharField(max_length=4)
@@ -50,7 +42,7 @@ class Reintegration(models.Model):
     follow_up_conduct = models.TextField()
     follows = models.CharField(max_length=255)
     staff_event_close = models.CharField(max_length=255)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.admission_no)
 
@@ -71,7 +63,7 @@ class VisitorRegister(models.Model):
     )
     phone_number = models.CharField(max_length=10, validators=[phone_regex])
     signature = models.TextField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.date)
 
@@ -92,7 +84,7 @@ class PerformanceAppraisal(models.Model):
     death = models.CharField(max_length=100)
     end_strength = models.IntegerField()
     rescue = models.IntegerField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.date)
 
@@ -107,9 +99,8 @@ class Resident(models.Model):
     dob = models.DateField()
     attendance = models.CharField(max_length=255, default='-')
     daysPresent = models.IntegerField()
-    schoolFee = models.IntegerField()
-    dayOfPayment = models.DateField()
-
+    daysAbsent = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.pupilName)
 
@@ -122,7 +113,7 @@ class SocialEntertainment(models.Model):
     admission = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     workDetails = models.TextField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return self.date
 
@@ -130,7 +121,7 @@ class SocialEntertainment(models.Model):
 class CaseHistory(models.Model):
     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
     user = models.CharField(max_length=200)
-    id = models.IntegerField(primary_key=True)
+    uqid = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     age = models.IntegerField()
     sex = models.CharField(max_length=10)
@@ -146,56 +137,11 @@ class CaseHistory(models.Model):
     idProofDetails = models.TextField()
     policeMemoAvailable = models.CharField(max_length=255)
     policeStationDetails = models.TextField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return self.name
 
 
-
-
-#
-# class CaseHistory(models.Model):
-#     # uqid = AlphaNumericField(unique=True, editable=False)
-#     photo_url = models.URLField(null=True, blank=True)
-#     # photo = models.ImageField(upload_to='case_history_photos/', null=True, blank=True)
-#     name = models.CharField(max_length=100)
-#     age = models.IntegerField()
-#     SEX_CHOICES = [
-#         ('male', 'Male'),
-#         ('female', 'Female'),
-#         ('other', 'Other'),
-#     ]
-#     sex = models.CharField(max_length=10, choices=SEX_CHOICES)
-#     religion = models.CharField(max_length=100, blank=True, null=True)
-#     MARITAL_STATUS_CHOICES = [
-#         ('single', 'Single'),
-#         ('married', 'Married'),
-#         ('divorced', 'Divorced'),
-#         ('widowed', 'Widowed'),
-#     ]
-#     maritalStatus = models.CharField(max_length=10, choices=MARITAL_STATUS_CHOICES, blank=True, null=True)
-#     identificationMark = models.CharField(max_length=255, blank=True, null=True)
-#     educationBackground = models.CharField(max_length=255, blank=True, null=True)
-#     occupation = models.CharField(max_length=255, blank=True, null=True)
-#     address = models.TextField()
-#     residentContactNumber = models.CharField(max_length=15)
-#     relativeOrFriendsContact = models.CharField(max_length=15)
-#     ID_PROOF_CHOICES = [
-#         ('yes', 'Yes'),
-#         ('no', 'No'),
-#     ]
-#     idProofAvailable = models.CharField(max_length=5, choices=ID_PROOF_CHOICES)
-#     idProofDetails = models.CharField(max_length=255, blank=True, null=True)
-#     POLICE_MEMO_CHOICES = [
-#         ('yes', 'Yes'),
-#         ('no', 'No'),
-#     ]
-#     policeMemoAvailable = models.CharField(max_length=5, choices=POLICE_MEMO_CHOICES)
-#     policeStationDetails = models.CharField(max_length=255, blank=True, null=True)
-#
-#
-#     def __str__(self):
-#         return str(self.photo)
 
 
 class ActionplanRegister(models.Model):
@@ -205,14 +151,13 @@ class ActionplanRegister(models.Model):
     user = models.CharField(max_length=200)
     detailed_notes = models.TextField()
     action_plan_date = models.DateField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.date_of_plan)
 
 
 class AccidentRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
-    user = models.CharField(max_length=200)
     user = models.CharField(max_length=200)
     uqid = models.CharField(max_length=4)
     date = models.DateField()
@@ -221,9 +166,12 @@ class AccidentRegister(models.Model):
     accident_condition = models.CharField(max_length=200)
     accident_place = models.CharField(max_length=100)
     signature = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)  # Automatically set when the object is first created
+
 
     def __str__(self):
         return str(self.uqid)
+
 
 class AwarnesRegister(models.Model):
     uqid = models.CharField(max_length=4)
@@ -233,7 +181,7 @@ class AwarnesRegister(models.Model):
     place = models.CharField(max_length=255)
     details = models.TextField()
     participants = models.CharField(max_length=255)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return f"{self.place} - {self.date}"
@@ -251,7 +199,8 @@ class Asset(models.Model):
     place_asset = models.CharField(max_length=100)
     owner_asset = models.CharField(max_length=100)
     dispose_date = models.DateField()
-
+    what_dispossed = models.CharField(max_length=100, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.name_asset)
 
@@ -264,7 +213,7 @@ class BpPulsenote(models.Model):
     pulse = models.IntegerField()
     bp = models.IntegerField()
     temperature = models.FloatField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return f"{self.name} - {self.date}"
 
@@ -278,7 +227,7 @@ class CounsellingRegister(models.Model):
     number_of_sessions = models.IntegerField()
     observation_identification = models.TextField()
     signature = models.CharField(max_length=100)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return f"{self.name} - {self.date}"
 
@@ -294,7 +243,7 @@ class MedicalCamp(models.Model):
     complaints = models.TextField()
     others = models.TextField(blank=True)
     treatment = models.TextField(blank=True)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return f"{self.name}'s Medical Camp"
 
@@ -310,7 +259,7 @@ class Medicine(models.Model):
     # morning = models.BooleanField(default=False)
     # afternoon = models.BooleanField(default=False)
     # night = models.BooleanField(default=False)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return f"{self.name}'s Medicine"
 
@@ -324,7 +273,7 @@ class NightSurvey(models.Model):
     place = models.CharField(max_length=255)
     details_of_visit = models.TextField()
     number_of_rescue = models.CharField(max_length=255)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return f"Night Survey - {self.date}"
 
@@ -343,7 +292,7 @@ class PersonalInfo(models.Model):
     email = models.EmailField()
     birthdate = models.DateField(default=timezone.now)
     photo_url = models.ImageField(upload_to="photos/", blank=True, null=True)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         date_info = self.date.strftime('%Y-%m-%d') if self.date else "No Date"
         return f"{self.name} - {date_info}"
@@ -355,13 +304,9 @@ class SkillTraining(models.Model):
     uqid = models.IntegerField()
     resident_name = models.CharField(max_length=100)
     skill_training_details = models.TextField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return f"Skill Training - {self.date}"
-
-
-
-
 
 
 class SmcRegister(models.Model):
@@ -373,11 +318,12 @@ class SmcRegister(models.Model):
     last_month_performance_details = models.TextField()
     issue_resolved = models.TextField()
     this_month_issue = models.TextField()
-    ngo_staff_name = models.CharField(max_length=100)
     gcc_officials_name = models.CharField(max_length=100)
+    ngo_staff_name = models.CharField(max_length=100)
+   
     police_officials_name = models.CharField(max_length=100)
     residents_name = models.CharField(max_length=100)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return f"SMC Register - {self.date}"
 
@@ -395,7 +341,7 @@ class StaffAttendance(models.Model):
     working_days = models.IntegerField()
     leave_days = models.IntegerField()
     remarks = models.TextField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.name)
 
@@ -409,7 +355,7 @@ class Stock(models.Model):
     receipt = models.CharField(max_length=255)
     issued = models.IntegerField()
     balance = models.IntegerField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return f"{self.date} - {self.particulars}"
 
@@ -426,7 +372,7 @@ class EmploymentLink(models.Model):
     designation = models.CharField(max_length=50)
     joining_date = models.DateField()
     signature = models.CharField(max_length=100)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return f"{self.uqid} - {self.resident_name}"
 
@@ -448,7 +394,8 @@ class Rehabitation(models.Model):
     mode_of_rescue = models.CharField(max_length=100)
     mode_of_rehabilitation = models.CharField(max_length=100)
     follow_up = models.CharField(max_length=100)
-
+    photo_url = models.ImageField(upload_to='rehabitation_photos/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return self.name_of_the_resident
 
@@ -466,7 +413,7 @@ class DeathRegister(models.Model):
     address_and_contact_number = models.CharField(max_length=200)
     legal_producer_taken_if_unclaimed = models.CharField(max_length=200)
     remarks = models.CharField(max_length=200)
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return self.name_of_the_death_person
 
@@ -484,7 +431,7 @@ class FoodMenu(models.Model):
     no_of_resident3 = models.IntegerField()
     dinner = models.CharField(max_length=100)
     no_of_resident4 = models.IntegerField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.date)
 
@@ -499,7 +446,7 @@ class SalaryRegister(models.Model):
     designation = models.CharField(max_length=100)
     salary = models.IntegerField()
     sign = models.TextField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def __str__(self):
         return str(self.date)
 
@@ -513,7 +460,7 @@ class StaffMovement(models.Model):
     nature_of_work = models.CharField(max_length=255)
     work_done_by = models.CharField(max_length=255)
     sign = models.TextField()
-
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
     def _str_(self):
         return str(self.date_of_plan)
 
@@ -551,102 +498,63 @@ class MasterRecords(models.Model):
     Identification_Papers = models.CharField(max_length=100)
     Rehabilitation_Measures = models.TextField()
     Reason_For_Leaving_Shelter = models.TextField()
+    Action_takenup = models.TextField(null=True, blank=True)
     Follow_Up_Action = models.TextField()
-    Second_Follow_Up = models.TextField()
+   
     Medical_Status = models.CharField(max_length=50)
     File_Closure_Status = models.CharField(max_length=50)
     police_memo = models.CharField(max_length=100, blank=True, null=True)
     police_Station = models.CharField(max_length=100, blank=True, null=True)
-    Remarks = models.TextField()
+    Fact_finding = models.TextField()
     Signature = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
-
-    # @classmethod
-    # def truncate(cls):
-    #     with connection.cursor() as cursor:
-    #         cursor.execute('TRUNCATE TABLE {} CASCADE'.format(cls._meta.db_table))
-
+  
     def __str__(self):
         return f"{self.id} - {self.name}"
 
-
-# class MasterRecords(models.Model):
-#     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
-#     user = models.CharField(max_length=200)
-#     id = models.AutoField(primary_key=True, unique=True, editable=False)
-#     name = models.CharField(max_length=100)
-#     Aid_no = models.IntegerField()
-#     Age_gender = models.CharField(max_length=50)
-#     dob = models.DateField()
-#     Date_Of_Admission = models.DateField()
-#     Date_Of_Leaving = models.DateField()
-#     Family_Contact_No = models.CharField(max_length=20)
-#     Relation = models.CharField(max_length=50)
-#     Permanent_Address = models.TextField()
-#     Mode_Of_Identification_Rescue = models.CharField(max_length=100)
-#     Identification_Mark = models.CharField(max_length=100)
-#     Identification_Papers = models.CharField(max_length=100)
-#     Rehabilitation_Measures = models.TextField()
-#     Reason_For_Leaving_Shelter = models.TextField()
-#     Follow_Up_Action = models.TextField()
-#     Second_Follow_Up = models.TextField()
-#     Medical_Status = models.CharField(max_length=50)
-#     File_Closure_Status = models.CharField(max_length=50)
-#     police_memo = models.CharField(max_length=100, blank=True, null=True)
-#     police_Station = models.CharField(max_length=100, blank=True, null=True)
-#     Remarks = models.TextField()
-#     Signature = models.CharField(max_length=100)
-
-#     def save(self, *args, **kwargs):
-#         if not self.id:  # If the instance does not have an ID, create one
-#             last_record = MasterRecords.objects.order_by('-id').first()  # Get the last record
-#             if last_record:
-#                 self.id = last_record.id + 1  # Increment the ID by 1
-#             else:
-#                 self.id = 1  # Set the ID to 1 if there are no existing records
-#         super().save(*args, **kwargs)  # Call the parent class save method
-
-#     def __str__(self):
-#         return f"{self.id} - {self.name}"
-
-
-
-
-
-from django.db import models
-
-class Record(models.Model):
-    uqid = models.CharField(max_length=100)
-    # Other fields for your record details
+class CaseWork(models.Model):
+    uqid = models.CharField(max_length=4,null=True)
+    user = models.CharField(max_length=100,null=True)
+    photo = models.ImageField(upload_to='photos/', blank=True, null=True)
+    aid_no = models.IntegerField()
+    doa = models.DateField()
+    dol = models.DateField()
+    mode_of_rescue = models.CharField(max_length=100)
+    file_details = models.CharField(max_length=255)
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    gender = models.CharField(max_length=20)
+    religion = models.CharField(max_length=100)
+    marital_status = models.CharField(max_length=100)
+    idnt_mark = models.CharField(max_length=255)
+    edu_back = models.CharField(max_length=255)
+    occcu_back = models.CharField(max_length=255)
+    address = models.TextField()
+    resident_ph = models.CharField(max_length=15)
+    relative_ph = models.CharField(max_length=15)
+    id_proof = models.CharField(max_length=100)
+    police_memo = models.CharField(max_length=100)
+    res_photo1 = models.ImageField(upload_to='res_photos1/', blank=True, null=True)
+    res_photo2 = models.ImageField(upload_to='res_photos2/', blank=True, null=True)
+    res_letter = models.CharField(max_length=100)
+    small_narration = models.TextField()
+    geno1 = models.ImageField(upload_to='genograms1/', blank=True, null=True)
+    geno2 = models.ImageField(upload_to='genograms2/', blank=True, null=True)
+    genogram =models.CharField(max_length=100,null=True)
+    res_family = models.CharField(max_length=255)
+    res_eco = models.CharField(max_length=255)
+    res_phy_status = models.CharField(max_length=255)
+    hl_photo1 = models.ImageField(upload_to='homeless_photos1/', blank=True, null=True)
+    hl_photo2 = models.ImageField(upload_to='homeless_photos2/', blank=True, null=True)
+    reason_for_homeless = models.TextField()
+    stre_and_weak = models.TextField()
+    fact = models.TextField()
+    rehab_photo1 = models.ImageField(upload_to='rehab_photo1/', blank=True, null=True)
+    rehab_photo2 = models.ImageField(upload_to='rehab_photo2/', blank=True, null=True)
+    rehab_measure = models.TextField()
+    action = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
-        return self.uqid
-
-
-
-
-# class Record(models.Model):
-#     uqid = models.CharField(max_length=100,null=True,blank=True)
-#     get_records_by_uqid = models.ForeignKey(MasterRecords, on_delete=models.CASCADE, null=True, blank=True)
-
-#     def __str__(self):
-#         return self.uqid
-
-#     @classmethod
-#     def get_records_by_uqid(cls, uqid):
-#         """
-#         Retrieve all records with the given uqid.
-#         """
-#         return cls.objects.filter(uqid=uqid)
-
-# class Form(models.Model):
-#     # Define your form fields here
-#     pass
-
-# class Record(models.Model):
-#     uqid = models.CharField(max_length=100,null=True,blank=True)
-#     # form = models.ForeignKey(Form, on_delete=models.CASCADE)
-#     # Other fields for the record
-
-#     def __str__(self):
-#         return self.uqid    
+        return self.name

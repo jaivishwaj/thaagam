@@ -56,6 +56,7 @@
                                                                                                                   <tr>
                                                                                                                        <th>S.No</th>
                                                                                                                        <th>Uqid</th>
+                                                                                                                       <th>Photo</th>
                                                                                                                        <th>Admission Number</th>
                                                                                                                        <th>Name of the Resident</th>
                                                                                                                        <th>Date of Joining</th>
@@ -65,13 +66,45 @@
                                                                                                                        <th>Follow-up Conduct</th>
                                                                                                                        <th>Follows</th>
                                                                                                                        <th>Staff Event Close</th>
+                                                                                                                       <th>Created at</th>
                                                                                                                        {% comment %} <th>Action</th> {% endcomment %}
                                                                                                                    </tr>
                                                                                                                </thead>
                                                                                                                <tbody>
                                                                                                                     {% for item in data %}
-                                                                                                                          <tr><td>{{ forloop.counter }}</td>
+                                                                                                                          <tr>
+                                                                                                                            <td>{{ forloop.counter }}</td>
                                                                                                                               <td>{{ item.uqid }}</td>
+                                                                                                                              <td>
+                                                                                                                                {% if item.photo_url %}
+                                                                                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
+                                                                                                                                    <!-- Modal -->
+                                                                                                                                    <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                                                                                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                                                                                                            <div class="modal-content">
+                                                                                                                                                <div class="modal-header">
+                                                                                                                                                    <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
+                                                                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="modal-body text-center">
+                                                                                                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                                {% else %}
+                                                                                                                                    No photo available
+                                                                                                                                {% endif %}
+                                                                                                                                
+                                                                                                                                <!-- Download button -->
+                                                                                                                                {% if item.photo_url %}
+                                                                                                                                    <a href="{{ item.photo_url.url }}" download>
+                                                                                                                                        <button class="btn btn-primary btn-sm">
+                                                                                                                                            <i class="fas fa-download"></i>
+                                                                                                                                        </button>
+                                                                                                                                    </a>
+                                                                                                                                {% endif %}
+                                                                                                                            </td>
                                                                                                                               <td>{{ item.admission_no }}</td>
                                                                                                                               <td>{{ item.resident_name }}</td>
                                                                                                                               <td>{{ item.date_of_joining }}</td>
@@ -81,6 +114,7 @@
                                                                                                                               <td>{{ item.follow_up_conduct }}</td>
                                                                                                                               <td>{{ item.follows }}</td>
                                                                                                                               <td>{{ item.staff_event_close }}</td>
+                                                                                                                              <td>{{ item.created_at }}</td>
                                                                                                                               {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
                                                                                                                                data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                            

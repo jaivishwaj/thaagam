@@ -55,27 +55,25 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <!-- <th>Uqid</th> -->
-                                                            <th>S No</th>
-                                                            <th>Date of Plan</th>
-                                                            <th>Detailed Notes on Action Plan</th>
-                                                            <th>Action Plan Date</th>
-                                                            <th>user </th>
-                                                            {% comment %} <th>Action</th> {% endcomment %}
-
+                                                                <th>S No</th>
+                                                                <th>Date of Plan</th>
+                                                                <th>Detailed Notes on Action Plan</th>
+                                                                <th>Action Plan Date</th>
+                                                                <th>user </th>
+                                                                <th>created at </th>
+                                                        
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
-                                                                <!-- <td>{{ item.uqid }}</td> -->
                                                                 <td>{{ forloop.counter}}</td>
                                                                 <td>{{ item.date_of_plan }}</td>
                                                                 <td>{{ item.detailed_notes }}</td>
                                                                 <td>{{ item.action_plan_date }}</td>
                                                                 <td>{{ item.user }}</td>
-                                                                {% comment %} <td> <a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
-                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+                                                                <td>{{item.created_at }} </td>
+                                                                
 
                                                             </tr>
                                                         {% endfor %}

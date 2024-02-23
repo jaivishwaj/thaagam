@@ -59,7 +59,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>id</th>
+                                                            <th>uqid</th>
                                                             <th>Photo</th>
                                                             <th>Name of the Person</th>
                                                             <th>Age</th>
@@ -76,6 +76,7 @@
                                                             <th>Id Proof Details</th>
                                                             <th>Police Memo Available</th>
                                                             <th>Police station Details</th>
+                                                            <th>Created at</th>
                                                             {% comment %} <th>Action</th> {% endcomment %}
 
                                                         </tr>
@@ -84,7 +85,7 @@
                                                         {% for item in data %}
                                                             <tr>
                                                                 
-                                                                    <td>{{ item.id }}</td>
+                                                                    <td>{{ item.uqid }}</td>
                                                                     
                                                                     <td>
                                                                         {% if item.photo_url %}
@@ -122,6 +123,7 @@
                                                                 <td>{{ item.idProofDetails }}</td>
                                                                 <td>{{ item.policeMemoAvailable }}</td>
                                                                 <td>{{ item.policeStationDetails }}</td>
+                                                                <td>{{ item.created_at }}</td>
                                                                 {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
                                                                     data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                             </tr>

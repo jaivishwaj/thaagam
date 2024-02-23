@@ -34,6 +34,10 @@
     <!-- custom Css-->
     <link href="{% static 'main/assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" >
+
+    
+    
 </head>
 
 <body>
@@ -349,6 +353,11 @@
                                      Visitor Register
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'case_work_dashboard' %}" class="nav-link" data-key="t-chat" target="_self">
+                                     Case Work
+                                    </a>
+                                </li>
 
                     </ul>
 
@@ -401,7 +410,7 @@
         <script src="{% static 'main/assets/js/pages/dashboard-ecommerce.init.js' %}"></script>
         <script src="{% static 'main/assets/js/app.js' %}"></script>
         <script src="{% static 'main/assets/js/custom.js' %}"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

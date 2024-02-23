@@ -60,21 +60,26 @@
                                                             <th>Date of Birth</th>
                                                             <th>Attendance</th>
                                                             <th>Number of Days Present</th>
-                                                            <th>School Fee</th>
-                                                            <th>Day of Payment</th>
+                                                            <th>Number of Days Absent</th>
+                                                            {% comment %} <th>School Fee</th>
+                                                            <th>Day of Payment</th> {% endcomment %}
+                                                            <th>Created at</th>
                                                             {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                          {% for item in data %}
-                                                               <tr><td>{{ forloop.counter }}</td>
+                                                               <tr>
+                                                                <td>{{ forloop.counter }}</td>
                                                                    <td>{{ item.uqid }}</td>
                                                                    <td>{{ item.pupilName }}</td>
                                                                    <td>{{ item.dob }}</td>
                                                                    <td>{{ item.attendance }}</td>
                                                                    <td>{{ item.daysPresent }}</td>
-                                                                   <td> &#8377; {{ item.schoolFee }}</td>
-                                                                   <td>{{ item.dayOfPayment }}</td>
+                                                                   <td>{{ item.daysabsent }}</td>
+                                                                   {% comment %} <td> {{ item.schoolFee }}</td>
+                                                                   <td>{{ item.dayOfPayment }}</td> {% endcomment %}
+                                                                   <td>{{ item.created_at }}</td>
                                                                    {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
                                                                     data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                                </tr>        
@@ -154,7 +159,11 @@
                                     <input type="number" class="form-control" 
                                     name="Number of Days Present" />
                                   </div>
-                                    <div class="col-md-5">
+                                  <div class="col-md-7 mb-3">
+                                    <input type="number" class="form-control" 
+                                    name="Number of Days Absent" />
+                                  </div>
+                                    {% comment %} <div class="col-md-5">
                                       <label  class="form-label fs-16">School Fee :</label>
                                   </div>
                                   <div class="col-md-7 mb-3">
@@ -163,7 +172,7 @@
                                   </div>
                                     <div class="col-md-5">
                                       <label  class="form-label fs-16">Day of Payment :</label>
-                                  </div>
+                                  </div> {% endcomment %}
                                   <div class="col-md-7 mb-3">
                                     <input type="text" class="form-control" 
                                     name="Day of Payment" />
