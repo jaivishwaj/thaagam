@@ -353,7 +353,7 @@ def reintegration_register_dashboard(request):
         return render(request, "dashboard/reintegration_register_dashboard.html", {"data": datas})
     
 
-
+@csrf_exempt
 def visitor_register_form(request):
     user = None
     if 'user' in request.session:
@@ -398,7 +398,7 @@ def visitor_registration_dashboard(request):
      return render(
         request, "dashboard/visitor_registration_dashboard.html", {"data": datas})
 
-
+@csrf_exempt
 def performance_appraisal_form(request):
     user = None
     if 'user' in request.session:
@@ -498,7 +498,7 @@ def performance_appraisal_dashboard(request):
         request, "dashboard/performance_appraisal_dashboard.html", {"data": datas})
 
 
-
+@csrf_exempt
 def provision_form(request):
     if request.method == 'POST':
 
@@ -579,7 +579,7 @@ def resident_attendance_form_dashboard(request):
      return render(
         request, "dashboard/resident_attendance_form_dashboard.html", {"data": datas})
 
-
+@csrf_exempt
 def social_entertainment_form(request):
     user = None
     if 'user' in request.session:
@@ -618,7 +618,7 @@ def social_entertainment_form_dashboard(request):
      return render(
         request, "dashboard/social_entertainment_form_dashboard.html", {"data": datas})
 
-
+@csrf_exempt
 def inspection_register(request):
     user = None
     if 'user' in request.session:
@@ -665,66 +665,7 @@ def inspection_register_dashboard(request):
      return render(request, "dashboard/inspection_records_dashboard.html", {"data": datas})
 
 
-# def case_history_form(request):
-#     user = None
-#     if 'user' in request.session:
-#         user = request.session['user']
-#     if request.method == "POST":
-#         logged_in_user= request.user
-#         form_data = {
-#             "name": request.POST.get("name"),
-#             "age": request.POST.get("age"),
-#             "sex": request.POST.get("sex"),
-#             "uqid": request.POST.get("uqid"),
-#             "religion": request.POST.get("religion"),
-#             "maritalStatus": request.POST.get("maritalStatus"),
-#             "identificationMark": request.POST.get("identificationMark"),
-#             "educationBackground": request.POST.get("educationBackground"),
-#             "occupation": request.POST.get("occupation"),
-#             "address": request.POST.get("address"),
-#             "residentContactNumber": request.POST.get("residentContactNumber"),
-#             "relativeOrFriendsContact": request.POST.get("relativeOrFriendsContact"),
-#             "idProofAvailable": request.POST.get("idProofAvailable"),
-#             "idProofDetails": request.POST.get("idProofDetails"),
-#             "policeMemoAvailable": request.POST.get("policeMemoAvailable"),
-#             "policeStationDetails": request.POST.get("policeStationDetails"),
-#             "uploaded_file": request.FILES.get("photo"),
-#             "logged_in_user" : request.user,
-#             "username" :logged_in_user.username
-#
-#
-#         }
-#
-#         # Implement form validation here
-#
-#         if form_data["uploaded_file"]:
-#             # Securely handle file upload
-#             filename = f"{form_data['name']}.jpg"
-#             photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
-#
-#             if not os.path.exists(photos_dir):
-#                 os.makedirs(photos_dir)
-#
-#             save_path = os.path.join(photos_dir, filename)
-#
-#             with open(save_path, "wb") as destination:
-#                 for chunk in form_data["uploaded_file"].chunks():
-#                     destination.write(chunk)
-#
-#             relative_file_path = os.path.join("photos", filename)
-#
-#             # Create CaseHistory object and save data
-#             data = CaseHistory(
-#                 photo_url=relative_file_path,
-#                 **{k: v for k, v in form_data.items() if k != "uploaded_file"}
-#             )
-#             data.save()
-#
-#             return redirect("case_history_record_dashboard")
-#
-#     return render(request, "case_history.html",{'user': user})
-
-
+@csrf_exempt
 def case_history_form(request):
     user = None
     if 'user' in request.session:
@@ -800,7 +741,7 @@ def case_history_record_dashboard(request):
      logged_in_username = request.user.username
      datas = CaseHistory.objects.filter(user=logged_in_username)
      return render(request, "dashboard/case_history_record_dashboard.html",{"data": datas})
-
+@csrf_exempt
 def personal_info_form(request):
     user = None
     if 'user' in request.session:
@@ -868,7 +809,7 @@ def personal_info_dashboard(request):
      datas = PersonalInfo.objects.filter(user=logged_in_username)
      return render(
         request, "dashboard/personal_information_dashboard.html",{"data": datas})
-
+@csrf_exempt
 def actionplan_register_form(request):
     user = None
     if 'user' in request.session:
@@ -905,7 +846,7 @@ def action_plan_dashboard(request):
      datas = ActionplanRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/action_plan_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def awarnes_register_form(request):
     user = None
     if 'user' in request.session:
@@ -947,7 +888,7 @@ def awarnes_register_dashboard(request):
      datas = AwarnesRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/awarnes_register_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def asset_form(request):
     user = None
     if 'user' in request.session:
@@ -995,7 +936,7 @@ def asset_register_dashboard(request):
      datas = Asset.objects.filter(user=logged_in_username)
      return render(request, "dashboard/asset_register_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def bp_pulsenote(request):
     user = None
     if 'user' in request.session:
@@ -1034,7 +975,7 @@ def bp_form_dashboard(request):
      datas = BpPulsenote.objects.filter(user=logged_in_username)
      return render(request, "dashboard/bp_form_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def counselling_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1076,7 +1017,7 @@ def counselling_register_dashboard(request):
      datas = CounsellingRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/counselling_register_dashboard.html", {"data": datas})
 
-
+@csrf_exempt
 def medical_camp_form(request):
     user = None
     if 'user' in request.session:
@@ -1122,7 +1063,7 @@ def medical_register_dashboard(request):
      datas = MedicalCamp.objects.filter(user=logged_in_username)
      return render(request, "dashboard/medical_register_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def medicine_form(request):
     user = None
     if 'user' in request.session:
@@ -1162,7 +1103,7 @@ def medicine_register_dashboard(request):
      datas = Medicine.objects.filter(user=logged_in_username)
      return render(request, "dashboard/medicine_register_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def night_survey_form(request):
     user = None
     if 'user' in request.session:
@@ -1192,7 +1133,6 @@ def night_survey_form(request):
 
     return render(request, "night_survey.html",{'user': user,'night': night})
 
-
 def night_survey_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1202,7 +1142,7 @@ def night_survey_dashboard(request):
      datas = NightSurvey.objects.filter(user=logged_in_username)
      return render(request, "dashboard/night_survey_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def skill_training_form(request):
     user = None
     if 'user' in request.session:
@@ -1238,7 +1178,7 @@ def skill_training_dashboard(request):
      datas = SkillTraining.objects.filter(user=logged_in_username)
      return render(request, "dashboard/skill_training_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def smc_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1288,7 +1228,7 @@ def smc_register_dashboard(request):
      datas = SmcRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/smc_register_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def staff_attendance_form(request):
     user = None
     if 'user' in request.session:
@@ -1333,7 +1273,7 @@ def staff_attendance_register_dashboard(request):
       return render(
           request, "dashboard/staff_attendance_register_dashboard.html", {"data": datas})
 
-
+@csrf_exempt
 def stock_form(request):
     user = None
     if 'user' in request.session:
@@ -1373,7 +1313,7 @@ def stock_register_dashboard(request):
      datas = Stock.objects.filter(user=logged_in_username)
      return render(request, "dashboard/stock_register_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def employment_link_form(request):
     user = None
     if 'user' in request.session:
@@ -1422,7 +1362,7 @@ def employment_linkage_form_dashboard(request):
 
 
 from django.utils import timezone
-
+@csrf_exempt
 def rehabitation_form(request):
     user = None
     if 'user' in request.session:
@@ -1498,7 +1438,7 @@ def rehabitation_dashboard(request):
      datas = Rehabitation.objects.filter(user=logged_in_username)
      return render(request, "dashboard/rehabitation_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def death_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1544,7 +1484,7 @@ def death_register_dashboard(request):
      datas = DeathRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/death_register_dashboard.html", {"data": datas})
 
-
+@csrf_exempt
 def food_menu_form(request):
     user = None
     if 'user' in request.session:
@@ -1590,7 +1530,7 @@ def food_menu_dashboard(request):
        datas = FoodMenu.objects.filter(user=logged_in_username)
        return render(request, "dashboard/food_menu_dashboard.html", {"data": datas})
 
-
+@csrf_exempt
 def salary_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1624,7 +1564,7 @@ def salary_register_dashboard(request):
        datas = SalaryRegister.objects.filter(user=logged_in_username)
        return render(request, "dashboard/salary_register_dashboard.html",{"data": datas})
 
-
+@csrf_exempt
 def staff_movement_form(request):
         user = None
         if 'user' in request.session:
@@ -1667,97 +1607,7 @@ def staff_movement_note_dashboard(request):
      return render(request, "dashboard/staff_movement_note_dashboard.html",{"data": datas})
 
 
-# def master_records_form(request):
-#           user = None
-#           if 'user' in request.session:
-#              user = request.session['user']
-#           if request.method == "POST":
-#               uqid = request.POST.get("uqid")
-#               name = request.POST.get("name")
-#               Aid_no = request.POST.get("Aid_no")
-#               Age_gender = request.POST.get("Age_gender")
-#               dob = request.POST.get("dob")
-#               Date_Of_Admission = request.POST.get("Date_Of_Admission")
-#               Date_Of_Leaving = request.POST.get("Date_Of_Leaving")
-#               Family_Contact_No = request.POST.get("Family_Contact_No")
-#               Relation = request.POST.get("Relation")
-#               Permanent_Address = request.POST.get("Permanent_Address")
-#               Mode_Of_Identification_Rescue = request.POST.get(
-#                   "Mode_Of_Identification_Rescue"
-#               )
-#               Identification_Mark = request.POST.get("Identification_Mark")
-#               Identification_Papers = request.POST.get("Identification_Papers")
-#               Rehabilitation_Measures = request.POST.get("Rehabilitation_Measures")
-#               Reason_For_Leaving_Shelter = request.POST.get("Reason_For_Leaving_Shelter")
-#               Follow_Up_Action = request.POST.get("Follow_Up_Action")
-#               Second_Follow_Up = request.POST.get("Second_Follow_Up")
-#               Medical_Status = request.POST.get("Medical_Status")
-#               File_Closure_Status = request.POST.get("File_Closure_Status")
-#               Remarks = request.POST.get("Remarks")
-#               Signature = request.POST.get("Signature")
-#               uploaded_file = request.FILES.get("photo")
-#               logged_in_user = request.user
-#               username = logged_in_user.username
-#               relative_file_path = ""
-#               if uploaded_file:
-#                   # Save photo to directory
-#                   filename = f"{name}.jpg"
-#                   photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
-
-#                   if not os.path.exists(photos_dir):
-#                       os.makedirs(photos_dir)
-
-#                   save_path = os.path.join(photos_dir, filename)
-
-#                   with open(save_path, "wb") as destination:
-#                       for chunk in uploaded_file.chunks():
-#                           destination.write(chunk)
-
-#                   relative_file_path = os.path.join("photos", filename)
-
-#               data = MasterRecords.objects.create(user=username,
-#                   photo_url=relative_file_path,
-#                   uqid=uqid,
-#                   name=name,
-#                   Aid_no=Aid_no,
-#                   Age_gender=Age_gender,
-#                   dob=dob,
-#                   Date_Of_Admission=Date_Of_Admission,
-#                   Date_Of_Leaving=Date_Of_Leaving,
-#                   Family_Contact_No=Family_Contact_No,
-#                   Relation=Relation,
-#                   Permanent_Address=Permanent_Address,
-#                   Mode_Of_Identification_Rescue=Mode_Of_Identification_Rescue,
-#                   Identification_Mark=Identification_Mark,
-#                   Identification_Papers=Identification_Papers,
-#                   Rehabilitation_Measures=Rehabilitation_Measures,
-#                   Reason_For_Leaving_Shelter=Reason_For_Leaving_Shelter,
-#                   Follow_Up_Action=Follow_Up_Action,
-#                   Second_Follow_Up=Second_Follow_Up,
-#                   Medical_Status=Medical_Status,
-#                   File_Closure_Status=File_Closure_Status,
-#                   Remarks=Remarks,
-#                   Signature=Signature,
-#               )
-#               data.save()
-#               return redirect("master_records_dashboard")
-#           else:
-#               messages.info(request, f'the form is not saved please re enter the form')
-
-#           return render(request, "master_records.html",{"user":user})
-
-import random
-import string
-
-
-
-# def generate_unique_id(length=4):
-#     # Generate a unique identifier using alphanumeric characters
-#     characters = string.ascii_letters + string.digits
-#     unique_id = ''.join(random.choice(characters) for _ in range(length))
-#     return unique_id
-
-
+@csrf_exempt
 # @user_passes_test(lambda u: u.is_superuser)
 def master_records_form(request):
     user = None
@@ -1904,7 +1754,7 @@ def download_master_records_excel(request):
 
     return response
 
-
+@csrf_exempt
 def search_results(request):
     accidentform = None
     casehistory = None
@@ -1959,115 +1809,18 @@ def search_results(request):
                                                       'emplink':emplink,'rehab':rehab,'death':death,'skill':skill})
     
     
+from .forms import CaseWorkForms 
     
-    
-
-# def case_work(request):
-#     user = None
-#     if 'user' in request.session:
-#         user = request.session['user']
-
-#     if request.method == 'POST':
-#         uqid = request.POST.get('uqid')
-#         photo = request.FILES.get('photos')
-#         aid_no = request.POST.get('aid_no')
-#         doa = request.POST.get('doa')
-#         dol = request.POST.get('dol')
-#         mode_of_rescue = request.POST.get('mode_of_rescue')
-#         file_details = request.POST.get('file_details')
-#         name = request.POST.get('name')
-#         age = request.POST.get('age')
-#         gender = request.POST.get('gender')
-#         religion = request.POST.get('religion')
-#         marital_status = request.POST.get('marital_status')
-#         idnt_mark = request.POST.get('idnt_mark')
-#         edu_back = request.POST.get('edu_back')
-#         occcu_back = request.POST.get('occcu_back')
-#         address = request.POST.get('address')
-#         resident_ph = request.POST.get('resident_ph')
-#         relative_ph = request.POST.get('relative_ph')
-#         id_proof = request.POST.get('id_proof')
-#         police_memo = request.POST.get('police_memo')
-#         res_photo1 = request.FILES.get('res_photo1')
-#         res_photo2 = request.FILES.get('res_photo2')
-#         res_letter = request.POST.get('res_letter')
-#         small_narration = request.POST.get('small_narration')
-#         geno1 = request.FILES.get('geno1')
-#         geno2 = request.FILES.get('geno2')
-#         genogram = request.FILES.get('genogram')
-#         res_family = request.POST.get('res_family')
-#         res_eco = request.POST.get('res_eco')
-#         res_phy_status = request.POST.get('res_phy_status')
-#         hl_photo1 = request.FILES.get('hl_photo1')
-#         hl_photo2 = request.FILES.get('hl_photo2')
-#         reason_for_homeless = request.POST.get('reason_for_homeless')
-#         stre_and_weak = request.POST.get('stre_and_weak')
-#         fact = request.POST.get('fact')
-#         rehab_photo1 = request.FILES.get('rehab_photo1')
-#         rehab_photo2 = request.FILES.get('rehab_photo2')
-#         rehab_measure = request.POST.get('rehab_measure')
-#         action = request.POST.get('action')
-        
-#         logged_in_user = request.user
-#         username = logged_in_user.username
-        
-        
-#         data = CaseWork.objects.create(user=username,
-#                                        uqid=uqid,
-#                                        photo=photo,
-#                                        aid_no=aid_no,
-#                                        doa=doa,
-#                                        dol=dol,
-#                                        mode_of_rescue=mode_of_rescue,
-#                                        file_details=file_details,
-#                                        name=name,
-#                                        age=age,
-#                                        gender=gender,
-#                                        religion=religion,
-#                                        marital_status=marital_status,
-#                                        idnt_mark=idnt_mark,
-#                                        edu_back=edu_back,
-#                                        occcu_back=occcu_back,
-#                                        address=address,
-#                                        resident_ph=resident_ph,
-#                                        relative_ph=relative_ph,
-#                                        id_proof=id_proof,
-#                                        police_memo=police_memo,
-#                                        res_photo1=res_photo1,
-#                                        res_photo2=res_photo2,
-#                                        res_letter=res_letter,
-#                                        small_narration=small_narration,
-#                                        geno1=geno1,
-#                                        geno2=geno2,
-#                                        genogram=genogram,
-#                                        res_family=res_family,
-#                                        res_eco=res_eco,
-#                                        res_phy_status=res_phy_status,
-#                                        hl_photo1=hl_photo1,
-#                                        hl_photo2=hl_photo2,
-#                                        reason_for_homeless=reason_for_homeless,
-#                                        stre_and_weak=stre_and_weak,
-#                                        fact=fact,
-#                                        rehab_photo1=rehab_photo1,
-#                                        rehab_photo2=rehab_photo2,
-#                                        rehab_measure=rehab_measure,
-#                                        action=action)
-        
-#         data.save()
-#         return redirect('case_work_dashboard')
-#     else:
-#         messages.success(request, 'Case work data saved successfully.')
-#         case_work = CaseWork.objects.all().order_by('created_at')
-
-#     return render(request,'case_work.html',{'user':user,'case_work':case_work})
-
-
+@csrf_exempt
 def case_work(request):
-    user = request.session.get('user')
-    
+    user = None
+    if 'user' in request.session:
+        user = request.session['user']
+
     if request.method == 'POST':
-        # Retrieve data from the POST request
+        print("in post",request.POST)
         uqid = request.POST.get('uqid')
+        photo = request.FILES.get('photo')
         aid_no = request.POST.get('aid_no')
         doa = request.POST.get('doa')
         dol = request.POST.get('dol')
@@ -2086,72 +1839,112 @@ def case_work(request):
         relative_ph = request.POST.get('relative_ph')
         id_proof = request.POST.get('id_proof')
         police_memo = request.POST.get('police_memo')
+        res_photo1 = request.FILES.get('res_photo1')
+        res_photo2 = request.FILES.get('res_photo2')
         res_letter = request.POST.get('res_letter')
         small_narration = request.POST.get('small_narration')
+        geno1 = request.FILES.get('geno1')
+        geno2 = request.FILES.get('geno2')
+        genogram = request.POST.get('genogram')
+        res_family = request.POST.get('res_family')
+        res_eco = request.POST.get('res_eco')
+        res_phy_status = request.POST.get('res_phy_status')
+        hl_photo1 = request.FILES.get('hl_photo1')
+        hl_photo2 = request.FILES.get('hl_photo2')
         reason_for_homeless = request.POST.get('reason_for_homeless')
         stre_and_weak = request.POST.get('stre_and_weak')
         fact = request.POST.get('fact')
-        rehab_measure = request.POST.get('rehab_measure')
-        action = request.POST.get('action')
-        
-        # Retrieve uploaded files from the request
-        res_photo1 = request.FILES.get('res_photo1')
-        res_photo2 = request.FILES.get('res_photo2')
-        geno1 = request.FILES.get('geno1')
-        geno2 = request.FILES.get('geno2')
-        genogram = request.FILES.get('genogram')
-        hl_photo1 = request.FILES.get('hl_photo1')
-        hl_photo2 = request.FILES.get('hl_photo2')
         rehab_photo1 = request.FILES.get('rehab_photo1')
         rehab_photo2 = request.FILES.get('rehab_photo2')
+        rehab_measure = request.POST.get('rehab_measure')
+        action = request.POST.get('action')
+        followup1 = request.POST.get('followup1')
+        followup2 = request.POST.get('followup2')
+        followup3 = request.POST.get('followup3')
         
-        # Create a new CaseWork object with the retrieved data
-        try:
-            data = CaseWork.objects.create(
-                user=user,
-                uqid=uqid,
-                aid_no=aid_no,
-                doa=doa,
-                dol=dol,
-                mode_of_rescue=mode_of_rescue,
-                file_details=file_details,
-                name=name,
-                age=age,
-                gender=gender,
-                religion=religion,
-                marital_status=marital_status,
-                idnt_mark=idnt_mark,
-                edu_back=edu_back,
-                occcu_back=occcu_back,
-                address=address,
-                resident_ph=resident_ph,
-                relative_ph=relative_ph,
-                id_proof=id_proof,
-                police_memo=police_memo,
-                res_photo1=res_photo1,
-                res_photo2=res_photo2,
-                res_letter=res_letter,
-                small_narration=small_narration,
-                geno1=geno1,
-                geno2=geno2,
-                genogram=genogram,
-                reason_for_homeless=reason_for_homeless,
-                stre_and_weak=stre_and_weak,
-                fact=fact,
-                rehab_photo1=rehab_photo1,
-                rehab_photo2=rehab_photo2,
-                rehab_measure=rehab_measure,
-                action=action
-            )
-            messages.success(request, 'Case work data saved successfully.')
-            return redirect('case_work_dashboard')
-        except Exception as e:
-            messages.error(request, f'Error saving case work data: {str(e)}')
+        
+        # try:
+        #     record = CaseWork.objects.get(uqid=uqid)
+        # except CaseWork.DoesNotExist:
+        #     # Handle the case where the record does not exist
+        #     messages.error(request, 'Record with the specified ID does not exist.')
+        #     return redirect('case_work_dashboard')  
+        
+        logged_in_user = request.user
+        username = logged_in_user.username
+        
+        
+        data = CaseWork.objects.create(user=username,
+                                       uqid=uqid,
+                                       photo=photo,
+                                       aid_no=aid_no,
+                                       doa=doa,
+                                       dol=dol,
+                                       mode_of_rescue=mode_of_rescue,
+                                       file_details=file_details,
+                                       name=name,
+                                       age=age,
+                                       gender=gender,
+                                       religion=religion,
+                                       marital_status=marital_status,
+                                       idnt_mark=idnt_mark,
+                                       edu_back=edu_back,
+                                       occcu_back=occcu_back,
+                                       address=address,
+                                       resident_ph=resident_ph,
+                                       relative_ph=relative_ph,
+                                       id_proof=id_proof,
+                                       police_memo=police_memo,
+                                       res_photo1=res_photo1,
+                                       res_photo2=res_photo2,
+                                       res_letter=res_letter,
+                                       small_narration=small_narration,
+                                       geno1=geno1,
+                                       geno2=geno2,
+                                       genogram=genogram,
+                                       res_family=res_family,
+                                       res_eco=res_eco,
+                                       res_phy_status=res_phy_status,
+                                       hl_photo1=hl_photo1,
+                                       hl_photo2=hl_photo2,
+                                       reason_for_homeless=reason_for_homeless,
+                                       stre_and_weak=stre_and_weak,
+                                       fact=fact,
+                                       rehab_photo1=rehab_photo1,
+                                       rehab_photo2=rehab_photo2,
+                                       rehab_measure=rehab_measure,
+                                       action=action,
+                                       followup1=followup1,
+                                       followup2=followup2,
+                                       followup3=followup3
+                                       )
+        
+        data.save()
+        # if 'folloewup' in request.POST:
+        #     print("in this reqest",request.POST)
+        #     uqid = request.POST.get('uqid')
+        #     followup1 = request.POST.get('followup1')
+        #     followup2 = request.POST.get('followup2')
+        #     followup3 = request.POST.get('followup3')
+            
+        #     try:
+        #         record = CaseWork.objects.get(uqid=uqid)
+        #     except CaseWork.DoesNotExist:
+        #         # Handle the case where the record does not exist
+        #         messages.error(request, 'Record with the specified ID does not exist.')
+        #         return redirect('case_work_dashboard')
+                
+            
+        #     record.followup1 = followup1
+        #     record.followup2 = followup2
+        #     record.followup3 = followup3
+        #     record.save()
+        return redirect('case_work_dashboard')
+    else:
+        messages.success(request, 'Case work data saved successfully.')
+        case_work = CaseWork.objects.all().order_by('created_at')
 
-    # If the request method is not POST or if there's an error, retrieve all case work data
-    case_work = CaseWork.objects.all().order_by('created_at')
-    return render(request, 'case_work.html', {'user': user, 'case_work': case_work})
-
+    return render(request,'case_work.html',{'user':user,'case_work':case_work})
 
 
 
@@ -2162,3 +1955,16 @@ def case_work_dashboard(request):
         logged_in_username = request.user.username
         datas = CaseWork.objects.filter(user=logged_in_username)
         return render(request, "dashboard/case_work_dashboard.html", {"data": datas})
+    
+    
+# def save_secondary_modal_data(request):
+#     if request.method == 'POST':
+#        data = CaseWork.objects.get(uqid=request.POST.get('uqid'))
+       
+#        data.followup1 = request.POST.get('followup1')
+#        data.followup2 = request.POST.get('followup2')
+#        data.followup3 = request.POST.get('followup3')
+       
+#        data.save()
+#        return redirect('case_work_dashboard')
+#     return JsonResponse({f"error":"Invalid request"})

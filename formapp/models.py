@@ -554,6 +554,9 @@ class CaseWork(models.Model):
     rehab_photo2 = models.ImageField(upload_to='rehab_photo2/', blank=True, null=True)
     rehab_measure = models.TextField()
     action = models.TextField()
+    followup1 = models.TextField(null=True, blank=True)
+    followup2 = models.TextField(null=True, blank=True)
+    followup3 = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):

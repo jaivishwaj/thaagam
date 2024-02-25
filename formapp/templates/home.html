@@ -46,25 +46,8 @@
       color: white;
 
     }
-    .find_records{
-      position: absolute;
-      bottom: 67px;
-      font-size: 18px;
-      left: 1096px;
-      padding: 11px 36px;
-      font-size:16px
-
-    }
-    @media (max-width: 776px) {
-      .find_records {
-        position: absolute;
-        bottom: 70px;
-        font-size: 18px;
-        left: 280px;
-        padding: 8px 15px;
-        font-size:12px
-      }
-  }
+  
+ 
   
 
 
@@ -162,11 +145,24 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-10">
-            <div class="text-center mb-5" style="display: flex;justify-content:center;align-items:center;">
-              <h2 style="width: 125px;font-weight: 700; font-size: 40px; color: #242121ce; border-bottom: 5px solid #ef6b36" class="mb-3 fw-semibold lh-base">Forms</h2>
-              
+            <div class="row"style="margin-bottom: 20px;">
+              <div class="col-4">
+              </div>
+              <div class="col-4"style="display: flex;justify-content: center;align-items: center;">
+                
+                <h2 style="font-weight: 700; font-size: 40px; color: #242121ce; border-bottom: 5px solid #ef6b36;width:130px" class="mb-3 fw-semibold lh-base">Forms</h2>
+              </div>
+              <div class="col-4"style="display: flex;justify-content: end;align-items: center;">
+                
+              <a href="{% url 'search_results' %}" class="btn btn-danger rounded-pill find_records" style="padding: 13px 18px;">Find Records</a>
+              </div>
+             
             </div>
-            <a href="{% url 'search_results' %}" class="btn btn-danger rounded-pill find_records" >Find Records</a>
+            
+
+        
+          
+            
           </div>
           
         

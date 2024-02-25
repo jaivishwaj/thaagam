@@ -1,5 +1,5 @@
 {% extends 'dashboard/base.html' %}
-
+{% load static %}
 {% block content %}
 
 <!-- ============================================================== -->
@@ -21,7 +21,9 @@
                                         <h4 class="fs-24 mb-1 g-msg">Case Work Dashboard</h4>
                                     </div>
                                     <div class="mt-3 mt-lg-0">
-                                        <form action="javascript:void(0);">
+                                        <form method="post" enctype="multipart/form-data action="javascript:void(0);">
+                                            {% csrf_token %}
+                                            {{ form.as_p }}
                                             <div class="row g-3 mb-0 align-items-center">
 
                                                 <div class="col-auto">
@@ -53,12 +55,12 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table id="example"
+                                            <table id="buttons-datatables"
                                                 class="table table-bordered dt-responsive nowrap table-striped align-middle"
                                                 style="width:100%">
                                                 <thead>
                                                     <tr>
-
+                                                        
                                                         <th>Name</th>
                                                         <th>UQID</th>
                                                         <th>AID No.</th>
@@ -70,7 +72,9 @@
                                                         <th>Age</th>
                                                         <th>Gender</th>
                                                         <th>Religion</th>
+                                                        
                                                         <th>Marital Status</th>
+                                                        <!-- <th>Action</th> -->
                                                         <th>Identification Mark</th>
                                                         <th>Educational Background</th>
                                                         <th>Occupational Background</th>
@@ -86,6 +90,8 @@
                                                         <th>Reason for Homelessness</th>
                                                         <th>Resident Letter</th>
                                                         <th>Small Narration</th>
+                                                        <th>Genogram Photo1</th>
+                                                        <th>Genogram Photo2</th>
                                                         <th>Genogram</th>
                                                         <th>Resident Family</th>
                                                         <th>Resident Economic Status</th>
@@ -96,43 +102,30 @@
                                                         <th>Rehabilitation Photo1</th>
                                                         <th>Rehabilitation Photo2</th>
                                                         <th>Rehabilitation Measures</th>
-                                                        <th>Action</th>
+                                                        <th>Action taken</th> 
+                                                        <!-- <th>Follow up 1</th>
+                                                        <th>Follow up 2</th>
+                                                        <th>Follow up 3</th>  -->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {% for item in data %}
                                                     <tr>
+                                                        
                                                         <td>{{ item.name }}</td>
                                                         <td>{{ item.uqid }}</td>
                                                         <td>{{ item.aid_no }}</td>
                                                         <td>
-                                                            {% if item.photo_url %}
-                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
-                                                                <!-- Modal -->
-                                                                <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body text-center">
-                                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            {% else %}
-                                                                No photo available
-                                                            {% endif %}
-                                                            
-                                                            <!-- Download button -->
-                                                            {% if item.photo_url %}
-                                                                <a href="{{ item.photo_url.url }}" download>
+                                                            {% if item.photo %}
+                                                                <img src="{{ item.photo.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+                                                                <!-- Download link for the photo -->
+                                                                <a href="{{ item.photo.url }}" download="{{ item.name }}_photo">
                                                                     <button class="btn btn-primary btn-sm">
-                                                                        <i class="fas fa-download"></i>
+                                                                        <i class="fas fa-download"></i> Download
                                                                     </button>
                                                                 </a>
+                                                            {% else %}
+                                                                No photo available
                                                             {% endif %}
                                                         </td>
                                                         <td>{{ item.doa }}</td>
@@ -142,7 +135,19 @@
                                                         <td>{{ item.age }}</td>
                                                         <td>{{ item.gender }}</td>
                                                         <td>{{ item.religion }}</td>
+                                                       
                                                         <td>{{ item.marital_status }}</td>
+                                                        <!-- <td class="text-center">
+                                                            <a href="javascript:void(0);"
+                                                            onclick="editrecord(this)"
+                                                            data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                            data-bs-target=".edit_donor_search"
+                                                            class="link-success fs-15 edit_icon"
+                                                            data-followup1="{{ item.followup1 }}"
+                                                            data-followup2="{{ item.followup2 }}"
+                                                            data-followup3="{{ item.followup3 }}"
+                                                        ><i class="ri ri-edit-2-line"></i></a>
+                                                       </td> -->
                                                         <td>{{ item.idnt_mark }}</td>
                                                         <td>{{ item.edu_back }}</td>
                                                         <td>{{ item.occcu_back }}</td>
@@ -151,129 +156,78 @@
                                                         <td>{{ item.relative_ph }}</td>
                                                         <td>{{ item.id_proof }}</td>
                                                         <td>{{ item.police_memo }}</td>
+                                                        
                                                         <td>
-                                                            {% if item.photo_url %}
-                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
-                                                                <!-- Modal -->
-                                                                <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body text-center">
-                                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            {% else %}
-                                                                No photo available
-                                                            {% endif %}
-                                                            
-                                                            <!-- Download button -->
-                                                            {% if item.photo_url %}
-                                                                <a href="{{ item.photo_url.url }}" download>
-                                                                    <button class="btn btn-primary btn-sm">
-                                                                        <i class="fas fa-download"></i>
-                                                                    </button>
-                                                                </a>
-                                                            {% endif %}
+                                                            {% if item.photo %}
+                                                            <img src="{{ item.res_photo1.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.res_photo1.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}
+                                                        
                                                         </td>
                                                         <td>
-                                                            {% if item.photo_url %}
-                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
-                                                                <!-- Modal -->
-                                                                <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body text-center">
-                                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            {% else %}
-                                                                No photo available
-                                                            {% endif %}
-                                                            
-                                                            <!-- Download button -->
-                                                            {% if item.photo_url %}
-                                                                <a href="{{ item.photo_url.url }}" download>
-                                                                    <button class="btn btn-primary btn-sm">
-                                                                        <i class="fas fa-download"></i>
-                                                                    </button>
-                                                                </a>
-                                                            {% endif %}
+                                                            {% if item.photo %}
+                                                            <img src="{{ item.res_photo2.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.res_photo2.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}
                                                         </td>
-                                                        <td>{{ item.res_letter }}</td>
+                                                        <td>{% if item.photo %}
+                                                            <img src="{{ item.hl_photo1.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.hl_photo1.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}</td>
                                                         <td>
-                                                            {% if item.photo_url %}
-                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
-                                                                <!-- Modal -->
-                                                                <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body text-center">
-                                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            {% else %}
-                                                                No photo available
-                                                            {% endif %}
-                                                            
-                                                            <!-- Download button -->
-                                                            {% if item.photo_url %}
-                                                                <a href="{{ item.photo_url.url }}" download>
-                                                                    <button class="btn btn-primary btn-sm">
-                                                                        <i class="fas fa-download"></i>
-                                                                    </button>
-                                                                </a>
-                                                            {% endif %}
+                                                            {% if item.photo %}
+                                                            <img src="{{ item.hl_photo2.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.hl_photo2.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}
                                                         </td>
-                                                        <td>
-                                                            {% if item.photo_url %}
-                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
-                                                                <!-- Modal -->
-                                                                <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body text-center">
-                                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            {% else %}
-                                                                No photo available
-                                                            {% endif %}
-                                                            
-                                                            <!-- Download button -->
-                                                            {% if item.photo_url %}
-                                                                <a href="{{ item.photo_url.url }}" download>
-                                                                    <button class="btn btn-primary btn-sm">
-                                                                        <i class="fas fa-download"></i>
-                                                                    </button>
-                                                                </a>
-                                                            {% endif %}
-                                                        </td>
+                                                        
                                                         <td>{{ item.reason_for_homeless }}</td>
+                                                        <td>{{ item.res_letter }}</td>
                                                         <td>{{ item.small_narration }}</td>
+                                                        <td>{% if item.photo %}
+                                                            <img src="{{ item.geno1.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.geno1.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}</td>
+                                                        <td>{% if item.photo %}
+                                                            <img src="{{ item.geno2.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.geno2.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}</td>
                                                         <td>{{ item.genogram }}</td>
                                                         <td>{{ item.res_family }}</td>
                                                         <td>{{ item.res_eco }}</td>
@@ -281,68 +235,39 @@
                                                         <td>{{ item.stre_and_weak }}</td>
                                                         <td>{{ item.fact }}</td>
                                                         <td>
-                                                            {% if item.photo_url %}
-                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
-                                                                <!-- Modal -->
-                                                                <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body text-center">
-                                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            {% else %}
-                                                                No photo available
-                                                            {% endif %}
-                                                            
-                                                            <!-- Download button -->
-                                                            {% if item.photo_url %}
-                                                                <a href="{{ item.photo_url.url }}" download>
-                                                                    <button class="btn btn-primary btn-sm">
-                                                                        <i class="fas fa-download"></i>
-                                                                    </button>
-                                                                </a>
-                                                            {% endif %}
+                                                            {% if item.photo %}
+                                                            <img src="{{ item.rehab_photo1.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.rehab_photo1.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}
                                                         </td>
                                                         <td>
-                                                            {% if item.photo_url %}
-                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
-                                                                <!-- Modal -->
-                                                                <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body text-center">
-                                                                                <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            {% else %}
-                                                                No photo available
-                                                            {% endif %}
-                                                            
-                                                            <!-- Download button -->
-                                                            {% if item.photo_url %}
-                                                                <a href="{{ item.photo_url.url }}" download>
-                                                                    <button class="btn btn-primary btn-sm">
-                                                                        <i class="fas fa-download"></i>
-                                                                    </button>
-                                                                </a>
-                                                            {% endif %}
+                                                            {% if item.rehab_photo2 and item.rehab_photo2 %}
+                                                            <img src="{{ item.rehab_photo2.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.rehab_photo2.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}
                                                         </td>
                                                         <td>{{ item.rehab_measure }}</td>
                                                         <td>{{ item.action }}</td>
+                                                        <!-- <td>{{ item.follow_up1}}</td>
+                                                        <td>{{ item.follow_up2}}</td>
+                                                        <td>{{ item.follow_up3}}</td>    -->
                                                     </tr>
+
+                                                    
+                                                    
+                                                
 
                                                     {% endfor %}
 
@@ -372,6 +297,55 @@
         <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
+
+
+
+
+    <!-- <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Add Notes</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" data-action="{% url 'case_work' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <input type="text" class="form-control" id="folloewup" name="folloewup" style="display: none;" />
+                            <input type="text" class="form-control" id="uqid" name="uqid" value="{{ item.uqid }}" style="display: none;" />
+                            <div class="col-md-5">
+                                <label for="followup1" class="form-label fs-16">Follow-up 1:</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" id="followup1" name="followup1" placeholder="Enter your Follow-up 1" />
+                            </div>
+                            <div class="col-md-5">
+                                <label for="followup2" class="form-label fs-16">Follow-up 2:</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" id="followup2" name="followup2" placeholder="Enter your Follow-up 2" />
+                            </div>
+                            <div class="col-md-5">
+                                <label for="followup3" class="form-label fs-16">Follow-up 3:</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" id="followup3" name="followup3" placeholder="Enter your Follow-up 3" />
+                            </div>
+                        </div>
+                            
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger" id="edit">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div> -->
 
     <footer class="footer">
         <div class="container-fluid">
@@ -407,8 +381,72 @@
     </div>
 </div>
 
-
+Zip<script type="text/javascript" >
+    var saveModalDaraURL = "{% url 'case_work' %}";
+</script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function editrecord(element) {
+        var action_url = $(this).data('action_url');
+       var followup1 = $(element).data('followup1');
+       var followup2 = $(element).data('followup2');
+       var followup3 = $(element).data('followup3');
+       // Perform actions with followup data as needed
+    }
+
+    function saveedit() {
+        var followup1 = $("#followup1").val();
+        var followup2 = $("#followup2").val();
+        var followup3 = $("#followup3").val();
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'case_work_dashboard' %}",
+            data: {
+                'followup1': followup1,
+                'followup2': followup2,
+                'followup3': followup3,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (data) {
+                var table = $('#table').DataTable();
+                table.clear().draw();
+
+                for (var i = 0; i < data.length; i++) {
+                    var rowdata = data[i];
+                    var row = $("<tr>");
+
+                    // Construct table rows with the received data
+                    var columns = [
+                        i + 1,
+                        rowdata.followup1,
+                        rowdata.followup2,
+                        rowdata.followup3,
+                    ];
+
+                    // Append the row to the table
+                    row.append($('<tr>').html(
+                        '<a href="javascript:void(0);" ' + 
+                        'onclick="editrecord(this)" ' +
+                        'data-followup1="' + rowdata.followup1 + '" ' +
+                        'data-followup2="' + rowdata.followup2 + '" ' +
+                        'data-followup3="' + rowdata.followup3 + '" ' +
+                        'data-bs-toggle="modal" ' +
+                        'data-bs-target="#editModal" ' +
+                        '><i class="ri-edit-2-line"></i></a>'
+                    ));
+                    table.row.add(row);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                // Handle error if needed
+            }
+        });
+    }
+</script>
 
 {% endblock %}  

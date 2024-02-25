@@ -1,5 +1,5 @@
 from django import forms
-from .models import provision,Reintegration,VisitorRegister,PerformanceAppraisal,Resident,SocialEntertainment,CaseHistory,ActionplanRegister,AwarnesRegister,BpPulsenote,CounsellingRegister,MedicalCamp,Medicine,NightSurvey,SkillTraining,SmcRegister,StaffAttendence,Stock,EmploymentLink,Rehabitation,DeathRegister,AccidentRegister,CaseWork
+from .models import provision,Reintegration,VisitorRegister,PerformanceAppraisal,Resident,SocialEntertainment,CaseHistory,ActionplanRegister,AwarnesRegister,BpPulsenote,CounsellingRegister,MedicalCamp,Medicine,NightSurvey,SkillTraining,SmcRegister,StaffAttendance,Stock,EmploymentLink,Rehabitation,DeathRegister,AccidentRegister,CaseWork
  
 class ProvisionForm(forms.ModelForm):
     class Meta:
@@ -97,7 +97,7 @@ class SmcRegisterForms(forms.ModelForm):
 
 class StaffAttendenceForms(forms.ModelForm):
     class Meta:
-        models = StaffAttendence
+        models = StaffAttendance
         fields = '__all__'
 
 
@@ -109,7 +109,7 @@ class StockForms(forms.ModelForm):
 
 class EmploymentLinkForms(forms.ModelForm):
     class Meta:
-        models = Stock
+        models = EmploymentLink
         fields = '__all__'
 
 class RehabitationForms(forms.ModelForm):
