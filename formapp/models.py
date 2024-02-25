@@ -483,7 +483,7 @@ class MasterRecords(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
     user = models.CharField(max_length=200)
-    id = models.AutoField(primary_key=True, unique=True, editable=False)
+    uqid = models.AutoField(primary_key=True, unique=True, editable=False)
     name = models.CharField(max_length=100)
     Aid_no = models.IntegerField()
     Age_gender = models.CharField(max_length=50)
@@ -512,6 +512,17 @@ class MasterRecords(models.Model):
   
     def __str__(self):
         return f"{self.id} - {self.name}"
+    
+    def save(self, *args, **kwargs):
+        
+        if not self.pk:
+            # Generate the next available uqid
+            last_record = MasterRecords.objects.order_by('-uqid').first()
+            if last_record:
+                self.uqid = last_record.uqid + 1
+            else:
+                self.uqid = 1  # If no records exist, start with 1
+        super().save(*args, **kwargs)
 
 class CaseWork(models.Model):
     uqid = models.CharField(max_length=4,null=True)

@@ -1615,7 +1615,7 @@ def master_records_form(request):
         user = request.session['user']
     if request.method == "POST":
         
-        id = request.POST.get("id")
+        uqid = request.POST.get("uqid")
         name = request.POST.get("name")
         Aid_no = request.POST.get("Aid_no")
         Age_gender = request.POST.get("Age_gender")
@@ -1663,7 +1663,7 @@ def master_records_form(request):
 
         data = MasterRecords.objects.create(user=username,
             photo_url=relative_file_path,
-            id=id,
+            uqid=uqid,
             name=name,
             Aid_no=Aid_no,
             Age_gender=Age_gender,
@@ -1688,7 +1688,6 @@ def master_records_form(request):
             Signature=Signature,
         )
         data.save()
-
         # MasterRecords.objects.all().delete()
 
         return redirect("master_records_dashboard")

@@ -11,7 +11,7 @@ $(document).ready(function () {
         greeting = "Good Evening";
     }
 
-    greeting += ", Admin !";
+    greeting += ",  Admin  !";
 
     $(".g-msg").text(greeting);
 
