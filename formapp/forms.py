@@ -1,5 +1,7 @@
 from django import forms
-from .models import provision,Reintegration,VisitorRegister,PerformanceAppraisal,Resident,SocialEntertainment,CaseHistory,ActionplanRegister,AwarnesRegister,BpPulsenote,CounsellingRegister,MedicalCamp,Medicine,NightSurvey,SkillTraining,SmcRegister,StaffAttendance,Stock,EmploymentLink,Rehabitation,DeathRegister,AccidentRegister,CaseWork
+
+from django.forms import ModelForm
+from .models import *
  
 class ProvisionForm(forms.ModelForm):
     class Meta:
@@ -78,53 +80,53 @@ class MedicineForm(forms.ModelForm):
         fields = '__all__'
 
 
-class NightSurveyForms(forms.ModelForm):
+class NightSurveyForm(forms.ModelForm):
     class Meta:
         models = NightSurvey
         fields = '__all__'
 
-class SkillTrainingForms(forms.ModelForm):
+class SkillTrainingForm(forms.ModelForm):
     class Meta:
         models = SkillTraining
         fields = '__all__'
 
 
-class SmcRegisterForms(forms.ModelForm):
+class SmcRegisterForm(forms.ModelForm):
     class Meta:
         models = SmcRegister
         fields = '__all__'
 
 
-class StaffAttendenceForms(forms.ModelForm):
+class StaffAttendenceForm(forms.ModelForm):
     class Meta:
         models = StaffAttendance
         fields = '__all__'
 
 
-class StockForms(forms.ModelForm):
+class StockForm(forms.ModelForm):
     class Meta:
         models = Stock
         fields = '__all__'
 
 
-class EmploymentLinkForms(forms.ModelForm):
+class EmploymentLinkForm(forms.ModelForm):
     class Meta:
         models = EmploymentLink
         fields = '__all__'
 
-class RehabitationForms(forms.ModelForm):
+class RehabitationForm(forms.ModelForm):
     class Meta:
         model = Rehabitation
         fields = '__all__'
 
 
-class DeathRegisterForms(forms.ModelForm):
+class DeathRegisterForm(forms.ModelForm):
     class Meta:
         model = DeathRegister
         fields = '__all__'
 
 
-class AccidentRegisterForms(forms.ModelForm):
+class AccidentRegisterForm(forms.ModelForm):
     class Meta:
         model = AccidentRegister
         fields = '__all__'
@@ -133,7 +135,13 @@ class AccidentRegisterForms(forms.ModelForm):
 
 
 
-class CaseWorkForms(forms.ModelForm):
+class CaseWorkForm(forms.ModelForm):
     class Meta:
         model = CaseWork
+        fields = '__all__'
+        
+        
+class FollowUPForm(forms.ModelForm):
+    class Meta:
+        model = FollowUP
         fields = '__all__'

@@ -34,6 +34,7 @@ CSRF_TRUSTED_ORIGINS = ['   https://00f3-115-97-253-131.ngrok-free.app.ngrok.io'
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

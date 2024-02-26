@@ -11,7 +11,7 @@ from django.conf import settings
 urlpatterns = [
     path('', views.loginuser, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    path('signup/', views.signupuser, name='signup'),
+    # path('signup/', views.signupuser, name='signup'),
     path('home/', views.home, name='home'),
     path('master_records/', views.master_records_form, name='master_records'),
     path('master_records_dashboard/', views.master_records_dashboard, name='master_records_dashboard'),
@@ -78,6 +78,8 @@ urlpatterns = [
     path('download-master-records-excel/', views.download_master_records_excel, name='download_master_records_excel'),
     path('case_work/',views.case_work,name='case_work'),
     path('case_work_dashboard/', views.case_work_dashboard, name='case_work_dashboard'),
+    path('follow_up/', views.follow_up, name='follow_up'),
+    path('followup_dashboard/', views.followup_dashboard, name='followup_dashboard'),
     # Other URL patterns...
 
 

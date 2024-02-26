@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import RegexValidator
+from datetime import date
+
 import random
 
 class Inspectionregister(models.Model):
@@ -489,7 +491,6 @@ class MasterRecords(models.Model):
     Age_gender = models.CharField(max_length=50)
     dob = models.DateField()
     Date_Of_Admission = models.DateField()
-    Date_Of_Leaving = models.DateField()
     Family_Contact_No = models.CharField(max_length=20)
     Relation = models.CharField(max_length=50)
     Permanent_Address = models.TextField()
@@ -569,6 +570,31 @@ class CaseWork(models.Model):
     followup2 = models.TextField(null=True, blank=True)
     followup3 = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.name
+    
+    
+    
+# class FollowUP(models.Model):
+#     name = models.CharField(max_length=100,null=False)
+#     uqid = models.CharField(max_length=4,null=False)
+#     date = models.DateField()
+#     follow_up = models.TextField()
+#     user = models.CharField(max_length=100,null=False)
+#     created_at = models.DateTimeField(auto_now_add=True, null=False)
+
+#     def __str__(self):
+#         return self.name
+
+
+class FollowUP(models.Model):
+    name = models.CharField(max_length=100)
+    uqid = models.CharField(max_length=4,null=False,default=0)
+    date = models.DateField(auto_now_add=True)
+    follow_up = models.TextField()
+    user = models.CharField(max_length=100,null=False,default='admin')
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=False, editable=False)
 
     def __str__(self):
         return self.name

@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 
 
 from .models import (
+    FollowUP,
     CaseWork,
     Inspectionregister,
     MasterRecords,
@@ -74,53 +75,78 @@ from django.utils import timezone
 import datetime
 
 
-@csrf_exempt
-def signupuser(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        email = request.POST.get('email')
-        mobile_number = request.POST.get('mobile_number')
-        confrimpassword = request.POST.get('confrimpassword')
+# @csrf_exempt
+# def signupuser(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         email = request.POST.get('email')
+#         mobile_number = request.POST.get('mobile_number')
+#         confrimpassword = request.POST.get('confrimpassword')
 
-        User = get_user_model()  # Get the custom user model
-        if not User.objects.filter(username=username).exists():
-            # Create a new user instance and set the username
-            user = User.objects.create_user(username=username, password=password)
-            Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
-            # Save the user
-            Userprofile.save()
-            user.save()
-            return redirect('login')  # Redirect to login upon successful registration
-        else:
-            # Authentication failed, handle accordingly (e.g., display an error message)
-            messages.info(request, f'The Username Exit plz sign in with new username or try with different spelling')
-            return redirect('signup')
+#         User = get_user_model()  # Get the custom user model
+#         if not User.objects.filter(username=username).exists():
+#             # Create a new user instance and set the username
+#             user = User.objects.create_user(username=username, password=password)
+#             Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
+#             # Save the user
+#             Userprofile.save()
+#             user.save()
+#             return redirect('login')  # Redirect to login upon successful registration
+#         else:
+#             # Authentication failed, handle accordingly (e.g., display an error message)
+#             messages.info(request, f'The Username Exit plz sign in with new username or try with different spelling')
+#             return redirect('signup')
 
-    return render(request, 'signup.html')
+#     return render(request, 'signup.html')
 
     
 from django.contrib.auth import authenticate,login
+from django.contrib.auth.models import User
 @csrf_exempt
+
+# def loginuser(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')  # Assuming 'username' is the field name
+#         password = request.POST.get('password')
+
+#         # Authenticate the user
+#         user = authenticate(request, username=username, password=password)
+
+#         if user is not None:
+#             # User authentication successful, log the user in
+#             login(request, user)
+#             # You can perform additional actions after login if needed
+#             request.session['user'] = user.username  # Storing username in session
+#             return redirect('home')  # Redirect to a success page (replace 'sr' with your URL name)
+#         else:
+#             # Authentication failed, handle accordingly (e.g., display an error message)
+
+#             messages.info(request, f'account does not exit plz sign in (or) the username and Password does not match')
+
+#     return render(request, 'login.html')
+
 
 def loginuser(request):
     if request.method == 'POST':
         username = request.POST.get('username')  # Assuming 'username' is the field name
         password = request.POST.get('password')
 
-        # Authenticate the user
-        user = authenticate(request, username=username, password=password)
+        # Check if the user is an admin
+        try:
+            user = User.objects.get(username=username, is_staff=True, is_superuser=True)
+        except User.DoesNotExist:
+            user = None
 
-        if user is not None:
-            # User authentication successful, log the user in
+        if user is not None and user.check_password(password):
+            # User is an admin and authentication successful, log the user in
             login(request, user)
             # You can perform additional actions after login if needed
             request.session['user'] = user.username  # Storing username in session
-            return redirect('home')  # Redirect to a success page (replace 'sr' with your URL name)
+            return redirect('home')  # Redirect to a success page (replace 'home' with your URL name)
         else:
-            # Authentication failed, handle accordingly (e.g., display an error message)
-
-            messages.info(request, f'account does not exit plz sign in (or) the username and Password does not match')
+            # Authentication failed or user is not an admin, handle accordingly (e.g., display an error message)
+            messages.error(request, 'Invalid username or password for admin login.')
 
     return render(request, 'login.html')
 
@@ -145,7 +171,7 @@ def logout_view(request):
 
 
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def home(request):
     user = None
     if 'user' in request.session:
@@ -182,6 +208,7 @@ def home(request):
 
 from django.contrib.auth import authenticate,login
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def accident_register_form(request):
     user = None
     if 'user' in request.session:
@@ -199,7 +226,6 @@ def accident_register_form(request):
         logged_in_user = request.user
         username = logged_in_user.username
         
-
         data = AccidentRegister.objects.create(
             user=username,
             uqid=uqid,
@@ -224,6 +250,7 @@ def accident_register_form(request):
 
 # from django.shortcuts import objects
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def accident_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -234,6 +261,7 @@ def accident_register_dashboard(request):
       return render( request, "dashboard/accident_register_dashboard.html", {"data": datas})
     
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def reintegration_form(request):
     user = None
     if 'user' in request.session:
@@ -342,7 +370,7 @@ def reintegration_form(request):
 
 #     return render(request, "reintegration_register.html", {'user': user, 'reintegration_object': reintegration_object})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def reintegration_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -354,6 +382,7 @@ def reintegration_register_dashboard(request):
     
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def visitor_register_form(request):
     user = None
     if 'user' in request.session:
@@ -399,6 +428,7 @@ def visitor_registration_dashboard(request):
         request, "dashboard/visitor_registration_dashboard.html", {"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def performance_appraisal_form(request):
     user = None
     if 'user' in request.session:
@@ -486,7 +516,7 @@ def performance_appraisal_form(request):
 #     return render(request, "performance_appraisal.html",{'user': user})
 
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def performance_appraisal_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -524,6 +554,7 @@ def provision_form(request):
 
     return render(request, 'provision.html',{'user': user,'provision': provision})
 
+@user_passes_test(lambda u: u.is_superuser)
 def provision_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -537,7 +568,7 @@ def provision_dashboard(request):
      return render(
         request, "dashboard/provision_dashboard.html", {"data": datas})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def resident_form(request):
     user = None
     if 'user' in request.session:
@@ -568,7 +599,7 @@ def resident_form(request):
         resident = Resident.objects.all().order_by('-created_at')
     return render(request, "resident_attendance.html",{'user': user,'resident': resident})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def resident_attendance_form_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -580,6 +611,7 @@ def resident_attendance_form_dashboard(request):
         request, "dashboard/resident_attendance_form_dashboard.html", {"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def social_entertainment_form(request):
     user = None
     if 'user' in request.session:
@@ -607,7 +639,7 @@ def social_entertainment_form(request):
 
     return render(request, "social_entertainment_record.html",{'user': user,'social': social})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def social_entertainment_form_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -619,6 +651,7 @@ def social_entertainment_form_dashboard(request):
         request, "dashboard/social_entertainment_form_dashboard.html", {"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def inspection_register(request):
     user = None
     if 'user' in request.session:
@@ -654,7 +687,7 @@ def inspection_register(request):
     return render(request, "inspection_register.html",{'user': user,'inspection': inspection})
 
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def inspection_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -666,6 +699,7 @@ def inspection_register_dashboard(request):
 
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def case_history_form(request):
     user = None
     if 'user' in request.session:
@@ -734,6 +768,7 @@ def case_history_form(request):
 
     return render(request,'case_history.html',{'user': user,'case': case})
 
+@user_passes_test(lambda u: u.is_superuser)
 def case_history_record_dashboard(request):
     if not request.user.is_authenticated:
        return redirect("login")
@@ -741,7 +776,10 @@ def case_history_record_dashboard(request):
      logged_in_username = request.user.username
      datas = CaseHistory.objects.filter(user=logged_in_username)
      return render(request, "dashboard/case_history_record_dashboard.html",{"data": datas})
+ 
+ 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def personal_info_form(request):
     user = None
     if 'user' in request.session:
@@ -800,6 +838,7 @@ def personal_info_form(request):
     return render(request, "personal_information.html",{'user': user,'personalinfo': personalinfo})
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def personal_info_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -809,7 +848,10 @@ def personal_info_dashboard(request):
      datas = PersonalInfo.objects.filter(user=logged_in_username)
      return render(
         request, "dashboard/personal_information_dashboard.html",{"data": datas})
+     
+     
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def actionplan_register_form(request):
     user = None
     if 'user' in request.session:
@@ -837,6 +879,7 @@ def actionplan_register_form(request):
     return render(request, "actionplan_register.html",{'user': user,'action': action})
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def action_plan_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -847,6 +890,7 @@ def action_plan_dashboard(request):
      return render(request, "dashboard/action_plan_dashboard.html",{"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def awarnes_register_form(request):
     user = None
     if 'user' in request.session:
@@ -878,7 +922,7 @@ def awarnes_register_form(request):
 
     return render(request, "awarnes_register.html",{'user': user,'awarnes': awarnes})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def awarnes_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -888,6 +932,7 @@ def awarnes_register_dashboard(request):
      datas = AwarnesRegister.objects.filter(user=logged_in_username)
      return render(request, "dashboard/awarnes_register_dashboard.html",{"data": datas})
 
+@user_passes_test(lambda u: u.is_superuser)
 @csrf_exempt
 def asset_form(request):
     user = None
@@ -937,6 +982,7 @@ def asset_register_dashboard(request):
      return render(request, "dashboard/asset_register_dashboard.html",{"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def bp_pulsenote(request):
     user = None
     if 'user' in request.session:
@@ -965,7 +1011,7 @@ def bp_pulsenote(request):
 
     return render(request, "bp_pulsenote.html",{'user': user,'bp': bp})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def bp_form_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -976,6 +1022,7 @@ def bp_form_dashboard(request):
      return render(request, "dashboard/bp_form_dashboard.html",{"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def counselling_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1008,6 +1055,8 @@ def counselling_register_form(request):
         counselling = CounsellingRegister.objects.all().order_by('-created_at')
 
     return render(request, "counselling_register.html",{'user': user,'counselling': counselling})
+
+@user_passes_test(lambda u: u.is_superuser)
 def counselling_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1018,6 +1067,7 @@ def counselling_register_dashboard(request):
      return render(request, "dashboard/counselling_register_dashboard.html", {"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def medical_camp_form(request):
     user = None
     if 'user' in request.session:
@@ -1053,7 +1103,7 @@ def medical_camp_form(request):
 
     return render(request, "medical_camp.html",{'user': user,'medical': medical})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def medical_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1063,7 +1113,9 @@ def medical_register_dashboard(request):
      datas = MedicalCamp.objects.filter(user=logged_in_username)
      return render(request, "dashboard/medical_register_dashboard.html",{"data": datas})
 
+
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def medicine_form(request):
     user = None
     if 'user' in request.session:
@@ -1093,7 +1145,7 @@ def medicine_form(request):
 
     return render(request, "medicine.html",{'user': user,'medicine': medicine})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def medicine_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1104,6 +1156,7 @@ def medicine_register_dashboard(request):
      return render(request, "dashboard/medicine_register_dashboard.html",{"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def night_survey_form(request):
     user = None
     if 'user' in request.session:
@@ -1133,6 +1186,8 @@ def night_survey_form(request):
 
     return render(request, "night_survey.html",{'user': user,'night': night})
 
+
+@user_passes_test(lambda u: u.is_superuser)
 def night_survey_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1143,6 +1198,7 @@ def night_survey_dashboard(request):
      return render(request, "dashboard/night_survey_dashboard.html",{"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def skill_training_form(request):
     user = None
     if 'user' in request.session:
@@ -1168,7 +1224,7 @@ def skill_training_form(request):
 
     return render(request, "skill_training.html",{'user': user,'skill': skill})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def skill_training_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1179,6 +1235,7 @@ def skill_training_dashboard(request):
      return render(request, "dashboard/skill_training_dashboard.html",{"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def smc_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1218,7 +1275,7 @@ def smc_register_form(request):
 
     return render(request, "smc_register.html",{'user': user,'smc': smc})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def smc_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1229,6 +1286,7 @@ def smc_register_dashboard(request):
      return render(request, "dashboard/smc_register_dashboard.html",{"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def staff_attendance_form(request):
     user = None
     if 'user' in request.session:
@@ -1262,7 +1320,7 @@ def staff_attendance_form(request):
         staffatt = StaffAttendance.objects.all().order_by('-created_at')
     return render(request, "staff_attendance.html",{'user': user,'staffatt': staffatt})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def staff_attendance_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1274,6 +1332,7 @@ def staff_attendance_register_dashboard(request):
           request, "dashboard/staff_attendance_register_dashboard.html", {"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def stock_form(request):
     user = None
     if 'user' in request.session:
@@ -1303,7 +1362,7 @@ def stock_form(request):
 
     return render(request, "stock_register.html",{'user': user,'stock': stock})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def stock_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1314,6 +1373,7 @@ def stock_register_dashboard(request):
      return render(request, "dashboard/stock_register_dashboard.html",{"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def employment_link_form(request):
     user = None
     if 'user' in request.session:
@@ -1328,8 +1388,10 @@ def employment_link_form(request):
         designation = request.POST.get("designation")
         joining_date = request.POST.get("joining_date")
         signature = request.POST.get("signature")
+        
         logged_in_user = request.user
         username = logged_in_user.username
+        
         datas = EmploymentLink.objects.create(user=username,
             uqid=uqid,
             admission_no=admission_no,
@@ -1350,7 +1412,7 @@ def employment_link_form(request):
 
     return render(request, "employment_link.html",{'user': user,'employmenyt': employmenyt})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def employment_linkage_form_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1363,6 +1425,7 @@ def employment_linkage_form_dashboard(request):
 
 from django.utils import timezone
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def rehabitation_form(request):
     user = None
     if 'user' in request.session:
@@ -1428,7 +1491,7 @@ def rehabitation_form(request):
     today_rehab = Rehabitation.objects.filter(created_at__date=timezone.now().date())
     
     return render(request, "rehabitation.html", {'user': user, 'rehab': rehab, 'today_rehab': today_rehab})
-
+@user_passes_test(lambda u: u.is_superuser)
 def rehabitation_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1439,6 +1502,7 @@ def rehabitation_dashboard(request):
      return render(request, "dashboard/rehabitation_dashboard.html",{"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def death_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1474,7 +1538,7 @@ def death_register_form(request):
         death = DeathRegister.objects.all().order_by('-created_at')
     return render(request, "death_register.html",{'user': user,'death': death})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def death_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1485,6 +1549,7 @@ def death_register_dashboard(request):
      return render(request, "dashboard/death_register_dashboard.html", {"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def food_menu_form(request):
     user = None
     if 'user' in request.session:
@@ -1520,7 +1585,7 @@ def food_menu_form(request):
         food = FoodMenu.objects.all().order_by('-created_at')
     return render(request, "food_menu.html",{'user': user,'food': food})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def food_menu_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1531,6 +1596,7 @@ def food_menu_dashboard(request):
        return render(request, "dashboard/food_menu_dashboard.html", {"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def salary_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1554,7 +1620,7 @@ def salary_register_form(request):
         salary = SalaryRegister.objects.all().order_by('-created_at')
     return render(request, "salary_register.html",{'user': user,'salary': salary})
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def salary_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1565,6 +1631,7 @@ def salary_register_dashboard(request):
        return render(request, "dashboard/salary_register_dashboard.html",{"data": datas})
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def staff_movement_form(request):
         user = None
         if 'user' in request.session:
@@ -1597,6 +1664,7 @@ def staff_movement_form(request):
         return render(request, "staff_movement_note.html",{'user': user,'staffmov': staffmov})
 
 # @login_required(login_url='/login/')
+@user_passes_test(lambda u: u.is_superuser)
 def staff_movement_note_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1608,7 +1676,7 @@ def staff_movement_note_dashboard(request):
 
 
 @csrf_exempt
-# @user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_superuser)
 def master_records_form(request):
     user = None
     if 'user' in request.session:
@@ -1621,7 +1689,6 @@ def master_records_form(request):
         Age_gender = request.POST.get("Age_gender")
         dob = request.POST.get("dob")
         Date_Of_Admission = request.POST.get("Date_Of_Admission")
-        Date_Of_Leaving = request.POST.get("Date_Of_Leaving")
         Family_Contact_No = request.POST.get("Family_Contact_No")
         Relation = request.POST.get("Relation")
         Permanent_Address = request.POST.get("Permanent_Address")
@@ -1669,7 +1736,6 @@ def master_records_form(request):
             Age_gender=Age_gender,
             dob=dob,
             Date_Of_Admission=Date_Of_Admission,
-            Date_Of_Leaving=Date_Of_Leaving,
             Family_Contact_No=Family_Contact_No,
             Relation=Relation,
             Permanent_Address=Permanent_Address,
@@ -1688,6 +1754,8 @@ def master_records_form(request):
             Signature=Signature,
         )
         data.save()
+        
+
         # MasterRecords.objects.all().delete()
 
         return redirect("master_records_dashboard")
@@ -1699,7 +1767,7 @@ def master_records_form(request):
 
 
 
-                                                        
+@user_passes_test(lambda u: u.is_superuser)                                                       
 def master_records_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1713,7 +1781,7 @@ def master_records_dashboard(request):
 
 import openpyxl
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def download_master_records_excel(request):
     # Fetch all master records from the database
     master_records = MasterRecords.objects.all()
@@ -1754,6 +1822,7 @@ def download_master_records_excel(request):
     return response
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def search_results(request):
     accidentform = None
     casehistory = None
@@ -1808,9 +1877,10 @@ def search_results(request):
                                                       'emplink':emplink,'rehab':rehab,'death':death,'skill':skill})
     
     
-from .forms import CaseWorkForms 
+
     
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
 def case_work(request):
     user = None
     if 'user' in request.session:
@@ -1919,25 +1989,13 @@ def case_work(request):
                                        )
         
         data.save()
-        # if 'folloewup' in request.POST:
-        #     print("in this reqest",request.POST)
-        #     uqid = request.POST.get('uqid')
-        #     followup1 = request.POST.get('followup1')
-        #     followup2 = request.POST.get('followup2')
-        #     followup3 = request.POST.get('followup3')
-            
-        #     try:
-        #         record = CaseWork.objects.get(uqid=uqid)
-        #     except CaseWork.DoesNotExist:
-        #         # Handle the case where the record does not exist
-        #         messages.error(request, 'Record with the specified ID does not exist.')
-        #         return redirect('case_work_dashboard')
-                
-            
-        #     record.followup1 = followup1
-        #     record.followup2 = followup2
-        #     record.followup3 = followup3
-        #     record.save()
+         
+        # case_work_instance = get_object_or_404(CaseWork, uqid=uqid)
+        # case_work_instance.followup1 = followup1
+        # case_work_instance.followup2 = followup2
+        # case_work_instance.followup3 = followup3
+        # case_work_instance.save()
+       
         return redirect('case_work_dashboard')
     else:
         messages.success(request, 'Case work data saved successfully.')
@@ -1946,24 +2004,50 @@ def case_work(request):
     return render(request,'case_work.html',{'user':user,'case_work':case_work})
 
 
-
-def case_work_dashboard(request):
+@user_passes_test(lambda u: u.is_superuser)
+def case_work_dashboard(request): 
     if not request.user.is_authenticated:
         return redirect("login")
     else:
         logged_in_username = request.user.username
         datas = CaseWork.objects.filter(user=logged_in_username)
         return render(request, "dashboard/case_work_dashboard.html", {"data": datas})
-    
-    
-# def save_secondary_modal_data(request):
-#     if request.method == 'POST':
-#        data = CaseWork.objects.get(uqid=request.POST.get('uqid'))
-       
-#        data.followup1 = request.POST.get('followup1')
-#        data.followup2 = request.POST.get('followup2')
-#        data.followup3 = request.POST.get('followup3')
-       
-#        data.save()
-#        return redirect('case_work_dashboard')
-#     return JsonResponse({f"error":"Invalid request"})
+ 
+@user_passes_test(lambda u: u.is_superuser)
+def follow_up(request):
+    user = None
+    if 'user' in request.session:
+        user = request.session['user']
+        
+    if request.method == 'POST':
+        uqid = request.POST.get('uqid')
+        name = request.POST.get('name')
+        date = request.POST.get('date')
+        follow_up = request.POST.get('follow_up')
+        
+        logged_in_user = request.user
+        username = logged_in_user.username
+        
+        data = FollowUP.objects.create(user=username,
+                                       uqid=uqid,
+                                       name=name,
+                                       date=date,
+                                       follow_up=follow_up
+                                       )
+        data.save()
+        return redirect('followup_dashboard')
+    else:
+        messages.success(request, 'Follow up data saved successfully.')
+        follow_up = FollowUP.objects.all().order_by('created_at')
+        
+    return render(request,'followup.html',{'user':user,'follow_up':follow_up})
+        
+
+@user_passes_test(lambda u: u.is_superuser)
+def followup_dashboard(request): 
+    if not request.user.is_authenticated:
+        return redirect("login")
+    else:
+        logged_in_username = request.user.username
+        datas = FollowUP.objects.filter(user=logged_in_username)
+        return render(request, "dashboard/followup_dashboard.html", {"data": datas})
