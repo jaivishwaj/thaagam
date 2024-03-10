@@ -59,7 +59,8 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>uqid</th>
+                                                            <th>S-NO</th>
+                                                            <th>UQID</th>
                                                             <th>Photo</th>
                                                             <th>Name of the Person</th>
                                                             <th>Age</th>
@@ -73,6 +74,7 @@
                                                             <th>Resident Contact Number</th>
                                                             <th>Relative or Friends Contact Number</th>
                                                             <th>ID Proof Available</th>
+                                                            
                                                             <th>Id Proof Details</th>
                                                             <th>Police Memo Available</th>
                                                             <th>Police station Details</th>
@@ -84,7 +86,7 @@
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
-                                                                
+                                                                <td>{{ forloop.counter }}</td>
                                                                     <td>{{ item.uqid }}</td>
                                                                     
                                                                     <td>
@@ -172,141 +174,7 @@
     </div>
     <!-- END layout-wrapper -->
     
-    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 overflow-hidden">
-                <div class="modal-header p-3">
-                    <h4 class="card-title mb-0"> Edit</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-5">
-                                <label class="form-label fs-16"> Photo:</label>
-                            </div>
-                            <div class="col-md-7 mb-3">
-                                <input type="file" class="form-control" name="photo" accept="image/*">
-                            </div>
-                            
-                            <div class="col-md-5">
-                                <label class="form-label fs-16">Name of the Person :</label>
-                            </div>
-                            <div class="col-md-7 mb-3">
-                                <input type="text" class="form-control" name="Name of the Person" />
-                            </div>
-                            
-                            <div class="col-md-5">
-                                <label  class="form-label fs-16">Age :</label>
-                            </div>
-                            <div class="col-md-7 mb-3">
-                              <input type="number" class="form-control" name="Age" />
-                          </div>
-                            <div class="col-md-5">
-                                <label  class="form-label fs-16">Sex :</label>
-                            </div>
-                            <div class="col-md-7 mb-3">
-                                <input type="text" class="form-control" 
-                                    name="Sex" />
-                            </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Religion :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Religion" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Marital Status :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Marital Status" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Identification Mark :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Identification Mark" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Education Background :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Education Background" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Occupation :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Occupation" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Address :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Address" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Resident Contact Number :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Resident Contact Number" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Relative or Friends Contact Number :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Relative or Friends Contact Number" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">ID Proof Available :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="ID Proof Available" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Id Proof Details :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Id Proof Details" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Police Memo Available :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Police Memo Available" />
-                          </div>
-                            <div class="col-md-5">
-                              <label  class="form-label fs-16">Police station Details :</label>
-                          </div>
-                          <div class="col-md-7 mb-3">
-                            <input type="text" class="form-control" 
-                            name="Police station Details" />
-                          </div>
-                         
-                          </div>
-                        <div class="text-start mt-3">
-                            <button type="submit" class="btn btn-danger">
-                                submit
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
+   
 
 
 

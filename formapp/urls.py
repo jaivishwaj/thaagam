@@ -11,7 +11,7 @@ from django.conf import settings
 urlpatterns = [
     path('', views.loginuser, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    # path('signup/', views.signupuser, name='signup'),
+    path('signup/', views.signupuser, name='signup'),
     path('home/', views.home, name='home'),
     path('master_records/', views.master_records_form, name='master_records'),
     path('master_records_dashboard/', views.master_records_dashboard, name='master_records_dashboard'),
@@ -74,25 +74,19 @@ urlpatterns = [
     path('food_menu_form/', views.food_menu_form, name='food_menu_form'),
     path('food_menu_dashboard/', views.food_menu_dashboard, name='food_menu_dashboard'),
     path('search_results/', views.search_results, name='search_results'),
-    
+    # path('dashboard/', views.dashboard, name='dashboard'),
     path('download-master-records-excel/', views.download_master_records_excel, name='download_master_records_excel'),
     path('case_work/',views.case_work,name='case_work'),
     path('case_work_dashboard/', views.case_work_dashboard, name='case_work_dashboard'),
     path('follow_up/', views.follow_up, name='follow_up'),
     path('followup_dashboard/', views.followup_dashboard, name='followup_dashboard'),
+    
     # Other URL patterns...
-
-
+    
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
-
-
-
-
 
 
 

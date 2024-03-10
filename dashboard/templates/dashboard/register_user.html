@@ -1,0 +1,108 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+
+<h2>User Control Panel</h2>
+
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<div class="container-fluid mt-5 ">
+    <div class="row justify-content-center d-flex align-items-start" style="height:100vh;">
+        <div class="col-md-8">
+            <div class="card p-3">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="Email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="Mobile Number">Mobile Number</label>
+                        <input type="number" class="form-control" id="m_number" name="m_number" placeholder="Enter Your Mobile Number">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="password">password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Your password">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="Confirm password">Confirm password</label>
+                        <input type="password" class="form-control" id="c_password" name="c_password" placeholder="Enter Your Confirm password">
+                    </div>
+                    <h4>Select Groups</h4>
+                    <input type="checkbox" class="form-check-input mr-2" id="Admin"><label for="Admin" style="margin-left: 5px;">Admin</label> <br>    
+                    <input type="checkbox" class="form-check-input" id="Staff"><label for="Staff" style="margin-left: 5px;">Staff</label> <br>
+                    <input type="checkbox" class="form-check-input" id="Super User"><label for="Super User" style="margin-left: 5px;">Super User</label> <br>
+
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    
+
+
+               
+            </div>
+            
+            
+        </div>
+    </div>
+
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.update-groups-button', function() {
+            var userId = $(this).data('user-id');
+            $('#user_id').val(userId);
+
+            // Pre-select the checkboxes based on user's current groups
+            var userGroups = $(this).closest('tr').find('.user-groups').data('usergroups').split(',');
+            $('.form-check-input').each(function() {
+                $(this).prop('checked', userGroups.includes($(this).val()));
+            });
+        });
+
+        $('#buttons-datatables').DataTable();
+
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 2000); // Adjust the time as needed
+    });
+
+    function promptPasswordChange(userId) {
+        var newPassword = prompt("Please enter new password:");
+        if (newPassword) {
+            submitForm(userId, 'change_password', newPassword);
+        }
+    }
+
+    function submitForm(userId, action, data) {
+        var form = document.createElement('form');
+        form.method = 'post';
+        form.style.display = 'none';
+        document.body.appendChild(form);
+
+        form.innerHTML = '<input type="hidden" name="user_id" value="' + userId + '">' +
+                          '<input type="hidden" name="' + action + '" value="' + data + '">' +
+                          '{% csrf_token %}';
+        form.submit();
+    }
+</script>
+{% endblock %}

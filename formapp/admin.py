@@ -1,8 +1,10 @@
+
 from django.contrib import admin
 
 # Register your models here.
 from .models import *
-admin.site.register(provision)
+
+admin.site.register(Provision)
 admin.site.register(Rehabitation)
 admin.site.register(MasterRecords)
 admin.site.register(Reintegration)
@@ -33,3 +35,6 @@ admin.site.register(SmcRegister)
 admin.site.register(StaffAttendance)
 admin.site.register(CaseWork)
 admin.site.register(FollowUP)
+
+
+

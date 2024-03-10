@@ -2,10 +2,11 @@ from django import forms
 
 from django.forms import ModelForm
 from .models import *
+from django.contrib.auth.models import User, Group
  
 class ProvisionForm(forms.ModelForm):
     class Meta:
-        model = provision
+        model = Provision
         fields = '__all__'
 
 class ReintegrationForm(forms.ModelForm):
@@ -145,3 +146,18 @@ class FollowUPForm(forms.ModelForm):
     class Meta:
         model = FollowUP
         fields = '__all__'
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
