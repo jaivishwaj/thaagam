@@ -54,22 +54,26 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>S.No</th>
                                                             <th>Date</th>
                                                             <th>Time</th>
                                                             <th>Introduction Of the Meeting</th>
                                                             <th>Last Month Performance Details</th>
                                                             <th>Are Last Month Issue Resolved</th>
                                                             <th>This Month Issue</th>
-                                                            <th>Name Of the NGO Staff</th>
                                                             <th>Name Of the Officials (GCC)</th>
+                                                            <th>Name Of the NGO Staff</th>
+                                                            
                                                             <th>Police Officials</th>
                                                             <th>Name Of the Residents</th>
+                                                            <th>Created at</th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
 
                                                          {% for item in data %}
-                                                               <tr>
+                                                               <tr><td>{{ forloop.counter }}</td>
                                                                    <td>{{ item.date }}</td>
                                                                    <td>{{ item.time }}</td>
                                                                    <td>{{ item.introduction_of_meeting }}</td>
@@ -77,9 +81,13 @@
                                                                    <td>{{ item.issue_resolved }}</td>
                                                                    <td>{{ item.this_month_issue }}</td>
                                                                    <td>{{ item.ngo_staff_name }}</td>
-                                                                   <td>{{ item.gcc_officials_name }}</td>
                                                                    <td>{{ item.police_officials_name }}</td>
+                                                                   <td>{{ item.gcc_officials_name }}</td>
+                                                                   
                                                                    <td>{{ item.residents_name }}</td>
+                                                                   <td>{{ item.created_at }}</td>
+                                                                   {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
 
 
 
@@ -137,6 +145,104 @@
 
     </div>
     <!-- END layout-wrapper -->
+
+    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            
+                            <div class="col-md-5">
+                                <label class="form-label fs-16">Date  :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="date" class="form-control" name="Date"/>
+                            </div>
+                            
+                            <div class="col-md-5">
+                                <label class="form-label fs-16">Time :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="time" class="form-control" name="Time" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Introduction Of the Meeting :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Introduction Of the Meeting" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Last Month Performance Details :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Last Month Performance Details" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Are Last Month Issue Resolved :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Are Last Month Issue Resolved" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">This Month Issue :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="This Month Issue" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Name Of the Officials (GCC) :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Name Of the Officials (GCC)" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Name Of the NGO Staff :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Name Of the NGO Staff" />
+                            </div>
+                            
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Police Officials :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Police Officials" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Name Of the Residents :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Name Of the Residents" />
+                            </div>
+                            
+                            
+                          </div>
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 
 
 

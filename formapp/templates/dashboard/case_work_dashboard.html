@@ -1,0 +1,452 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col">
+
+                    <div class="h-100">
+                        <div class="row mb-3 pb-1">
+                            <div class="col-12">
+                                <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                    <div class="flex-grow-1">
+                                        <h4 class="fs-24 mb-1 g-msg">Case Work Dashboard</h4>
+                                    </div>
+                                    <div class="mt-3 mt-lg-0">
+                                        <form method="post" enctype="multipart/form-data action="javascript:void(0);">
+                                            {% csrf_token %}
+                                            {{ form.as_p }}
+                                            <div class="row g-3 mb-0 align-items-center">
+
+                                                <div class="col-auto">
+                                                    <span class="badge p-2 fs-6 bg-success date-button"></span>
+                                                </div>
+
+                                            </div>
+                                            <!--end row-->
+                                        </form>
+                                    </div>
+
+                                </div><!-- end card header -->
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">
+                                            Case Work Register</h5>
+                                        <h5 class="mt-3" style="text-align:right; ">
+                                            <a href="{% url 'case_work' %}"
+                                                class="btn rounded-pill btn-success waves-light">
+                                                <i class="ri ri-add-circle-line align-middle"></i> Add Data
+                                            </a>
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="buttons-datatables"
+                                                class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                                                style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        
+                                                        <th>Name</th>
+                                                        <th>UQID</th>
+                                                        <th>AID No.</th>
+                                                        <th> Photo </th>
+                                                        <th>Date of Admission</th>
+                                                        <th>Date of Leaving</th>
+                                                        <th>Mode of Rescue</th>
+                                                        <th>File Details</th>
+                                                        <th>Age</th>
+                                                        <th>Gender</th>
+                                                        <th>Religion</th>
+                                                        
+                                                        <th>Marital Status</th>
+                                                        <!-- <th>Action</th> -->
+                                                        <th>Identification Mark</th>
+                                                        <th>Educational Background</th>
+                                                        <th>Occupational Background</th>
+                                                        <th>Address</th>
+                                                        <th>Resident Phone</th>
+                                                        <th>Relative Phone</th>
+                                                        <th>ID Proof</th>
+                                                        <th>Police Memo</th>
+                                                        <th>Resident Photo 1</th>
+                                                        <th>Resident Photo 2</th>
+                                                        <th>Homeless Photo 1</th>
+                                                        <th>Homeless Photo 2</th>
+                                                        <th>Reason for Homelessness</th>
+                                                        <th>Resident Letter</th>
+                                                        <th>Small Narration</th>
+                                                        <th>Genogram Photo1</th>
+                                                        <th>Genogram Photo2</th>
+                                                        <th>Genogram</th>
+                                                        <th>Resident Family</th>
+                                                        <th>Resident Economic Status</th>
+                                                        <th>Resident Physical Status</th>
+                                                        
+                                                        <th>Strengths and Weaknesses</th>
+                                                        <th>Facts</th>
+                                                        <th>Rehabilitation Photo1</th>
+                                                        <th>Rehabilitation Photo2</th>
+                                                        <th>Rehabilitation Measures</th>
+                                                        <th>Action taken</th> 
+                                                        <!-- <th>Follow up 1</th>
+                                                        <th>Follow up 2</th>
+                                                        <th>Follow up 3</th>  -->
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for item in data %}
+                                                    <tr>
+                                                        
+                                                        <td>{{ item.name }}</td>
+                                                        <td>{{ item.uqid }}</td>
+                                                        <td>{{ item.aid_no }}</td>
+                                                        <td>
+                                                            {% if item.photo %}
+                                                                <img src="{{ item.photo.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+                                                                <!-- Download link for the photo -->
+                                                                <a href="{{ item.photo.url }}" download="{{ item.name }}_photo">
+                                                                    <button class="btn btn-primary btn-sm">
+                                                                        <i class="fas fa-download"></i> Download
+                                                                    </button>
+                                                                </a>
+                                                            {% else %}
+                                                                No photo available
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{ item.doa }}</td>
+                                                        <td>{{ item.dol }}</td>
+                                                        <td>{{ item.mode_of_rescue }}</td>
+                                                        <td>{{ item.file_details }}</td>
+                                                        <td>{{ item.age }}</td>
+                                                        <td>{{ item.gender }}</td>
+                                                        <td>{{ item.religion }}</td>
+                                                       
+                                                        <td>{{ item.marital_status }}</td>
+                                                        <!-- <td class="text-center">
+                                                            <a href="javascript:void(0);"
+                                                            onclick="editrecord(this)"
+                                                            data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                            data-bs-target=".edit_donor_search"
+                                                            class="link-success fs-15 edit_icon"
+                                                            data-followup1="{{ item.followup1 }}"
+                                                            data-followup2="{{ item.followup2 }}"
+                                                            data-followup3="{{ item.followup3 }}"
+                                                        ><i class="ri ri-edit-2-line"></i></a>
+                                                       </td> -->
+                                                        <td>{{ item.idnt_mark }}</td>
+                                                        <td>{{ item.edu_back }}</td>
+                                                        <td>{{ item.occcu_back }}</td>
+                                                        <td>{{ item.address }}</td>
+                                                        <td>{{ item.resident_ph }}</td>
+                                                        <td>{{ item.relative_ph }}</td>
+                                                        <td>{{ item.id_proof }}</td>
+                                                        <td>{{ item.police_memo }}</td>
+                                                        
+                                                        <td>
+                                                            {% if item.photo %}
+                                                            <img src="{{ item.res_photo1.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.res_photo1.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}
+                                                        
+                                                        </td>
+                                                        <td>
+                                                            {% if item.photo %}
+                                                            <img src="{{ item.res_photo2.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.res_photo2.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}
+                                                        </td>
+                                                        <td>{% if item.photo %}
+                                                            <img src="{{ item.hl_photo1.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.hl_photo1.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}</td>
+                                                        <td>
+                                                            {% if item.photo %}
+                                                            <img src="{{ item.hl_photo2.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.hl_photo2.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}
+                                                        </td>
+                                                        
+                                                        <td>{{ item.reason_for_homeless }}</td>
+                                                        <td>{{ item.res_letter }}</td>
+                                                        <td>{{ item.small_narration }}</td>
+                                                        <td>{% if item.photo %}
+                                                            <img src="{{ item.geno1.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.geno1.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}</td>
+                                                        <td>{% if item.photo %}
+                                                            <img src="{{ item.geno2.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.geno2.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}</td>
+                                                        <td>{{ item.genogram }}</td>
+                                                        <td>{{ item.res_family }}</td>
+                                                        <td>{{ item.res_eco }}</td>
+                                                        <td>{{ item.res_phy_status }}</td>
+                                                        <td>{{ item.stre_and_weak }}</td>
+                                                        <td>{{ item.fact }}</td>
+                                                        <td>
+                                                            {% if item.photo %}
+                                                            <img src="{{ item.rehab_photo1.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.rehab_photo1.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}
+                                                        </td>
+                                                        <td>
+                                                            {% if item.rehab_photo2 and item.rehab_photo2 %}
+                                                            <img src="{{ item.rehab_photo2.url }}" alt="{{ item.name }}'s Photo" style="max-width: 100px; max-height: 100px;">
+
+                                                            <a href="{{ item.rehab_photo2.url }}" download="{{ item.name }}_photo">
+                                                                <button class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </button>
+                                                        {% else %}
+                                                            No photo available
+                                                        {% endif %}
+                                                        </td>
+                                                        <td>{{ item.rehab_measure }}</td>
+                                                        <td>{{ item.action }}</td>
+                                                        <!-- <td>{{ item.follow_up1}}</td>
+                                                        <td>{{ item.follow_up2}}</td>
+                                                        <td>{{ item.follow_up3}}</td>    -->
+                                                    </tr>
+
+                                                    
+                                                    
+                                                
+
+                                                    {% endfor %}
+
+                                                    <!-- modal start -->
+
+
+                                                    <!-- modal end -->
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end col-->
+                        </div>
+                        <!--end row-->
+
+                    </div> <!-- end .h-100-->
+
+                </div> <!-- end col -->
+
+
+            </div>
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+
+
+
+    <!-- <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Add Notes</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" data-action="{% url 'case_work' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <input type="text" class="form-control" id="folloewup" name="folloewup" style="display: none;" />
+                            <input type="text" class="form-control" id="uqid" name="uqid" value="{{ item.uqid }}" style="display: none;" />
+                            <div class="col-md-5">
+                                <label for="followup1" class="form-label fs-16">Follow-up 1:</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" id="followup1" name="followup1" placeholder="Enter your Follow-up 1" />
+                            </div>
+                            <div class="col-md-5">
+                                <label for="followup2" class="form-label fs-16">Follow-up 2:</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" id="followup2" name="followup2" placeholder="Enter your Follow-up 2" />
+                            </div>
+                            <div class="col-md-5">
+                                <label for="followup3" class="form-label fs-16">Follow-up 3:</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" id="followup3" name="followup3" placeholder="Enter your Follow-up 3" />
+                            </div>
+                        </div>
+                            
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger" id="edit">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div> -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script> © Thaagam.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by ❤ M7 CORP
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<!-- end main content-->
+
+</div>
+<!-- END layout-wrapper -->
+
+
+
+
+<!--preloader-->
+<div id="preloader">
+    <div id="status">
+        <div class="spinner-border text-primary avatar-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
+Zip<script type="text/javascript" >
+    var saveModalDaraURL = "{% url 'case_work' %}";
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function editrecord(element) {
+        var action_url = $(this).data('action_url');
+       var followup1 = $(element).data('followup1');
+       var followup2 = $(element).data('followup2');
+       var followup3 = $(element).data('followup3');
+       // Perform actions with followup data as needed
+    }
+
+    function saveedit() {
+        var followup1 = $("#followup1").val();
+        var followup2 = $("#followup2").val();
+        var followup3 = $("#followup3").val();
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'case_work_dashboard' %}",
+            data: {
+                'followup1': followup1,
+                'followup2': followup2,
+                'followup3': followup3,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function (data) {
+                var table = $('#table').DataTable();
+                table.clear().draw();
+
+                for (var i = 0; i < data.length; i++) {
+                    var rowdata = data[i];
+                    var row = $("<tr>");
+
+                    // Construct table rows with the received data
+                    var columns = [
+                        i + 1,
+                        rowdata.followup1,
+                        rowdata.followup2,
+                        rowdata.followup3,
+                    ];
+
+                    // Append the row to the table
+                    row.append($('<tr>').html(
+                        '<a href="javascript:void(0);" ' + 
+                        'onclick="editrecord(this)" ' +
+                        'data-followup1="' + rowdata.followup1 + '" ' +
+                        'data-followup2="' + rowdata.followup2 + '" ' +
+                        'data-followup3="' + rowdata.followup3 + '" ' +
+                        'data-bs-toggle="modal" ' +
+                        'data-bs-target="#editModal" ' +
+                        '><i class="ri-edit-2-line"></i></a>'
+                    ));
+                    table.row.add(row);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                // Handle error if needed
+            }
+        });
+    }
+</script>
+
+{% endblock %}  

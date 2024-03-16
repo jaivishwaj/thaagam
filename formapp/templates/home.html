@@ -46,6 +46,9 @@
       color: white;
 
     }
+  
+ 
+  
 
 
   </style>
@@ -99,12 +102,9 @@
     </nav>
     <div class="bg-overlay bg-overlay-pattern"></div>
     <!-- end navbar -->
-
-
-
-
+    
     <!-- start hero section -->
-    <section style="padding: 300px 0 300px 0;" class="section nft-hero" id="hero">
+    <section style="padding: 300px 0 300px 0;position:relative" class="section nft-hero" id="hero">
       <div style="opacity: 0.5;" class="bg-overlay"></div>
       <div class="container">
         <div class="row justify-content-center">
@@ -117,7 +117,7 @@
               <p class="lead text-white-50 lh-base mb-4 pb-2">
                 At Thaagam Foundation GCC, we are committed to making a positive impact on the lives of those in need.
                 Our foundation operates with a vision of fostering community development, education, and social welfare
-                in the Gulf Cooperation Council (GCC) region.
+                in the Greater Chennai Corporation (GCC) region.
               </p>
 
               <!-- <div class="hstack gap-2 justify-content-center">
@@ -141,15 +141,31 @@
 
 
     <!-- start Work Process -->
-    <section  class="section bg-light" id="creators">
+    <section  class="section bg-light"  id="creators">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <div class="text-center mb-5" style="display: flex;justify-content:center;align-items:center">
-              <h2 style="width: 125px;font-weight: 700; font-size: 40px; color: #242121ce; border-bottom: 5px solid #ef6b36" class="mb-3 fw-semibold lh-base">Forms</h2>
-
+          <div class="col-lg-10">
+            <div class="row"style="margin-bottom: 20px;">
+              <div class="col-4">
+              </div>
+              <div class="col-4"style="display: flex;justify-content: center;align-items: center;">
+                
+                <h2 style="font-weight: 700; font-size: 40px; color: #242121ce; border-bottom: 5px solid #ef6b36;width:130px" class="mb-3 fw-semibold lh-base">Forms</h2>
+              </div>
+              <div class="col-4"style="display: flex;justify-content: end;align-items: center;">
+                
+              <a href="{% url 'search_results' %}" class="btn btn-danger rounded-pill find_records" style="padding: 13px 18px;">Find Records</a>
+              </div>
+             
             </div>
+            
+
+        
+          
+            
           </div>
+          
+        
         </div>
         <!-- end row -->
         <div class="row">
@@ -342,6 +358,25 @@
               </div>
             </div>
           </div>
+          {% comment %} <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/counselling-01.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                  </div>
+               
+                  <div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> {% endcomment %}
           <div class="col-xl-4 col-md-6">
             <div class="card">
               <div class="card-body">
@@ -510,7 +545,7 @@
                   </div>
                   <div class="ms-3 flex-grow-1">
                     <a href="{% url 'night_survey_dashboard' %}">
-                      <h3 class="mb-1 pt-2 text-center">Night Survey</h3>
+                      <h3 class="mb-1 pt-2 text-center">Night Rescue</h3>
                     </a>
                     <!-- <p class="text-muted mb-0">
                         <i class="mdi mdi-ethereum text-primary fs-14"></i>
@@ -566,7 +601,7 @@
                   </div>
                   <div class="ms-3 flex-grow-1">
                     <a href="{% url 'personal_info_dashboard' %}">
-                      <h3 class="mb-1 pt-2 text-center">Personal Information</h3>
+                      <h3 class="mb-1 pt-2 text-center">Addmission Register</h3>
                     </a>
                     <!-- <p class="text-muted mb-0">
                         <i class="mdi mdi-ethereum text-primary fs-14"></i>
@@ -931,6 +966,60 @@
                       </p> -->
                   </div>
                   <div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/vistor.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+                </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'case_work_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Case Work</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="flex-shink-0">
+                    <img
+                    src="{% static 'main/assets/images/nft/resident_atten.png' %}"
+                    alt=""
+                    class="avatar-sm object-fit-cover rounded"
+                  />
+
+                  </div>
+                  <div class="ms-3 flex-grow-1">
+                    <a href="{% url 'followup_dashboard' %}">
+                      <h3 class="mb-1 pt-2 text-center">Followup Form</h3>
+                    </a>
+                    <!-- <p class="text-muted mb-0">
+                        <i class="mdi mdi-ethereum text-primary fs-14"></i>
+                        4,754 ETH
+                      </p> -->
+                  </div>
+                  <div>
+
                   </div>
                 </div>
               </div>

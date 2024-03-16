@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+  <head>
+    <!-- Include Bootstrap CSS from a CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static './main/assets/css/style.css' %}" />
+    <title>Case History Record</title>
+  </head>
+  <body>
+ {% if user %}
+        <!-- <p>Welcome, {{ user }}!</p> -->
+    <div class="container-fluid">
+      <div class="row justify-content-center d-flex align-items-center">
+        <div class="col-md-7">
+          <div class="card p-4 my-5">
+            <div class="card-body">
+              <div class="d-flex justify-content-end">
+                <a href="{% url 'case_work_dashboard' %}" class="btn-close" aria-label="Close"></a>
+            </div>
+              <form action="" method="post" enctype="multipart/form-data">
+                <h2 class="text-center text-muted">Case Work</h2>
+                {% csrf_token %}
+                <div class="row">
+                  <div class="form-group mt-4 col-md-6">
+                      <label for="id" class=""> UQId</label>
+                      <input type="number" class="form-control mt-2"id="uqid" name="uqid" placeholder="Enter Id"  />
+                  </div>
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="name">Aid No:</label>
+                    <input
+                      type="number"
+                      class="form-control mt-2"
+                      id="aid"
+                      name="aid_no"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="name">Date of Addmission:</label>
+                    <input
+                      type="date"
+                      class="form-control mt-2"
+                      id="doa"
+                      name="doa"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="name">Date of Leave:</label>
+                    <input
+                      type="date"
+                      class="form-control mt-2"
+                      id="dol"
+                      name="dol"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="name">Mode of Rescue:</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="mode_of_rescue"
+                      name="mode_of_rescue"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="name">File Closure Details :</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="file_details"
+                      name="file_details"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="photo">Photo:</label>
+                    <input
+                      type="file"
+                      class="form-control mt-2"
+                      id="photo"
+                      name="photo"
+                      required
+                    />
+                  </div>
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="name">Name of the Person:</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="name"
+                      name="name"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="age">Age:</label>
+                    <input
+                      type="number"
+                      class="form-control mt-2"
+                      id="age"
+                      min="0"
+                      max="100"
+                      name="age"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="sex">Sex:</label>
+                    <!-- <input type="number" class="form-control mt-2" id="sex" name="sex" required> -->
+
+                    <select
+                      class="form-control mt-2"
+                      id="sex"
+                      name="gender"
+                      required
+                    >
+                      <option value="" selected>Select Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="religion">Religion:</label>
+                    <!-- <input type="text" class="form-control mt-2" id="religion" name="religion"> -->
+                    <select
+                      class="form-control dropdown"
+                      id="religion"
+                      name="religion"
+                    >
+                      <option value="" selected="selected" disabled="disabled">
+                        -- select one --
+                      </option>
+                      <option value="African Traditional &amp; Diasporic">
+                        African Traditional &amp; Diasporic
+                      </option>
+                      <option value="Agnostic">Agnostic</option>
+                      <option value="Atheist">Atheist</option>
+                      <option value="Baha'i">Baha'i</option>
+                      <option value="Buddhism">Buddhism</option>
+                      <option value="Cao Dai">Cao Dai</option>
+                      <option value="Chinese traditional religion">
+                        Chinese traditional religion
+                      </option>
+                      <option value="Christianity">Christianity</option>
+                      <option value="Hinduism">Hinduism</option>
+                      <option value="Islam">Islam</option>
+                      <option value="Jainism">Jainism</option>
+                      <option value="Juche">Juche</option>
+                      <option value="Judaism">Judaism</option>
+                      <option value="Muslim">Muslim</option>
+                      <option value="Neo-Paganism">Neo-Paganism</option>
+                      <option value="Nonreligious">Nonreligious</option>
+                      <option value="Rastafarianism">Rastafarianism</option>
+                      <option value="Secular">Secular</option>
+                      <option value="Shinto">Shinto</option>
+                      <option value="Sikhism">Sikhism</option>
+                      <option value="Spiritism">Spiritism</option>
+                      <option value="Tenrikyo">Tenrikyo</option>
+                      <option value="Unitarian-Universalism">
+                        Unitarian-Universalism
+                      </option>
+                      <option value="Zoroastrianism">Zoroastrianism</option>
+                      <option value="primal-indigenous">
+                        primal-indigenous
+                      </option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="maritalStatus">Marital Status:</label>
+                    <!-- <input type="text" class="form-control mt-2" id="maritalStatus" name="maritalStatus"> -->
+                    <select
+                      class="form-control mt-2"
+                      id="maritalStatus"
+                      name="marital_status"
+                    >
+                      <option value="" selected disabled>
+                        Select Marital Status
+                      </option>
+                      <option value="single">Single</option>
+                      <option value="married">Married</option>
+                      <option value="divorced">Divorced</option>
+                      <option value="widowed">Widowed</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="identificationMark">Identification Mark:</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="identificationMark"
+                      name="idnt_mark"
+                    />
+                  </div>
+
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="educationBackground"
+                      >Education Background:</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="educationBackground"
+                      name="edu_back"
+                    />
+                  </div>
+
+                  <div class="form-group mt-4 col-md-6">
+                    <label for="occupation">Occupation:</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="occupation"
+                      name="occcu_back"
+                      required
+                    />
+                  </div>
+
+
+                  <div class="form-group mt-4 col-md-12">
+                    <label for="address">Address:</label>
+                    <textarea
+                      class="form-control mt-2"
+                      id="address"
+                      name="address"
+                      rows="4"
+                      required
+                    ></textarea>
+                  </div>
+                  <div class="form-group mt-4 col-md-12">
+                    <label for="relativeOrFriendsContact"
+                      >Resident Contact Phone Number:</label
+                    >
+                    <input
+                      type="tel"
+                      class="form-control mt-2"
+                      id="resident_ph"
+                      name="resident_ph"
+                      title="Please enter a 10-digit number"
+                      pattern="[0-9]{10}"
+                      placeholder="Enter 10-digit number"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group mt-4 col-md-12">
+                    <label for="relativeOrFriendsContact"
+                      >Relative or Friends Contact Phone Number:</label
+                    >
+                    <input
+                      type="tel"
+                      class="form-control mt-2"
+                      id="relativeOrFriendsContact"
+                      name="relative_ph"
+                      title="Please enter a 10-digit number"
+                      pattern="[0-9]{10}"
+                      placeholder="Enter 10-digit number"
+                      required
+                    />
+                  </div>
+
+                  <div class="form-group mt-4 col-md-12">
+                    <label for="idProofAvailable">ID Proof Available:</label>
+                    <select
+                    class="form-control mt-2"
+                    id="idProofAvailable"
+                    name="id_proof"
+                  >
+                    <option selected disabled>
+                      Select ID Proof Available
+                    </option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                  </div>
+
+                  <div class="form-group mt-4 col-md-12 idProofDetails" style="display: none;">
+                    <label for="idProofDetails" >ID Proof Details:</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="idProofDetails"
+                      name="id_proof"
+
+                    />
+                  </div>
+                  <div class="form-group mt-4 col-md-12">
+                    <label for="policeMemoAvailable"
+                      >Police Memo Available:</label
+                    >
+                    <select
+                      class="form-control mt-2"
+                      id="policeMemoAvailable"
+                      name="police_memo"
+                    >
+                      <option value="" selected disabled>
+                        Select Police Memo Available
+                      </option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group mt-4 col-md-12 policeStationDetails" style="display: none;">
+                    <label for="policeStationDetails"
+                      >Police Station Details:</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="policeStationDetails"
+                      name="police_memo"                      
+                    />
+                  </div>
+                  <h4 class="text-center pt-5 fw-bold">Resident Rehabitation Measures</h4>
+
+                <div class="form-group mt-4 col-md-12">
+                    <label>Resident willngness letter : </label>
+                    <div class="row">
+                        <div class="form-group mt-4 col-md-6" >
+                          <label for="policeStationDetails"> photo 1 : </label
+                          >
+                          <input
+                            type="file"
+                            class="form-control mt-2"
+                            id="resident_will_img1"
+                            name="res_photo1"                      
+                          />
+                        </div>
+                        <div class="form-group mt-4 col-md-6" >
+                          <label for="policeStationDetails">  Photo 2 : </label
+                          >
+                          <input
+                            type="file"
+                            class="form-control mt-2"
+                            id="resident_will_img1"
+                            name="res_photo2"                      
+                          />
+                        </div>
+                        <div class="form-group mt-4 col-md-12" >
+                          <label for="policeStationDetails">Resident willngness letter text : </label
+                          >
+                          <input
+                            type="text"
+                            class="form-control mt-2"
+                            id="resident_will_text"
+                            name="res_letter" 
+                            placeholder="Resident willngness letter text"                     
+                          />
+                        </div>
+                     </div>                
+                  </div>
+                <hr class="mt-5">
+
+                  <div class="form-group mt-4 col-md-12">
+                    <label>Reason for Homeless : </label>
+                    <div class="row">
+                        <div class="form-group mt-4 col-md-6" >
+                          <label for=""> photo 1 : </label
+                          >
+                          <input
+                            type="file"
+                            class="form-control mt-2"
+                            id="reason_homeless_img1"
+                            name="hl_photo1"                      
+                          />
+                        </div>
+                        <div class="form-group mt-4 col-md-6" >
+                          <label for="">  Photo 2 : </label
+                          >
+                          <input
+                            type="file"
+                            class="form-control mt-2"
+                            id="reason_homeless_img2"
+                            name="hl_photo2"                      
+                          />
+                        </div>
+                        <div class="form-group mt-4 col-md-12" >
+                            <label for="">Reason for Homeless text : </label
+                            >
+                            <input
+                              type="text"
+                              class="form-control mt-2"
+                              id="reason_homeless_text"
+                              name="reason_for_homeless" 
+                              placeholder="Reason for Homeless text"                     
+                            />
+                          </div>
+                        <div class="form-group mt-4 col-md-12" >
+                          <label for="">Genogram text : </label
+                          >
+                          <input
+                            type="text"
+                            class="form-control mt-2"
+                            id="reason_homeless_text"
+                            name="reason_homeless_text" 
+                            placeholder="Reason for Homeless text"                     
+                          />
+                        </div>
+                     </div>                
+                  </div>
+                  <hr class="mt-5">
+
+                  <div class="form-group mt-4 col-md-12 " >
+                    <label for="idProofDetails" >Small Narration of Resident:</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="small_narrtion"
+                      name="small_narration"
+
+                    />
+                  </div>
+                  <hr class="mt-5">
+
+                  <div class="form-group mt-4 col-md-12">
+                    <label>Genogram : </label>
+                    <div class="row">
+                        <div class="form-group mt-4 col-md-6" >
+                          <label for="policeStationDetails"> photo 1 : </label
+                          >
+                          <input
+                            type="file"
+                            class="form-control mt-2"
+                            id="genogram_img1"
+                            name="geno1"                      
+                          />
+                        </div>
+                        <div class="form-group mt-4 col-md-6" >
+                          <label for="policeStationDetails">  Photo 2 : </label
+                          >
+                          <input
+                            type="file"
+                            class="form-control mt-2"
+                            id="genogram_img1"
+                            name="geno2"                      
+                          />
+                        </div>
+                        <div class="form-group mt-4 col-md-12" >
+                          <label for="policeStationDetails">Genogram text : </label
+                          >
+                          <input
+                            type="text"
+                            class="form-control mt-2"
+                            id="genogram_text"
+                            name="genogram" 
+                            placeholder="genogram willngness letter text"                     
+                          />
+                        </div>
+                     </div>                
+                  </div>
+
+                  <hr class="mt-5">
+
+                  <div class="form-group mt-4 col-md-12 " >
+                    <label for="idProofDetails" >Resident's Family Background:</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="family_back"
+                      name="res_family"
+
+                    />
+                  </div>
+                  <hr class="mt-5">
+
+                  <div class="form-group mt-4 col-md-12 " >
+                    <label for="idProofDetails" >Resident's Economic Background:</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="economic_back"
+                      name="res_eco"
+
+                    />
+                  </div>
+                  <hr class="mt-5">
+
+                  <div class="form-group mt-4 col-md-12 " >
+                    <label for="idProofDetails" >Resident's Physical and Psychology status:</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="physical_status"
+                      name="res_phy_status"
+
+                    />
+                  </div>
+                  <hr class="mt-5">
+
+                  <div class="form-group mt-4 col-md-12 " >
+                    <label for="idProofDetails" >Strength and Weakness Analysis :</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="strength_weakness"
+                      name="stre_and_weak"
+
+                    />
+                  </div>
+                  <hr class="mt-5">
+
+                  <div class="form-group mt-4 col-md-12 " >
+                    <label for="idProofDetails" >Fact's Finding:</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="facts_finding"
+                      name="fact"
+
+                    />
+                  </div>
+
+                  <hr class="mt-5">
+
+                  <div class="form-group mt-4 col-md-12">
+                    <label>Rehabillitation Measures  : </label>
+                    <div class="row">
+                        <div class="form-group mt-4 col-md-6" >
+                          <label for=""> photo 1 : </label
+                          >
+                          <input
+                            type="file"
+                            class="form-control mt-2"
+                            id="Rehabillitation_img1"
+                            name="Rehabillitation_img1"                      
+                          />
+                        </div>
+                        <div class="form-group mt-4 col-md-6" >
+                          <label for="">  Photo 2 : </label
+                          >
+                          <input
+                            type="file"
+                            class="form-control mt-2"
+                            id="Rehabillitation_img2"
+                            name="rehab_photo1"                      
+                          />
+                        </div>
+                        
+                        <div class="form-group mt-4 col-md-12" >
+                          <label for="">Rehabillitation text : </label
+                          >
+                          <input
+                            type="text"
+                            class="form-control mt-2"
+                            id="Rehabillitation_text"
+                            name="rehab_measure" 
+                            placeholder="Reason for Homeless text"                     
+                          />
+                        </div>
+                     </div>                
+                  </div>
+
+                  <div class="form-group mt-4 col-md-12 " >
+                    <label for="idProofDetails" >Action taken Details :</label>
+                    <input
+                      type="text"
+                      class="form-control mt-2"
+                      id="action_taken"
+                      name="action"
+
+                    />
+                  </div>
+                  
+
+
+
+                  <div class="form-group mt-4 d-flex justify-content-center">
+                    <button type="submit" class="them-btn">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Include Bootstrap JS and jQuery from a CDN -->
+
+    <!-- Your existing HTML code remains the same -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $("#residentContactNumber, #relativeOrFriendsContact").on(
+          "input",
+          function () {
+            if ($(this).val().length > 10) {
+              alert("Enter 10 digits only");
+              $(this).val($(this).val().slice(0, 10)); // Truncate to first 10 characters
+            }
+          }
+        );
+
+        $("#policeMemoAvailable").change(function () {
+            var status = $(this).val();
+            if(status == 'yes'){
+                $('.policeStationDetails').show();
+            }else{
+                $('.policeStationDetails').hide();
+            }
+        });
+        $("#idProofAvailable").change(function () {
+            var status = $(this).val();
+            if(status == 'yes'){
+                $('.idProofDetails').show();
+            }else{
+                $('.idProofDetails').hide();
+            }
+        });
+      });
+
+      function validateContactNumber() {
+        const contactNumber = document.getElementById(
+          "residentContactNumber"
+        ).value;
+        if (contactNumber.length !== 10) {
+          alert("Please enter 10 digits for the contact number.");
+          return false; // Prevent form submission
+        }
+        return true; // Allow form submission if the length is correct
+      }
+
+      // Attach an event listener to the form submission
+      document
+        .querySelector("form")
+        .addEventListener("submit", function (event) {
+          if (!validateContactNumber()) {
+            event.preventDefault(); // Prevent form submission if validation fails
+          }
+        });
+    </script>
+
+{% else %}
+        <p>User not logged in.</p>
+{% endif %}
+</body>
+</html>

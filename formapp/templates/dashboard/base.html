@@ -34,6 +34,10 @@
     <!-- custom Css-->
     <link href="{% static 'main/assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" >
+
+    
+    
 </head>
 
 <body>
@@ -273,13 +277,13 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{% url 'night_survey_dashboard' %}" class="nav-link" data-key="t-chat" target="_self">
-                                     Night Survey Register
+                                     Night Rescue Register
                                 </a>
                                 </li>
 
                                 <li class="nav-item">
                                     <a href="{% url 'personal_info_dashboard' %}" class="nav-link" data-key="t-chat" target="_self">
-                                     Personal Information Register
+                                        Addmission Register
                                 </a>
                                 </li>
 
@@ -296,7 +300,7 @@
 
                                 <li class="nav-item">
                                     <a href="{% url 'rehabitation_dashboard' %}" class="nav-link" data-key="t-chat" target="_self">
-                                     Rehabilitation Register
+                                     Rehabitation Register
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -349,6 +353,16 @@
                                      Visitor Register
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'case_work_dashboard' %}" class="nav-link" data-key="t-chat" target="_self">
+                                     Case Work
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'followup_dashboard' %}" class="nav-link" data-key="t-chat" target="_self">
+                                    Follow Up
+                                    </a>
+                                </li>
 
                     </ul>
 
@@ -379,6 +393,7 @@
 
 
 
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
 
         <script src="{% static 'main/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'main/assets/libs/simplebar/simplebar.min.js' %}"></script>
@@ -386,7 +401,7 @@
         <script src="{% static 'main/assets/libs/feather-icons/feather.min.js' %}"></script>
         <script src="{% static 'main/assets/js/pages/plugins/lord-icon-2.1.0.js' %}"></script>
         <script src="{% static 'main/assets/js/plugins.js' %}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+       
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
@@ -400,7 +415,7 @@
         <script src="{% static 'main/assets/js/pages/dashboard-ecommerce.init.js' %}"></script>
         <script src="{% static 'main/assets/js/app.js' %}"></script>
         <script src="{% static 'main/assets/js/custom.js' %}"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

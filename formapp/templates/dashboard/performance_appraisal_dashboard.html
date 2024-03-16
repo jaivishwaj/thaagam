@@ -54,9 +54,10 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>S.No</th>
                                                             <th>Uqid</th>
                                                             <th>Date</th>
-                                                            <th>Children's Strength at the Beginning of the Month</th>
+                                                            <th>Resident Strength at the Beginning of the Month</th>
                                                             <th>New Admission</th>
                                                             <th>Total Strength</th>
                                                             <th>Reintegration</th>
@@ -66,11 +67,14 @@
                                                             <th>Death</th>
                                                             <th>Total Strength at the End of the Month</th>
                                                             <th>Total Number of Rescue</th>
+                                                            <th>Created at</th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                          {% for item in data %}
                                                                <tr>
+                                                                <td>{{ forloop.counter }}</td>
                                                                    <td>{{ item.uqid }}</td>
                                                                    <td>{{ item.date }}</td>
                                                                    <td>{{ item.beginning_children }}</td>
@@ -83,6 +87,9 @@
                                                                    <td>{{ item.death }}</td>
                                                                    <td>{{ item.end_strength }}</td>
                                                                    <td>{{ item.rescue }}</td>
+                                                                   <td>{{ item.created_at }}</td>
+                                                                   {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                                </tr>
                                                         {% endfor %}
                                                      </tbody>
@@ -129,6 +136,108 @@
 
     </div>
     <!-- END layout-wrapper -->
+
+    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            
+                            <div class="col-md-5">
+                                <label class="form-label fs-16">Date :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="date" class="form-control" name="date" />
+                            </div>
+                            
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Resident Strength at the Beginning of the Month :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="text" class="form-control" name="beginning_children" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">New Admission :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="new_admission " />
+                            </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Total Strength :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="total_strength" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Reintegration :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="reintegration" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Rehabilitation :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="rehabilitation" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Referral :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="referral" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Left :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="left" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Death :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="death" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Total Strength at the End of the Month :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="end_strength" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Total Number of Rescue :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="rescue" />
+                          </div>
+                          </div>
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 
 
 

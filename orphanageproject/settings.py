@@ -24,22 +24,35 @@ SECRET_KEY = 'django-insecure-*@l999&g22lhsdyq-3l_)6-3b2w)m7)y9*(e8o!2_&as$u%ku!
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+AUTH_USER_MODEL = 'dashboard.Staff_UserAuth'
 
 
-ALLOWED_HOSTS = ["127.0.0.1","https://c224-115-97-253-131.ngrok-free.app","c224-115-97-253-131.ngrok-free.app"]
+
+ALLOWED_HOSTS = ["127.0.0.1","  https://89ec-115-97-253-131.ngrok-free.app ","89ec-115-97-253-131.ngrok-free.app"]
+
+CSRF_TRUSTED_ORIGINS = ['   https://89ec-115-97-253-131.ngrok-free.app.ngrok.io']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'formapp',
+    'formapp',  
+    'dashboard',
+    
+    
+
+  
 ]
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'orphanageproject.urls'
@@ -56,7 +70,7 @@ ROOT_URLCONF = 'orphanageproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,6 +100,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = 'login'
+
+LOGIN_REDIRECT_URL = 'dashboard'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -130,3 +146,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# APPEND_SLASH = False
+TIME_ZONE = 'Asia/Kolkata'
+
+
+
+

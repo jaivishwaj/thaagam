@@ -1,4 +1,3 @@
-
 {% extends 'dashboard/base.html' %}
 
    {% block content %}
@@ -56,24 +55,31 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>Uqid</th>
+                                                            <th>S.No</th>
+                                                            
                                                             <th>Name of the Material</th>
                                                             <th>Total Quantity</th>
                                                             <th>Utilized Quantity</th>
                                                             <th>Balance Quantity</th>
                                                             <th>Remarks</th>
+                                                            <th>Created at</th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                        {% for item in data %}
                                                             <tr>
-                                                                <td>{{ item.uqid }}</td>
+                                                                <td>{{ forloop.counter }}</td>
+                                                                
                                                                 <td>{{ item.material_name }}</td>
                                                                 <td>{{ item.total_quantity }}</td>
                                                                 <td>{{ item.utilized_quantity }}</td>
                                                                 <td>{{ item.balance_quantity }}</td>
                                                                 <td>{{ item.remarks }}</td>
-                                                            </tr>
+                                                                <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td>
+                                                            </tr> {% endcomment %}
                                                        {% endfor %}
                                                       </tbody>
                                                 </table>
@@ -118,6 +124,65 @@
 
     </div>
     <!-- END layout-wrapper -->
+    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            
+                            <div class="col-md-5">
+                                <label class="form-label fs-16">Name of the Material :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" name="Name of the Material" />
+                            </div>
+                            
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Total Quantity :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="text" class="form-control" name="Total Quantity" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Utilized Quantity :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Utilized Quantity" />
+                            </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Balance Quantity :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="Balance Quantity" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Remarks :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="Remarks" />
+                          </div>
+                            
+                          </div>
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
 
 

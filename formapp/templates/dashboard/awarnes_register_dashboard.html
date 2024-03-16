@@ -54,23 +54,30 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th> S No</th>
                                                             <th>Uqid</th>
                                                             <th>Date</th>
                                                             <th>Time</th>
                                                             <th>Place</th>
                                                             <th>Details Of the Programme</th>
                                                             <th>Who Part in the Programme</th>
+                                                            <th>Created at </th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                        {% for item in data %}
                                                             <tr>
+                                                                <td>{{forloop.counter}}</td>
                                                                 <td>{{ item.uqid }}</td>
                                                                 <td>{{ item.date }}</td>
                                                                 <td>{{ item.time }}</td>
                                                                 <td>{{ item.place }}</td>
                                                                 <td>{{ item.details }}</td>
                                                                 <td>{{ item.participants }}</td>
+                                                                <td>{{ item.created_at}}</td>
+                                                                {% comment %} <td> <a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                             </tr>
                                                        {% endfor %}
                                                      </tbody>
@@ -94,6 +101,65 @@
                 <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
+
+            <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0"> Edit</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                  <div class="col-md-5">
+                                    <label  class="form-label fs-16">Date :</label>
+                                  </div>
+                                    <div class="col-md-7 mb-3">
+                                      <input type="text" class="form-control"  data-flatpickr
+                                      data-date-format="d M, Y H:i" name="date">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="form-label fs-16">Time:</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <input type="time" class="form-control" name="time" />
+                                    </div>
+                                    
+                                    <div class="col-md-5">
+                                        <label  class="form-label fs-16">Place :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                      <input type="text" class="form-control" name="Place" />
+                                  </div>
+                                    <div class="col-md-5">
+                                        <label  class="form-label fs-16">Details Of the Programme :</label>
+                                    </div>
+                                    <div class="col-md-7 mb-3">
+                                        <input type="number" class="form-control" 
+                                            name="Details Of the Programme" />
+                                    </div>
+                                    <div class="col-md-5">
+                                      <label  class="form-label fs-16">Who Part in the Programme :</label>
+                                  </div>
+                                  <div class="col-md-7 mb-3">
+                                    <input type="number" class="form-control" 
+                                    name="Who Part in the Programme" />
+                                  </div>
+                                  
+                                  </div>
+                                <div class="text-start mt-3">
+                                    <button type="submit" class="btn btn-danger">
+                                        submit
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
 
             <footer class="footer">
                 <div class="container-fluid">

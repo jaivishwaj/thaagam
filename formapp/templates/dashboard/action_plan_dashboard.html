@@ -55,23 +55,25 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>Uqid</th>
-                                                            <th>Date of Plan</th>
-                                                            <th>Detailed Notes on Action Plan</th>
-                                                            <th>Action Plan Date</th>
-                                                            <th>user </th>
-
+                                                                <th>S No</th>
+                                                                <th>Date of Plan</th>
+                                                                <th>Detailed Notes on Action Plan</th>
+                                                                <th>Action Plan Date</th>
+                                                                <th>user </th>
+                                                                <th>created at </th>
+                                                        
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
-                                                                <td>{{ item.uqid }}</td>
-                                                                <td>{{ item.sl_no }}</td>
+                                                                <td>{{ forloop.counter}}</td>
                                                                 <td>{{ item.date_of_plan }}</td>
                                                                 <td>{{ item.detailed_notes }}</td>
                                                                 <td>{{ item.action_plan_date }}</td>
                                                                 <td>{{ item.user }}</td>
+                                                                <td>{{item.created_at }} </td>
+                                                                
 
                                                             </tr>
                                                         {% endfor %}
@@ -146,4 +148,51 @@
 
 
     <!-- JAVASCRIPT -->
+    {% comment %} <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                          <div class="col-md-5">
+                            <label  class="form-label fs-16">Date of Plan :</label>
+                          </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="text" class="form-control"  data-flatpickr
+                              data-date-format="d M, Y H:i" name="date" >
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Detailed Notes on Action Plan :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" name="detailed notes"  />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Action Plan Date :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="text" class="form-control" name="action_plan"   />
+                          </div>
+            
+                          
+                          </div>
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div> {% endcomment %}
+
+
+
   {%  endblock %}

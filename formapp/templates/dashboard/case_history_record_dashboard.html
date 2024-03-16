@@ -59,7 +59,8 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>Uqid</th>
+                                                            <th>S-NO</th>
+                                                            <th>UQID</th>
                                                             <th>Photo</th>
                                                             <th>Name of the Person</th>
                                                             <th>Age</th>
@@ -73,18 +74,23 @@
                                                             <th>Resident Contact Number</th>
                                                             <th>Relative or Friends Contact Number</th>
                                                             <th>ID Proof Available</th>
+                                                            
                                                             <th>Id Proof Details</th>
                                                             <th>Police Memo Available</th>
                                                             <th>Police station Details</th>
+                                                            <th>Created at</th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
-                                                                <td>
+                                                                <td>{{ forloop.counter }}</td>
                                                                     <td>{{ item.uqid }}</td>
-                                                                    {% if item.photo_url %}
+                                                                    
+                                                                    <td>
+                                                                        {% if item.photo_url %}
                                                                     <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
                                                                     <!-- Modal -->
                                                                     <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -119,6 +125,9 @@
                                                                 <td>{{ item.idProofDetails }}</td>
                                                                 <td>{{ item.policeMemoAvailable }}</td>
                                                                 <td>{{ item.policeStationDetails }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                             </tr>
                                                         {% endfor %}
                                                      </tbody>
@@ -164,6 +173,8 @@
 
     </div>
     <!-- END layout-wrapper -->
+    
+   
 
 
 
@@ -191,4 +202,3 @@
 
     <!-- JAVASCRIPT -->
   {%  endblock %}
-

@@ -55,6 +55,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>S.No</th>
                                                             <th>Uqid</th>
                                                             <th>Date</th>
                                                             <th>Place</th>
@@ -63,11 +64,14 @@
                                                             <th>Complaints</th>
                                                             <th>Other Details</th>
                                                             <th>Treatment</th>
+                                                            <th>Created at</th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
+                                                                <td>{{ forloop.counter}}</td>
                                                                 <td>{{ item.uqid }}</td>
                                                                 <td>{{ item.date }}</td>
                                                                 <td>{{ item.place }}</td>
@@ -76,6 +80,9 @@
                                                                 <td>{{ item.complaints }}</td>
                                                                 <td>{{ item.others }}</td>
                                                                 <td>{{ item.treatment }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                             </tr>
                                                         {% endfor %}
                                                      </tbody>
@@ -121,6 +128,80 @@
 
     </div>
     <!-- END layout-wrapper -->
+    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0"> Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            
+                            <div class="col-md-5">
+                                <label class="form-label fs-16">Date :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="Date" class="form-control" name="Date" />
+                            </div>
+                            
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Place :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="text" class="form-control" name="Place" />
+                          </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Name :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control" 
+                                    name="Name" />
+                            </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16"> Age :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="Age" />
+                          </div>
+                          <div class="col-md-5">
+                            <label class="form-label fs-16">Complaints:</label>
+                        </div>
+                        <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" name="Complaints" />
+                        </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16"> Other Details :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="Other Details" />
+                          </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Treatment :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control" 
+                            name="Treatments" />
+                          </div>
+                           
+                            
+                          </div>
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 
 
 

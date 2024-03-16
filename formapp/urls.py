@@ -73,18 +73,20 @@ urlpatterns = [
     path('personal_info_dashboard/', views.personal_info_dashboard, name='personal_info_dashboard'),
     path('food_menu_form/', views.food_menu_form, name='food_menu_form'),
     path('food_menu_dashboard/', views.food_menu_dashboard, name='food_menu_dashboard'),
-    # <a href="{% url 'staff_attendance_register_dashboard' %}">Staff Attendance Dashboard</a>
-
+    path('search_results/', views.search_results, name='search_results'),
+    # path('dashboard/', views.dashboard, name='dashboard'),
+    path('download-master-records-excel/', views.download_master_records_excel, name='download_master_records_excel'),
+    path('case_work/',views.case_work,name='case_work'),
+    path('case_work_dashboard/', views.case_work_dashboard, name='case_work_dashboard'),
+    path('follow_up/', views.follow_up, name='follow_up'),
+    path('followup_dashboard/', views.followup_dashboard, name='followup_dashboard'),
+    
+    # Other URL patterns...
+    
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-
-
-
-
-
 
 
 

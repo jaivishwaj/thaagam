@@ -35,6 +35,9 @@
     <!-- custom Css-->
     <link href="{% static 'main/assets/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
 </head>
 
 <body>
@@ -254,7 +257,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'inspection_register_dashboard" class="nav-link" data-key="t-chat" target="_self">
+                                    <a href="{% url 'inspection_register_dashboard' %}" class="nav-link" data-key="t-chat" target="_self">
                                     Inspection Records
                                     </a>
                                 </li>
@@ -418,34 +421,36 @@
 
                                             <div class="card-body">
                                               <div class="table-responsive">
-                                                <table id="example"
+                                                <table  id="buttons-datatables"
                                                     class="table table-bordered dt-responsive nowrap table-striped align-middle"
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
-                                                            <th>Uqid</th>
+                                                            <th>UQID</th>
                                                             <th>S-NO</th>
                                                             <th>name</th>
                                                              <th>Photo</th>
-                                                            <th>Aid_no</th>
-                                                            <th>Age_gender</th>
+                                                            <th>Aiddmission no</th>
+                                                            <th>Age/gender</th>
                                                             <th>dob</th>
-                                                            <th>Date_Of_Admission</th>
-                                                            <th>Date_Of_Leaving</th>
-                                                            <th>Family_Contact_No</th>
+                                                            <th>Date Of Admission</th>
+                                                            {% comment %} <th>Date Of Leaving</th> {% endcomment %}
+                                                            <th>Family Contact No</th>
                                                             <th>Relation</th>
-                                                            <th>Permanent_Address</th>
-                                                            <th>Mode_Of_Identification_Rescue</th>
-                                                            <th>Identification_Mark</th>
-                                                            <th>Identification_Papers</th>
-                                                            <th>Rehabilitation_Measures</th>
-                                                            <th>Reason_For_Leaving_Shelter</th>
-                                                            <th>Follow_Up_Action</th>
-                                                            <th>Second_Follow_Up</th>
-                                                            <th>Medical_Status</th>
-                                                            <th>File_Closure_Status</th>
-                                                            <th>Remarks</th>
+                                                            <th>Permanent Address</th>
+                                                            <th>Mode Of Identification Rescue</th>
+                                                            <th>Identification Mark</th>
+                                                            <th>Identification Papers</th>
+                                                            <th>Rehabilitation Measures</th>
+                                                            <th>Reason For Leaving Shelter</th>
+                                                            <th>Action taken</th>
+                                                            <th>Follow Up Action</th>
+                                                            
+                                                            <th>Medical Status</th>
+                                                            <th>File Closure Status</th>
+                                                            <th>Fact Finding</th>
                                                             <th>Signature</th>
+                                                            <th>Created at</th>
 
 
 
@@ -453,37 +458,48 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                    
                                                        {% for item in data %}
                                                             <tr>
                                                                 <td>{{ item.uqid }}</td>
-                                                                <td>{{ item.S_no }}</td>
+                                                                <td>{{ forloop.counter }}</td>
                                                                 <td>{{ item.name }}</td>
                                                                 <td>
                                                                     {% if item.photo_url %}
-                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
-                                                                    <!-- Modal -->
-                                                                    <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
-                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body text-center">
-                                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
+                                                                        <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
+                                                                        <!-- Modal -->
+                                                                        <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
+                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body text-center">
+                                                                                        <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
                                                                     {% else %}
-                                                                    No photo available
+                                                                        No photo available
+                                                                    {% endif %}
+                                                                    
+                                                                    <!-- Download button -->
+                                                                    {% if item.photo_url %}
+                                                                        <a href="{{ item.photo_url.url }}" download>
+                                                                            <button class="btn btn-primary btn-sm">
+                                                                                <i class="fas fa-download"></i>
+                                                                            </button>
+                                                                        </a>
                                                                     {% endif %}
                                                                 </td>
+                                                                
                                                                 <td>{{ item.Aid_no }}</td>
                                                                 <td>{{ item.Age_gender }}</td>
                                                                 <td>{{ item.dob }}</td>
                                                                 <td>{{ item.Date_Of_Admission }}</td>
-                                                                <td>{{ item.Date_Of_Leaving }}</td>
+                                                                {% comment %} <td>{{ item.Date_Of_Leaving }}</td> {% endcomment %}
                                                                 <td>{{ item.Family_Contact_No }}</td>
                                                                 <td>{{ item.Relation }}</td>
                                                                 <td>{{ item.Permanent_Address }}</td>
@@ -492,15 +508,18 @@
                                                                 <td>{{ item.Identification_Papers }}</td>
                                                                 <td>{{ item.Rehabilitation_Measures }}</td>
                                                                 <td>{{ item.Reason_For_Leaving_Shelter }}</td>
+                                                                <td>{{ item.Action_takenup }}</td>
                                                                 <td>{{ item.Follow_Up_Action }}</td>
-                                                                <td>{{ item.Second_Follow_Up }}</td>
+                                                            
                                                                 <td>{{ item.Medical_Status }}</td>
                                                                 <td>{{ item.File_Closure_Status }}</td>
-                                                                <td>{{ item.Remarks }}</td>
+                                                                <td>{{ item.Fact_finding }}</td>
                                                                 <td>{{ item.Signature }}</td>
+                                                                <td>{{ item.created_at }}</td>
                                                             </tr>
                                                        {% endfor %}
                                                       </tbody>
+                                                    
                                                 </table>
                                               </div>
                                             </div>

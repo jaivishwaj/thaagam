@@ -1,0 +1,1366 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <div class="h-100">
+                        <div class="row mb-3 pb-1">
+                            <div class="col-12">
+                                <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                                    <div class="flex-grow-1">
+                                        <h4 class="fs-24 mb-1 g-msg">Records</h4>
+                                    </div>
+                                    <!-- <div>
+                                        <a href="{% url 'search_results' %}" class="btn btn-danger" style="margin-right: 30px;"  type="submit">Excel Download</a>
+                                        </div> -->
+                                    <div class="mt-3 mt-lg-0">
+                                        <form method="GET" action="{% url 'search_results' %}">
+                                            <div class="row g-3 mb-0 align-items-center">
+                                                <div class="col-md-12" style="display:flex;">
+                                                    <input type="text" name="uqid" class="form-control" placeholder="Search by UQID">
+                                                    <button class="btn btn-success" type="submit">Search</button>
+                                                   
+
+                                                </div>
+                                            </div>
+                                            <!--end row-->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Accident Register</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Uqid</th>
+                                                        <th>Date </th>
+                                                        <th>Inmate Name</th>
+                                                        <th>Age/Gender</th>
+                                                        <th>Accident Condition</th>
+                                                        <th>Accident Place</th>
+                                                        <th>Signature</th>
+                                                        <th>User</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if accident %}
+                                                        {% for item in accident %}
+                                                            <tr>
+                                                               <td>{{ item.uqid }}</td>
+                                                                <td>{{ item.date }}</td>
+                                                                <td>{{ item.inmate_name }}</td>
+                                                                <td>{{ item.age_gender }}</td>
+                                                                <td>{{ item.accident_condition }}</td>
+                                                                <td>{{ item.accident_place }}</td>
+                                                                <td>{{ item.signature }}</td>
+                                                                <td>{{ item.user }}</td>
+                                                                <td>{{ item.created_at }}</td>
+
+                                                               
+                                                                   
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Case History Record</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>uqid</th>
+                                                        <th>Photo</th>
+                                                        <th>Name of the Person</th>
+                                                        <th>Age</th>
+                                                        <th>Sex</th>
+                                                        <th>Religion</th>
+                                                        <th>Marital Status</th>
+                                                        <th>Identification Mark</th>
+                                                        <th>Education Background</th>
+                                                        <th>Occupation</th>
+                                                        <th>Address</th>
+                                                        <th>Resident Contact Number</th>
+                                                        <th>Relative or Friends Contact Number</th>
+                                                        <th>ID Proof Available</th>
+                                                        <th>Id Proof Details</th>
+                                                        <th>Police Memo Available</th>
+                                                        <th>Police station Details</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if casehistory %}
+                                                        {% for item in casehistory %}
+                                                            <tr>
+                                                                <td>{{ item.uqid }}</td>
+                                                                    
+                                                                    <td>
+                                                                        {% if item.photo_url %}
+                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body text-center">
+                                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% else %}
+                                                                    No photo available
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>{{ item.name }}</td>
+                                                                <td>{{ item.age }}</td>
+                                                                <td>{{ item.sex }}</td>
+                                                                <td>{{ item.religion }}</td>
+                                                                <td>{{ item.maritalStatus }}</td>
+                                                                <td>{{ item.identificationMark }}</td>
+                                                                <td>{{ item.educationBackground }}</td>
+                                                                <td>{{ item.occupation }}</td>
+                                                                <td>{{ item.address }}</td>
+                                                                <td>{{ item.residentContactNumber }}</td>
+                                                                <td>{{ item.relativeOrFriendsContact }}</td>
+                                                                <td>{{ item.idProofAvailable }}</td>
+                                                                <td>{{ item.idProofDetails }}</td>
+                                                                <td>{{ item.policeMemoAvailable }}</td>
+                                                                <td>{{ item.policeStationDetails }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+                                                            </tr>
+                                                        {% endfor %}
+                                    
+                                                            </tr>
+                                                        
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Reintegration Register</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                        <th>Uqid</th>
+                                                        <th>Photo</th>
+                                                        <th>Admission Number</th>
+                                                        <th>Name of the Resident</th>
+                                                        <th>Date of Joining</th>
+                                                        <th>Date of Leaving</th>
+                                                        <th>Reason for Leaving</th>
+                                                        <th>Address</th>
+                                                        <th>Follow-up Conduct</th>
+                                                        <th>Follows</th>
+                                                        <th>Staff Event Close</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if reintegration %}
+                                                        {% for item in reintegration %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter }}</td>
+                                                                <td>{{ item.uqid }}</td>
+                                                                <td>
+                                                                  {% if item.photo_url %}
+                                                                      <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
+                                                                      <!-- Modal -->
+                                                                      <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                          <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                                              <div class="modal-content">
+                                                                                  <div class="modal-header">
+                                                                                      <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
+                                                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                  </div>
+                                                                                  <div class="modal-body text-center">
+                                                                                      <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
+                                                                                  </div>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  {% else %}
+                                                                      No photo available
+                                                                  {% endif %}
+                                                                  
+                                                                  <!-- Download button -->
+                                                                  {% if item.photo_url %}
+                                                                      <a href="{{ item.photo_url.url }}" download>
+                                                                          <button class="btn btn-primary btn-sm">
+                                                                              <i class="fas fa-download"></i>
+                                                                          </button>
+                                                                      </a>
+                                                                  {% endif %}
+                                                              </td>
+                                                                <td>{{ item.admission_no }}</td>
+                                                                <td>{{ item.resident_name }}</td>
+                                                                <td>{{ item.date_of_joining }}</td>
+                                                                <td>{{ item.date_of_leaving }}</td>
+                                                                <td>{{ item.reason_for_leaving }}</td>
+                                                                <td>{{ item.address }}</td>
+                                                                <td>{{ item.follow_up_conduct }}</td>
+                                                                <td>{{ item.follows }}</td>
+                                                                <td>{{ item.staff_event_close }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+
+
+                                                               
+                                                                   
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">SalaryRegister</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                        <th>Uqid</th>
+                                                        <th>Date of Salary</th>
+                                                        <th>Name</th>
+                                                        <th>Designation</th>
+                                                        <th>Salary</th>
+                                                        <th>Sign</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if salaryform %}
+                                                        {% for item in salaryform %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter }}</td>
+                                                                <td>{{ item.uqid }}</td>
+                                                                <td>{{ item.date }}</td>
+                                                                <td>{{ item.name }}</td>
+                                                                <td>{{ item.designation }}</td>
+                                                                <td>{{ item.salary }} </td>
+                                                                <td>{{ item.sign }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+
+
+                                                               
+                                                                   
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Medicine Register</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                        <th>Uqid</th>
+                                                        <th>Name</th>
+                                                        <th>Age</th>
+                                                        <th>Type of Disease</th>
+                                                        <th>Table Details</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if medicineform %}
+                                                        {% for item in medicineform %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter }}</td>
+                                                                <td>{{ item.uqid }}</td>
+                                                                <td>{{ item.name }}</td>
+                                                                <td>{{ item.age }}</td>
+                                                                <td>{{ item.type_of_disease }}</td>
+                                                                <td>{{ item.tablet_details }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+
+
+                                                               
+                                                                   
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Medical Record Form</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                        <th>Uqid</th>
+                                                        <th>Date</th>
+                                                        <th>Place</th>
+                                                        <th>Name</th>
+                                                        <th>Age</th>
+                                                        <th>Complaints</th>
+                                                        <th>Other Details</th>
+                                                        <th>Treatment</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if medicalform %}
+                                                        {% for item in medicalform %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter}}</td>
+                                                                <td>{{ item.uqid }}</td>
+                                                                <td>{{ item.date }}</td>
+                                                                <td>{{ item.place }}</td>
+                                                                <td>{{ item.name }}</td>
+                                                                <td>{{ item.age }}</td>
+                                                                <td>{{ item.complaints }}</td>
+                                                                <td>{{ item.others }}</td>
+                                                                <td>{{ item.treatment }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Counselling Register</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Uqid</th>
+                                                            <th>Date</th>
+                                                            <th>Name</th>
+                                                            <th>Number Of Session</th>
+                                                            <th>Observation/Identification by the Problem</th>
+                                                            <th>Signature</th>
+                                                            <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if counsellingform %}
+                                                        {% for item in counsellingform %}
+                                                            <tr>
+                                                                <td>{{ item.uqid }}</td>
+                                                                <td>{{ item.date }}</td>
+                                                                <td>{{ item.name }}</td>
+                                                                <td>{{ item.number_of_sessions }}</td>
+                                                                <td>{{ item.observation_identification }}</td>
+                                                                <td>{{ item.signature }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">BP Form</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Uqid</th>
+                                                        <th>Date</th>
+                                                        <th>Name</th>
+                                                        <th>Pulse</th>
+                                                        <th>Blood Pressure (BP)</th>
+                                                        <th>Temperature</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if bpform %}
+                                                        {% for item in bpform %}
+                                                            <tr>
+                                                                <td>{{ item.uqid }}</td>
+                                                                <td>{{ item.date }}</td>
+                                                                <td>{{ item.name }}</td>
+                                                                <td>{{ item.pulse }}</td>
+                                                                <td>{{ item.bp }}</td>
+                                                                <td>{{ item.temperature }} <span id="bodyTemperatureDisplay"></span> °C</td>
+                                                                <td>{{ item.created_at}}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Awareness Register</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th> S No</th>
+                                                        <th>Uqid</th>
+                                                        <th>Date</th>
+                                                        <th>Time</th>
+                                                        <th>Place</th>
+                                                        <th>Details Of the Programme</th>
+                                                        <th>Who Part in the Programme</th>
+                                                        <th>Created at </th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if awarnesform %}
+                                                        {% for item in awarnesform %}
+                                                            <tr>
+                                                                
+                                                                <td>{{forloop.counter}}</td>
+                                                                <td>{{ item.uqid }}</td>
+                                                                <td>{{ item.date }}</td>
+                                                                <td>{{ item.time }}</td>
+                                                                <td>{{ item.place }}</td>
+                                                                <td>{{ item.details }}</td>
+                                                                <td>{{ item.participants }}</td>
+                                                                <td>{{ item.created_at}}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Social Entertainment Record</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                        <th>Uqid</th>
+                                                        <th>Date</th>
+                                                        <th>Admission</th>
+                                                        <th>Name</th>
+                                                        <th>Work Details</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if socialentform %}
+                                                        {% for item in socialentform %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter }}</td>
+                                                                   <td>{{ item.uqid }}</td>
+                                                                   <td>{{ item.date }}</td>
+                                                                   <td>{{ item.admission }}</td>
+                                                                   <td>{{ item.name }}</td>
+                                                                   <td>{{ item.workDetails }}</td>
+                                                                   <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Resident Attendance Form</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                            <th>Uqid</th>
+                                                            <th>Name of the Pupil</th>
+                                                            <th>Date of Birth</th>
+                                                            <th>Attendance</th>
+                                                            <th>Number of Days Present</th>
+                                                            <th>Number of Days Absent</th>
+                                                            {% comment %} <th>School Fee</th>
+                                                            <th>Day of Payment</th> {% endcomment %}
+                                                            <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if resident %}
+                                                        {% for item in resident %}
+                                                            <tr>
+                                                                
+                                                                <td>{{ forloop.counter }}</td>
+                                                                   <td>{{ item.uqid }}</td>
+                                                                   <td>{{ item.pupilName }}</td>
+                                                                   <td>{{ item.dob }}</td>
+                                                                   <td>{{ item.attendance }}</td>
+                                                                   <td>{{ item.daysPresent }}</td>
+                                                                   <td>{{ item.daysabsent }}</td>
+                                                                   {% comment %} <td> {{ item.schoolFee }}</td>
+                                                                   <td>{{ item.dayOfPayment }}</td> {% endcomment %}
+                                                                   <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Performance Appraisal</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                            <th>Uqid</th>
+                                                            <th>Date</th>
+                                                            <th>Resident Strength at the Beginning of the Month</th>
+                                                            <th>New Admission</th>
+                                                            <th>Total Strength</th>
+                                                            <th>Reintegration</th>
+                                                            <th>Rehabilitation</th>
+                                                            <th>Referral</th>
+                                                            <th>Left</th>
+                                                            <th>Death</th>
+                                                            <th>Total Strength at the End of the Month</th>
+                                                            <th>Total Number of Rescue</th>
+                                                            <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if perfomance %}
+                                                        {% for item in perfomance %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter }}</td>
+                                                                   <td>{{ item.uqid }}</td>
+                                                                   <td>{{ item.date }}</td>
+                                                                   <td>{{ item.beginning_children }}</td>
+                                                                   <td>{{ item.new_admission }}</td>
+                                                                   <td>{{ item.total_strength }}</td>
+                                                                   <td>{{ item.reintegration }}</td>
+                                                                   <td>{{ item.rehabilitation }}</td>
+                                                                   <td>{{ item.referral }}</td>
+                                                                   <td>{{ item.left }}</td>
+                                                                   <td>{{ item.death }}</td>
+                                                                   <td>{{ item.end_strength }}</td>
+                                                                   <td>{{ item.rescue }}</td>
+                                                                   <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Staff Movement Note</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                        <th>Uqid</th>
+                                                        <th>Date of plan</th>
+                                                        <th>Working Area</th>
+                                                        <th>Nature Of Work</th>
+                                                        <th>Work Done By</th>
+                                                        <th>Sign</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if staffmovement %}
+                                                        {% for item in staffmovement %}
+                                                            <tr>
+                                                                <td>{{forloop.counter}}</td>
+                                                            <td>{{ item.uqid }}</td>
+                                                            <td>{{ item.date_of_plan }}</td>
+                                                            <td>{{ item.working_area }}</td>
+                                                            <td>{{ item.nature_of_work }}</td>
+                                                            <td>{{ item.work_done_by }}</td>
+                                                            <td>{{ item.sign }}</td>
+                                                            <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Staff Attendance Registere</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S-NO</th>
+                                                            <th>Name </th>
+                                                            <th>Designation</th>
+                                                            <th>Working Hours</th>
+                                                            <th>Days</th>
+                                                            <th>No.of Working Days</th>
+                                                            <th>No.of Days Leaves</th>
+                                                            <th>Remarks</th>
+                                                            <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if staffatt %}
+                                                        {% for item in staffatt %}
+                                                            <tr>
+                                                                <td>{{forloop.counter}}</td>
+                                                                   <td>{{ item.name }}</td>
+                                                                   <td>{{ item.designation }}</td>
+                                                                   <td>{{ item.working_hours }}</td>
+                                                                   <td>{{ item.days }}</td>
+                                                                   <td>{{ item.working_days }}</td>
+                                                                   <td>{{ item.leave_days }}</td>
+                                                                   <td>{{ item.remarks }}</td>
+                                                                   <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Addmission Register</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Uqid</th>
+                                                                <th>Name</th>
+                                                                <th>Date</th>
+                                                                <th>Street Address</th>
+                                                                <th>Street Address Line 2</th>
+                                                                <th>State / Province</th>
+                                                                <th>City</th>
+                                                                <th>Postal / Zip Code</th>
+                                                                <th>Phone Number</th>
+                                                                <th>Home Phone Number</th>
+                                                                <th>Email</th>
+                                                                <th>Birthday</th>
+                                                                <th>Uploaded File</th>
+                                                                <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if personalinfo %}
+                                                        {% for item in personalinfo %}
+                                                            <tr>
+                                                                <td>{{ item.uqid }}</td>
+                                                                <td>{{ item.name }}</td>
+                                                                <td>{{ item.date }}</td>
+                                                                <td>{{ item.street_address }}</td> <!-- Corrected typo here -->
+                                                                <td>{{ item.street_address_2 }}</td>
+                                                                <td>{{ item.state_province }}</td>
+                                                                <td>{{ item.city }}</td>
+                                                                <td>{{ item.postal_code }}</td>
+                                                                <td>{{ item.phone_number }}</td>
+                                                                <td>{{ item.home_phone_number }}</td> <!-- Added the display of home_phone_number -->
+                                                                <td>{{ item.email }}</td>
+                                                                <td>{{ item.birthdate }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                <td>
+                                                                    {% if item.photo_url %}
+                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
+                                                                    <!-- Modal -->
+                                                                    <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body text-center">
+                                                                                    <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    {% else %}
+                                                                    No photo available
+                                                                    {% endif %}
+                                                                </td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Employment Linkage Registration Form
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Uqid</th>
+                                                        <th>S.No</th>
+                                                        <th>Uqid</th>
+                                                        <th>Admission No</th>
+                                                        <th>Admission Date</th>
+                                                        <th>Name of the Resident</th>
+                                                        <th>Name of the Employment Linkage</th>
+                                                        <th>Address and Contact Details</th>
+                                                        <th>Designation</th>
+                                                        <th>Date of Joining</th>
+                                                        <th>Signature</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if emplink %}
+                                                        {% for item in emplink %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter }}</td>
+                                                                <td>{{ item.uqid }}</td>
+                                                            
+                                                                <td>{{ item.admission_no }}</td>
+                                                                <td>{{ item.admission_date }}</td>
+                                                                <td>{{ item.resident_name }}</td>
+                                                                <td>{{ item.employment_name }}</td>
+                                                                <td>{{ item.address_and_contact_details }}</td>
+                                                                <td>{{ item.designation }}</td>
+                                                                <td>{{ item.joining_date }}</td>
+                                                                <td>{{ item.signature }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Rehabilitation Note
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                        <th>Uqid</th>
+                                                        <th>Photo</th>
+                                                        <th>Admission Number</th>
+                                                        <th>Name of the Resident</th>
+                                                        <th>Age</th>
+                                                        <th>Sex</th>
+                                                        <th>Date Of Joining</th>
+                                                        <th>Date Of Leaving</th>
+                                                        <th>Mode Of Rescue</th>
+                                                        <th>Mode Of Rehabilitation</th>
+                                                        <th>Follow Up</th>
+                                                        <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if rehab %}
+                                                        {% for item in rehab %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter}}</td>
+                                                                   <td>{{ item.uqid }}</td>
+                                                                   <td>
+                                                                    {% if item.photo_url %}
+                                                                        <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100px; max-height: 100px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ forloop.counter }}">
+                                                                        <!-- Modal -->
+                                                                        <div class="modal fade" id="exampleModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}'s Photo</h5>
+                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body text-center">
+                                                                                        <img src="{{ item.photo_url.url }}" alt="{{ item.name }}'s photo" style="max-width: 100%; max-height: 400px;">
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    {% else %}
+                                                                        No photo available
+                                                                    {% endif %}
+                                                                    
+                                                                    <!-- Download button -->
+                                                                    {% if item.photo_url %}
+                                                                        <a href="{{ item.photo_url.url }}" download>
+                                                                            <button class="btn btn-primary btn-sm">
+                                                                                <i class="fas fa-download"></i>
+                                                                            </button>
+                                                                        </a>
+                                                                    {% endif %}
+                                                                </td>
+                                                                   <td>{{ item.admission_number }}</td>
+                                                                   <td>{{ item.name_of_the_resident }}</td>
+                                                                   <td>{{ item.age }}</td>
+                                                                   <td>{{ item.sex }}</td>
+                                                                   <td>{{ item.date_of_joining }}</td>
+                                                                   <td>{{ item.date_of_leaving }}</td>
+                                                                   <td>{{ item.mode_of_rescue }}</td>
+                                                                   <td>{{ item.mode_of_rehabilitation }}</td>
+                                                                   <td>{{ item.follow_up }}</td>
+                                                                   <td>{{ item.created_at }}</td>
+                                                                   {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Death Register
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S No</th>
+                                                            <th>Uqid</th>
+                                                            <th>Name of the Death Person</th>
+                                                            <th>Age / sex</th>
+                                                            <th>Date of Death</th>
+                                                            <th>Reason for Death</th>
+                                                            <th>Whom to Claim the Death Person</th>
+                                                            <th>Adress and Contact Number</th>
+                                                            <th>If Unclaimed the Death,Legal Producer Taken</th>
+                                                            <!-- <th>Purpose</th> -->
+                                                            <th>Remarks</th>
+                                                            <th>Created at</th>
+                                                        {% comment %} <th>Edit</th> {% endcomment %}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% if death %}
+                                                        {% for item in death %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter }}</td>
+                                                                <td>{{ item.uqid }}</td>
+                                                                <td>{{ item.name_of_the_death_person }}</td>
+                                                                <td>{{ item.age_sex }}</td>
+                                                                <td>{{ item.date_of_death }}</td>
+                                                                <td>{{ item.reason_for_death }}</td>
+                                                                <td>{{ item.whom_to_claim_death_person }}</td>
+                                                                <td>{{ item.address_and_contact_number }}</td>
+                                                                <td>{{ item.legal_producer_taken_if_unclaimed }}</td>
+                                                                <!-- <td>{{ item.purpose }}</td> -->
+                                                                <td>{{ item.remarks }}</td>
+                                                                <td>{{ item.created_at }}</td>
+                                                                   {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0" style="text-align:center; font-size: xx-large;">Skill Training Register</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S.No</th>
+                                                        <th>Uqid</th>
+                                                        <th>Date</th>
+                                                        <th>Name of the Resident</th>
+                                                        <th>Skill Training Details</th>
+                                                        <th>Created at</th>
+                                                </thead>
+                                                <tbody>
+                                                    {% if skill %}
+                                                        {% for item in skill %}
+                                                            <tr>
+                                                                <td>{{ forloop.counter }}</td>
+                                                            <td>{{ item.uqid }}</td>
+                                                            <td>{{item.date}}</td>
+                                                            <td>{{item.resident_name}}</td>
+                                                            <td>{{item.skill_training_details}}</td>
+                                                            <td>{{item.created_at}}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                 data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
+     
+                                                            </tr>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <tr>
+                                                            <td colspan="10">No records found.</td>
+                                                        </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                                
+
+
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script> © Thaagam.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by ❤ M7 CORP
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+    <i class="ri-arrow-up-line"></i>
+</button>
+<div id="preloader">
+    <div id="status">
+        <div class="spinner-border text-primary avatar-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
+{% comment %} <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 overflow-hidden">
+            <div class="modal-header p-3">
+                <h4 class="card-title mb-0"> Add Notes</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                      <div class="col-md-5">
+                        <label  class="form-label fs-16">Date & time:</label>
+                      </div>
+                        <div class="col-md-7 mb-3">
+                          <input type="text" class="form-control"  data-flatpickr
+                          data-date-format="d M, Y H:i" placeholder="Select Date & Time">
+                        </div>
+                        <div class="col-md-5">
+                            <label  class="form-label fs-16">Receipt Name:</label>
+                        </div>
+                        <div class="col-md-7 mb-3">
+                            <input type="text" class="form-control"  placeholder="Enter your Receipt Name" />
+                        </div>
+                        <div class="col-md-5">
+                            <label  class="form-label fs-16">Receipt Mobile No:</label>
+                        </div>
+                        <div class="col-md-7 mb-3">
+                          <input type="text" class="form-control"  placeholder="Enter your Receipt Mobile No:" />
+                      </div>
+                        <div class="col-md-5">
+                            <label  class="form-label fs-16">Previous Notes:</label>
+                        </div>
+                        <div class="col-md-7 mb-3">
+                            <input type="number" class="form-control" 
+                                placeholder="Enter your Previous Notes" />
+                        </div>
+                        <div class="col-md-5">
+                          <label  class="form-label fs-16">Add Notes:</label>
+                      </div>
+                      <div class="col-md-7 mb-3">
+                          <textarea class="form-control"  placeholder="Enter your Add Notes"></textarea>
+                      </div>
+                      
+                      </div>
+                    <div class="text-start mt-3">
+                        <button type="submit" class="btn btn-danger">
+                            submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div> {% endcomment %}
+{% endblock %}

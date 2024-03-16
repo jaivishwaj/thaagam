@@ -61,6 +61,8 @@
                                                             <th>Pulse</th>
                                                             <th>Blood Pressure (BP)</th>
                                                             <th>Temperature</th>
+                                                            <th>Created at</th>
+                                                            {% comment %} <th>Action</th> {% endcomment %}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -72,6 +74,9 @@
                                                                 <td>{{ item.pulse }}</td>
                                                                 <td>{{ item.bp }}</td>
                                                                 <td>{{ item.temperature }} <span id="bodyTemperatureDisplay"></span> °C</td>
+                                                                <td>{{ item.created_at}}</td>
+                                                                {% comment %} <td><a href="#" style="background: linear-gradient(to right, #2193b0, #6dd5ed);padding:6px 16px;border-radius:15px ;color:rgba(255, 255, 255, 0.863)"data-bs-toggle="modal" data-bs-target="#add_notes"
+                                                                    data-bs-target=".edit_donor_search">Edit</a></td> {% endcomment %}
                                                             </tr>
                                                         {% endfor %}
                                                      </tbody>
@@ -132,6 +137,65 @@
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
+    </div>
+
+
+    <div id="add_notes" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0">Edit</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                          <div class="col-md-5">
+                            <label  class="form-label fs-16">Date :</label>
+                          </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="text" class="form-control"  data-flatpickr
+                              data-date-format="d M, Y H:i" name="date">
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Name :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="text" class="form-control"  name="name" />
+                            </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Pulse :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                              <input type="text" class="form-control" name="pulse" />
+                          </div>
+                            <div class="col-md-5">
+                                <label  class="form-label fs-16">Blood Pressure (BP) :</label>
+                            </div>
+                            <div class="col-md-7 mb-3">
+                                <input type="number" class="form-control" 
+                                    name="blood_pressure" />
+                            </div>
+                            <div class="col-md-5">
+                              <label  class="form-label fs-16">Temperature :</label>
+                          </div>
+                          <div class="col-md-7 mb-3">
+                            <input type="number" class="form-control" 
+                            name="temperature" />
+                          </div>
+                          
+                          </div>
+                        <div class="text-start mt-3">
+                            <button type="submit" class="btn btn-danger">
+                                submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
     </div>
 
     <script>
