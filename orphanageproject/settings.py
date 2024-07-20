@@ -9,9 +9,9 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
-from pathlib import Path
 import os
+from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,14 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*@l999&g22lhsdyq-3l_)6-3b2w)m7)y9*(e8o!2_&as$u%ku!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-AUTH_USER_MODEL = 'dashboard.Staff_UserAuth'
+DEBUG = False
+# AUTH_USER_MODEL = 'formapp.User'
+# AUTH_USER_MODEL = 'formapp.CustomUser'
 
 
+ALLOWED_HOSTS = ["*"]
 
-ALLOWED_HOSTS = ["127.0.0.1","  https://89ec-115-97-253-131.ngrok-free.app ","89ec-115-97-253-131.ngrok-free.app"]
-
-CSRF_TRUSTED_ORIGINS = ['   https://89ec-115-97-253-131.ngrok-free.app.ngrok.io']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000,*']
 
 
 # Application definition
@@ -43,15 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'formapp',  
+    'formapp',
     'dashboard',
-    
-    
 
-  
+
 ]
-
-
 
 
 MIDDLEWARE = [
@@ -62,8 +58,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
+
+
 ]
+
+
 
 ROOT_URLCONF = 'orphanageproject.urls'
 
@@ -99,9 +100,10 @@ DATABASES = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_URL = 'login'
+# LOGIN_URL = 'login'
+# LOGIN_URL = '/accounts/login/'
 
-LOGIN_REDIRECT_URL = 'dashboard'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -137,13 +139,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -151,6 +154,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # APPEND_SLASH = False
 TIME_ZONE = 'Asia/Kolkata'
 
+LOGIN_URL = "/dashboard/dashboard_login"
+
+AUTH_USER_MODEL = "dashboard.Staff_UserAuth"
 
 
 
+SESSION_EXPIRE_SECONDS = 3600  # Expire after 30 minutes
+
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+
+SESSION_TIMEOUT_REDIRECT = 'login/' # Add your URL
+
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True # Invalid session
