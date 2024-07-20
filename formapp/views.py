@@ -93,41 +93,12 @@ def loginuser(request):
 
     return render(request, 'login.html')
 
-# def loginuser(request):
-
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-
-#         user = authenticate(request, username=username, password=password)
-
-#         if user is not None:
-#             login(request, user)
-#             # You can perform additional actions after login if needed
-#             request.session['user'] = user.username
-#             return redirect('home')
-#         else:
-#             return redirect('signup')
-
-#     return render(request, 'login.html')
-
-
-#========================================================!===============================================================
-
 
 
 def logout_view(request):
     request.session.flush()
     return redirect("login")
 
-
-# def home(request):
-#     if not request.user.is_authenticated:
-#         return redirect('login')
-#     # if request.user.is_authenticated:
-#     #     return render(request, 'home.html')
-#     else:
-#         return redirect('login')
 
 
 
@@ -138,31 +109,6 @@ def home(request):
         user = request.session['user']
     return render(request, "home.html",{'user': user})
 
-
-# @login_required(login_url='login')
-# def signupuser(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         email = request.POST.get('email')
-#         mobile_number = request.POST.get('mobile_number')
-#         confrimpassword = request.POST.get('confrimpassword')
-#
-#         User = get_user_model()  # Get the custom user model
-#         if not User.objects.filter(username=username).exists():
-#             # Create a new user instance and set the username
-#             user = User.objects.create_user(username=username, password=password)
-#             Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
-#             # Save the user
-#             Userprofile.save()
-#             user.save()
-#             return redirect('login')  # Redirect to login upon successful registration
-#         else:
-#             # Authentication failed, handle accordingly (e.g., display an error message)
-#
-#             messages.info(request, f'account username is already  exit plz try another username ')
-#
-#     return render(request, 'signup.html')
 
 
 
@@ -1888,25 +1834,6 @@ def case_work(request):
     return render(request,'case_work.html',{'user':user,'case_work':case_work})
 
 
-# def case_work(request):
-#     user = request.session.get('user')
-#     case_work = CaseWork.objects.all().order_by('created_at')
-
-#     if request.method == 'POST':
-#         form = CaseWork(request.POST, request.FILES)
-#         if form.is_valid():
-#             case_work_instance = form.save(commit=False)
-#             case_work_instance.user = request.user.username
-#             case_work_instance.save()
-#             messages.success(request, 'Case work data saved successfully.')
-#             return redirect('case_work_dashboard')
-#         else:
-#             messages.error(request, 'Failed to save case work data. Please check the form.')
-#     else:
-#         form = CaseWork()
-
-#     return render(request, 'case_work.html', {'user': user, 'form': form, 'case_work': case_work})
-
 
 def case_work_dashboard(request): 
     if not request.user.is_authenticated:
@@ -1955,6 +1882,12 @@ def followup_dashboard(request):
         datas = FollowUP.objects.filter(user=logged_in_username)
         return render(request, "dashboard/followup_dashboard.html", {"data": datas})
     
+
+######## webp formate ######
+
+
+
+
 
 
 from django.contrib.auth.decorators import login_required, permission_required
