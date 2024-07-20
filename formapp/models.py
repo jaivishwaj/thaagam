@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import RegexValidator
 from datetime import date
-
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
 import random
 
@@ -469,20 +469,38 @@ class StaffMovement(models.Model):
         return str(self.date_of_plan)
 
 
-class userprofile(models.Model):
-    # uqid = AlphaNumericField(unique=True, editable=False)
-    username = models.CharField(max_length=50)
-    user = models.CharField(max_length=200)
+# class userprofile(models.Model):
+#     # uqid = AlphaNumericField(unique=True, editable=False)
+#     username = models.CharField(max_length=50)
+#     user = models.CharField(max_length=200)
+#     email = models.EmailField(unique=True)
+#     mobile_number = models.IntegerField()
+#     gcc_name = models.CharField(max_length=100, null=True, blank=True)
+#     gcc_location = models.CharField(max_length=100, null=True, blank=True)
+#     password = models.CharField(max_length=50)
+#     confrimpassword = models.CharField(max_length=50)
+#     superuser = models.BooleanField(default=False)
+#     staff = models.BooleanField(default=False)
+#     created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+class UserProfile(AbstractUser):
+    ROLE_CHOICES = (
+        ('superuser', 'Superuser'),
+        ('staff', 'Staff'),
+    )
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     email = models.EmailField(unique=True)
     mobile_number = models.IntegerField()
-    password = models.CharField(max_length=50)
-    confrimpassword = models.CharField(max_length=50)
+    gcc_name = models.CharField(max_length=100, null=True, blank=True)
+    gcc_location = models.CharField(max_length=100, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
-  
-    
+    # Specify unique related_name attributes for conflicting fields
+    groups = models.ManyToManyField(Group, related_name='user_profiles_groups')
+    user_permissions = models.ManyToManyField(Permission, related_name='user_profiles_permissions')
     def __str__(self):
         return str(self.username)
-        
+
 
 
 class MasterRecords(models.Model):
@@ -602,21 +620,6 @@ class FollowUP(models.Model):
 
     def __str__(self):
         return self.name
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+

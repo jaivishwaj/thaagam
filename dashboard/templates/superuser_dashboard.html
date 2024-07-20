@@ -1,0 +1,88 @@
+<!-- templates/superuser_dashboard.html -->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Superuser Dashboard</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Superuser Dashboard</h1>-->
+<!--    <ul>-->
+<!--        {% for staff_member in staff_members %}-->
+<!--            <li><a href="{% url 'staff_dashboard' staff_member.id %}">{{ staff_member.username }}</a></li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superuser Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        li a {
+            display: block;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 6px;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        li a:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Superuser Dashboard</h1>
+    </div>
+    <div class="container">
+        <ul>
+            {% for staff_member in staff_members %}
+                <li><a href="{% url 'staff_dashboard' staff_member.id %}">{{ staff_member.username }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

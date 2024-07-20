@@ -12,7 +12,8 @@ from django.contrib import messages
 
 from django.contrib.auth import authenticate, login
 
-from .models import userprofile
+
+# from .models import CustomUser
 import os
 from django.conf import settings
 
@@ -24,10 +25,11 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .models import Provision
 
 from django.contrib.auth import logout
-from django.shortcuts import redirect, get_object_or_404
-from django.contrib.auth import get_user_model
-# from .models import userprofile
 
+# from .models import userprofile
+from .models import UserProfile
+
+# from formapp.models import Staff_UserAuth
 
 
 from django.core.paginator import Paginator
@@ -37,43 +39,113 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import user_passes_test
 from django.utils import timezone
 import datetime
-from dashboard.models import Staff_UserAuth  as User
+# from formapp.models import Staff_UserAuth, userprofile
+from django.contrib.auth import get_user_model
+User = get_user_model()
+from formapp.forms import userprofileForm
 
 
 from .models import *
 
 @csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
+# def signupuser(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         email = request.POST.get('email')
+#         mobile_number = request.POST.get('mobile_number')
+#         confrimpassword = request.POST.get('confrimpassword')
+#         gcc_name = request.POST.get('gcc_name')
+#         gcc_location = request.POST.get('gcc_location')
+#
+#         User = get_user_model()  # Get the custom user model
+#         if not User.objects.filter(username=username).exists():
+#             # Create a new user instance and set the username
+#             user = User.objects.create_user(username= username,  password=password)
+#             Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword,gcc_name=gcc_name, gcc_location=gcc_location)
+#             # Save the user
+#             Userprofile.save()
+#             user.save()
+#             return redirect('login')  # Redirect to login upon successful registration
+#         else:
+#             # Authentication failed, handle accordingly (e.g., display an error message)
+#             messages.info(request, f'The Username Exit plz sign in with new username or try with different spelling')
+#             return redirect('signup')
+#
+#     return render(request, 'signup.html')
+
+# def signupuser(request):
+#     if request.method == 'POST':
+#         form = userprofileForm(request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data['username']
+#             email = form.cleaned_data['email']
+#             password = form.cleaned_data['password']
+#             confirm_password = form.cleaned_data['confirm_password']
+#             gcc_name = form.cleaned_data['gcc_name']
+#             gcc_location = form.cleaned_data['gcc_location']
+#             role = form.cleaned_data['role']
+#
+#             # Create user
+#             user = UserProfile.objects.create_user(username=username, email=email, password=password,confirm_password=confirm_password, gcc_name=gcc_name,
+#                                                    gcc_location=gcc_location, role=role)
+#
+#             # Assign user to group based on role
+#             if role == 'superuser':
+#                 group = Group.objects.get(name='superuser')
+#             else:
+#                 group = Group.objects.get(name='staff')
+#             user.groups.add(group)
+#
+#             return redirect('login')  # Redirect to login page after successful signup
+#     else:
+#         form = userprofileForm()
+#     return render(request, 'signup.html', {'form': form})
+
+######### private view start ########
+
 def signupuser(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        email = request.POST.get('email')
-        mobile_number = request.POST.get('mobile_number')
-        confrimpassword = request.POST.get('confrimpassword')
+        form = __userprofileForm(request.POST)  # Using a hypothetical private form class
+        if form.is_valid():
+            username = form.cleaned_data['__username']
+            email = form.cleaned_data['__email']
+            password = form.cleaned_data['__password']
+            confirm_password = form.cleaned_data['__confirm_password']
+            gcc_name = form.cleaned_data['__gcc_name']
+            gcc_location = form.cleaned_data['__gcc_location']
+            role = form.cleaned_data['__role']
 
-        User = get_user_model()  # Get the custom user model
-        if not User.objects.filter(username=username).exists():
-            # Create a new user instance and set the username
-            user = User.objects.create_user(username= username,  password=password)
-            Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
-            # Save the user
-            Userprofile.save()
-            user.save()
-            return redirect('login')  # Redirect to login upon successful registration
-        else:
-            # Authentication failed, handle accordingly (e.g., display an error message)
-            messages.info(request, f'The Username Exit plz sign in with new username or try with different spelling')
-            return redirect('signup')
+            # Create user
+            user = UserProfile.objects.create_user(username=username, email=email, password=password,
+                                                   confirm_password=confirm_password, gcc_name=gcc_name,
+                                                   gcc_location=gcc_location, role=role)
 
-    return render(request, 'signup.html')
+            # Assign user to group based on role
+            if role == 'superuser':
+                group = Group.objects.get(name='superuser')
+            else:
+                group = Group.objects.get(name='staff')
+            user.groups.add(group)
 
-  
+            return redirect('login')  # Redirect to login page after successful signup
+    else:
+        form = __userprofileForm()  # Using a hypothetical private form class
+    return render(request, 'signup.html', {'form': form})
+
+
+######### private view end ########
+
+
 
 @csrf_exempt
 def loginuser(request):
     if request.method == 'POST':
+        # gcc_name = request.POST.get('gcc_name')
         username = request.POST.get('username')  # Assuming 'username' is the field name
         password = request.POST.get('password')
+
 
         # Check if the user is an admin
         try:
@@ -87,48 +159,47 @@ def loginuser(request):
             # You can perform additional actions after login if needed
             request.session['user'] = user.username  # Storing username in session
             return redirect('home')  # Redirect to a success page (replace 'home' with your URL name)
+
         else:
             # Authentication failed or user is not an admin, handle accordingly (e.g., display an error message)
             messages.error(request, 'Invalid username or password for admin login.')
 
-    return render(request, 'login.html')
+    return render(request, 'registration/login.html')
+
 
 # def loginuser(request):
-
 #     if request.method == 'POST':
 #         username = request.POST.get('username')
 #         password = request.POST.get('password')
-
-#         user = authenticate(request, username=username, password=password)
-
+#         gcc_name = request.POST.get('gcc_name')
+#         gcc_location = request.POST.get('gcc_location')
+#
+#         # Check if the user exists based on username and additional fields
+#         user = authenticate(request, username=username, password=password, gcc_name=gcc_name, gcc_location=gcc_location)
+#
 #         if user is not None:
-#             login(request, user)
-#             # You can perform additional actions after login if needed
-#             request.session['user'] = user.username
-#             return redirect('home')
+#             # Check if the user is a superuser or staff member
+#             if user.is_superuser or user.is_staff:
+#                 login(request, user)
+#
+#                 # Add user to the 'staff' group if not already a member
+#                 staff_group, created = Group.objects.get_or_create(name='staff')
+#                 if not user.groups.filter(name='staff').exists():
+#                     staff_group.user_set.add(user)
+#
+#                 messages.success(request, 'Logged in successfully.')
+#                 return redirect('home')
+#             else:
+#                 messages.error(request, 'You do not have permission to access this site.')
 #         else:
-#             return redirect('signup')
-
-#     return render(request, 'login.html')
-
-
-#========================================================!===============================================================
-
+#             messages.error(request, 'Invalid username or password.')
+#
+#     return render(request, 'registration/login.html')
 
 
 def logout_view(request):
     request.session.flush()
     return redirect("login")
-
-
-# def home(request):
-#     if not request.user.is_authenticated:
-#         return redirect('login')
-#     # if request.user.is_authenticated:
-#     #     return render(request, 'home.html')
-#     else:
-#         return redirect('login')
-
 
 
 
@@ -137,33 +208,6 @@ def home(request):
     if 'user' in request.session:
         user = request.session['user']
     return render(request, "home.html",{'user': user})
-
-
-# @login_required(login_url='login')
-# def signupuser(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         email = request.POST.get('email')
-#         mobile_number = request.POST.get('mobile_number')
-#         confrimpassword = request.POST.get('confrimpassword')
-#
-#         User = get_user_model()  # Get the custom user model
-#         if not User.objects.filter(username=username).exists():
-#             # Create a new user instance and set the username
-#             user = User.objects.create_user(username=username, password=password)
-#             Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
-#             # Save the user
-#             Userprofile.save()
-#             user.save()
-#             return redirect('login')  # Redirect to login upon successful registration
-#         else:
-#             # Authentication failed, handle accordingly (e.g., display an error message)
-#
-#             messages.info(request, f'account username is already  exit plz try another username ')
-#
-#     return render(request, 'signup.html')
-
 
 
 from django.contrib.auth import authenticate,login
@@ -1960,59 +2004,5 @@ def followup_dashboard(request):
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group
 
-# @login_required
-# @permission_required('formapp.dashboard', raise_exception=True)
-# def dashboard(request):
-#     inspection = Inspectionregister.objects.all()
-#     provi = Provision.objects.all()
-#     reintegration = Reintegration.objects.all()
-#     Salary = SalaryRegister.objects.all()
-#     Inspection = Inspectionregister.objects.all()
-#     visitor = VisitorRegister.objects.all()
-#     perfomance = PerformanceAppraisal.objects.all()
-#     resident = Resident.objects.all()
-#     social = SocialEntertainment.objects.all()
-#     casehistory = CaseHistory.objects.all()
-#     accident = AccidentRegister.objects.all()
-#     actionplan = ActionplanRegister.objects.all()
-#     awarness = AwarnesRegister.objects.all()
-#     bp = BpPulsenote.objects.all()
-#     rehab = Rehabitation.objects.all()
-#     death = DeathRegister.objects.all()
-#     night = NightSurvey.objects.all()
-#     skill = SkillTraining.objects.all()
-#     smc = SmcRegister.objects.all()
-#     staff = StaffAttendance.objects.all()
-#     case = CaseWork.objects.all()
-#     followup = FollowUP.objects.all()
-    
-    
-#     context = {
-#         'provi': provi,
-#         'reintegration': reintegration,
-#         'Salary': Salary,
-#         'Inspection': Inspection,
-#         'visitor': visitor,
-#         'perfomance': perfomance,
-#         'resident': resident,
-#         'social': social,
-#         'casehistory': casehistory,
-#         'accident': accident,
-#         'actionplan': actionplan,
-#         'awarness': awarness,
-#         'bp': bp,#         'rehab': rehab,
-#         'death': death,
-#         'night': night,
-#         'skill': skill,
-#         'smc': smc,
-#         'staff': staff,
-#         'case': case,
-#         'followup': followup,
-#         'inspection': inspection
-        
-#     }
-    
-    
-#     return render(request, 'dashboard/dashboard.html', context)
 
 

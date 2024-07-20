@@ -1,13 +1,27 @@
 from django.db import models
 
 # Create your models here.
-
-from django.contrib.auth.models import BaseUserManager
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import AbstractUser, Group, Permission
-
-from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import Group, AbstractUser
+
+
+
+
+class AlphaNumericFieldfive(models.CharField):
+    def __init__(self, *args, **kwargs):
+        kwargs["max_length"] = 5  # Set fixed max_length for alphanumeric field
+        super().__init__(*args, **kwargs)
+
+    @staticmethod
+    def generate_alphanumeric():
+        alphanumeric = "".join(
+            random.choices(string.ascii_letters + string.digits, k=5)
+        )
+        return alphanumeric.upper()
+
+
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import BaseUserManager
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -26,44 +40,45 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get("is_staff") is not True:
             raise ValueError("Superuser must have is_staff=True.")
         if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must have is_superuser=True.")
+            raise ValueError("Superuser must have is_superuser=Trzeue.")
 
         return self.create_user(email, password, **extra_fields)
 
-
-
-  
-# class Staff_UserAuth(AbstractUser):
-#     objects = CustomUserManager()
-    
-#     username = None
-#     last_name = None
-    
-#     # Fields as per your Firestore structure
-#     email = models.EmailField(_("email address"), unique=True)
-#     mobile_number = models.CharField(max_length=15, null=True, blank=True)
-#     USERNAME_FIELD = "email"
-    
-#     REQUIRED_FIELDS = []
-    
-
+from django.contrib.auth.models import AbstractUser
 class Staff_UserAuth(AbstractUser):
-    name = models.CharField(max_length=255, null=True, blank=True)  # Add this line
-    email = models.EmailField(_("email address"), unique=True)
-    mobile_number = models.CharField(max_length=15, null=True, blank=True)
+    objects = CustomUserManager()
+
+    # Fields as per your Firestore structure
+    email = models.EmailField(unique=True)  # Add unique constraint to email field
+    username = models.CharField(max_length=150, unique=True)
+    last_name = None
+    referral_code = AlphaNumericFieldfive(unique=True, null=True, blank=True)
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
+    def save(self, *args, **kwargs):
+        if not self.referral_code:
+            self.referral_code = AlphaNumericFieldfive.generate_alphanumeric()
+            while Staff_UserAuth.objects.filter(
+                referral_code=self.referral_code
+            ).exists():
+                self.referral_code = AlphaNumericFieldfive.generate_alphanumeric()
+        super(Staff_UserAuth, self).save(*args, **kwargs)
 
 
 groups = [
-    'Staff',
-    'Superuser'
+    "Staff",
+    "Admin",
+    "Superuser",
 ]
+
 
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
-from django.db import models, connection
+from django.db import connection
+
+
 
 @receiver(post_migrate)
 def create_groups(sender, **kwargs):
@@ -74,3 +89,8 @@ def create_groups(sender, **kwargs):
                 Group.objects.get_or_create(name=group_name)
         else:
             print("auth_group table does not exist, skipping group creation.")
+
+
+
+
+

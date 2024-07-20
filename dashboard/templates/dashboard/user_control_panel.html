@@ -1,3 +1,174 @@
+<!--{% extends 'dashboard/base.html' %}-->
+<!--{% load static %}-->
+<!--{% block content %}-->
+
+<!--<h2>User Control Panel</h2>-->
+
+<!--{% if messages %}-->
+<!--<div class="container mt-3">-->
+<!--    {% for message in messages %}-->
+<!--    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">-->
+<!--        {{ message }}-->
+<!--        <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+<!--            <span aria-hidden="true">&times;</span>-->
+<!--        </button>-->
+<!--    </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+<!--{% endif %}-->
+
+<!--<div class="card p-3">-->
+<!--    <table id="buttons-datatables" class="table table-bordered dt-responsive nowrap table-striped align-left"-->
+<!--           style="width: 100%">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>S.no</th>-->
+<!--            <th>Name</th>-->
+<!--            <th>Email</th>-->
+<!--            <th>Groups</th>-->
+<!--            <th>Actions</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        {% for user in users %}-->
+<!--        <tr>-->
+<!--            <td>{{ forloop.counter }}</td>-->
+<!--            <td>{{ user.username }}</td>-->
+<!--            <td>{{ user.email }}</td>-->
+<!--            <td class="user-groups" data-usergroups="{{ user.groups.all|join:',' }}">{{ user.groups.all|join:", " }}</td>-->
+<!--            <td>-->
+<!--                &lt;!&ndash; Password Change Button &ndash;&gt;-->
+<!--                <button onclick="promptPasswordChange('{{ user.id }}')" class="btn btn-primary">Change Password</button>-->
+
+<!--                &lt;!&ndash; Update Groups Button &ndash;&gt;-->
+<!--                <button type="button" class="btn btn-secondary update-groups-button" data-toggle="modal" data-target="#groupChangeModal" data-user-id="{{ user.id }}">Update Groups</button>-->
+
+<!--                &lt;!&ndash; Delete User Form &ndash;&gt;-->
+<!--                <form method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">-->
+<!--                    {% csrf_token %}-->
+<!--                    <input type="hidden" name="user_id" value="{{ user.id }}">-->
+<!--                    <input type="checkbox" name="confirm_deletion">-->
+<!--                    <button type="submit" name="delete_user" class="btn btn-danger">Delete User</button>-->
+<!--                </form>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        {% endfor %}-->
+<!--        </tbody>-->
+<!--    </table>-->
+
+<!--    <a href="/dashboard/dash_reg/">-->
+<!--        <button class="btn btn-primary">Registration</button>-->
+<!--    </a>-->
+<!--</div>-->
+
+<!--<div class="modal fade" id="groupChangeModal" tabindex="-1" role="dialog" aria-labelledby="groupChangeModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="groupChangeModalLabel">Update Groups</h5>-->
+<!--                <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                    <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--            </div>-->
+
+<!--            <form name="update_groups" method="post">-->
+<!--                {% csrf_token %}-->
+<!--                <div class="modal-body">-->
+<!--                    &lt;!&ndash; Checkboxes for each group &ndash;&gt;-->
+<!--                    {% for group in groups %}-->
+<!--                        <div class="form-check">-->
+<!--                            <input class="form-check-input" type="checkbox" name="update_groups" value="{{ group }}" id="group{{ group }}">-->
+<!--                            <label class="form-check-label">-->
+<!--                                {{ group }}-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                    {% endfor %}-->
+<!--                </div>-->
+<!--                <input type="hidden" name="user_id" id="user_id">-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                    <button type="submit" class="btn btn-primary">Save changes</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<!--<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>-->
+
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        $(document).on('click', '.update-groups-button', function() {-->
+<!--            var userId = $(this).data('user-id');-->
+<!--            $('#user_id').val(userId);-->
+
+<!--            // Pre-select the checkboxes based on user's current groups-->
+<!--            var userGroups = $(this).closest('tr').find('.user-groups').data('usergroups').split(',');-->
+<!--            $('.form-check-input').each(function() {-->
+<!--                $(this).prop('checked', userGroups.includes($(this).val()));-->
+<!--            });-->
+<!--        });-->
+
+<!--        $('#buttons-datatables').DataTable();-->
+
+<!--        setTimeout(function() {-->
+<!--            $('.alert').fadeOut('slow');-->
+<!--        }, 2000); // Adjust the time as needed-->
+<!--    });-->
+
+<!--    function promptPasswordChange(userId) {-->
+<!--        var newPassword = prompt("Please enter new password:");-->
+<!--        if (newPassword) {-->
+<!--            submitForm(userId, 'change_password', newPassword);-->
+<!--        }-->
+<!--    }-->
+
+<!--    function submitForm(userId, action, data) {-->
+<!--        var form = document.createElement('form');-->
+<!--        form.method = 'post';-->
+<!--        form.style.display = 'none';-->
+<!--        document.body.appendChild(form);-->
+
+<!--        form.innerHTML = '<input type="hidden" name="user_id" value="' + userId + '">' +-->
+<!--                          '<input type="hidden" name="' + action + '" value="' + data + '">' +-->
+<!--                          '{% csrf_token %}';-->
+<!--        form.submit();-->
+<!--    }-->
+<!--</script>-->
+<!--{% endblock %}-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% extends 'dashboard/base.html' %}
 {% load static %}
 {% block content %}
@@ -16,93 +187,83 @@
     {% endfor %}
 </div>
 {% endif %}
-<div class="container-fluid mt-5 ">
-    <div class="row justify-content-center d-flex align-items-start" style="height:100vh;">
-        <div class="col-md-8">
-            <div class="card p-3">
-                <table id="buttons-datatables" class="table table-bordered dt-responsive nowrap table-striped align-left"
-                       style="width: 100%">
-                    <thead>
-                    <tr>
-                        <th>S.no</th>
-                        
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Groups</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for user in users %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        
-                        <td>{{ user.first_name }}</td>
-                        <td>{{ user.email }}</td>
-                        <td class="user-groups" data-usergroups="{{ user.groups.all|join:',' }}">{{ user.groups.all|join:", " }}</td>
-                        <td>
-                            <!-- Password Change Button -->
-                            <button onclick="promptPasswordChange('{{ user.id }}')" class="btn btn-primary">Change Password</button>
-            
-                            <!-- Update Groups Button -->
-                            <button type="button" class="btn btn-secondary update-groups-button" data-toggle="modal" data-target="#groupChangeModal" data-user-id="{{ user.id }}">Update Groups</button>
-            
-                            <!-- Delete User Form -->
-                            <form method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
-                                {% csrf_token %}
-                                <input type="hidden" name="user_id" value="{{ user.id }}">
-                                <input type="checkbox" name="confirm_deletion">
-                                <button type="submit" name="delete_user" class="btn btn-danger">Delete User</button>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            
-                <a href="/dashboard/dash_reg/">
-                    <button class="btn btn-primary">Registration</button>
-                </a>
-            </div>
-            
-            <div class="modal fade" id="groupChangeModal" tabindex="-1" role="dialog" aria-labelledby="groupChangeModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="groupChangeModalLabel">Update Groups</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-            
-                        <form name="update_groups" method="post">
-                            {% csrf_token %}
-                            <div class="modal-body">
-                                <!-- Checkboxes for each group -->
-                                {% for group in groups %}
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="update_groups" value="{{ group }}" id="group{{ group }}">
-                                        <label class="form-check-label">
-                                            {{ group }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <input type="hidden" name="user_id" id="user_id">
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
+<div class="card p-3">
+    <table id="buttons-datatables" class="table table-bordered dt-responsive nowrap table-striped align-left"
+           style="width: 100%">
+        <thead>
+        <tr>
+            <th>S.no</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Groups</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td class="user-groups" data-usergroups="{{ user.groups.all|join:',' }}">{{ user.groups.all|join:", " }}</td>
+            <td>
+                <!-- Password Change Button -->
+                <button onclick="promptPasswordChange('{{ user.id }}')" class="btn btn-warning">Change Password</button>
 
+                <!-- Update Groups Button -->
+                <button type="button" class="btn btn-info update-groups-button" data-toggle="modal" data-target="#groupChangeModal" data-user-id="{{ user.id }}">Update Groups</button>
+
+                <!-- Delete User Form -->
+                <form method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="checkbox" name="confirm_deletion">
+                    <button type="submit" name="delete_user" class="btn btn-danger">Delete User</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/dashboard/dash_reg/">
+        <button class="btn btn-success">Registration</button>
+    </a>
 </div>
 
+<div class="modal fade" id="groupChangeModal" tabindex="-1" role="dialog" aria-labelledby="groupChangeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="groupChangeModalLabel">Update Groups</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form name="update_groups" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <!-- Checkboxes for each group -->
+                    {% for group in groups %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="update_groups" value="{{ group }}" id="group{{ group }}">
+                            <label class="form-check-label">
+                                {{ group }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="user_id" id="user_id">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

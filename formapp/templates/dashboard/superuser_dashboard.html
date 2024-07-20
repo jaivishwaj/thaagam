@@ -1,0 +1,26 @@
+<!-- templates/superuser_dashboard.html -->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Superuser Dashboard</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Superuser Dashboard</h1>-->
+<!--    <ul>-->
+<!--        {% for staff_member in staff_members %}-->
+<!--            <li><a href="{% url 'staff_dashboard' staff_member.id %}">{{ staff_member.username }}</a></li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+<!--</body>-->
+<!--</html>-->
+
+<!-- superuser_dashboard.html -->
+<h1>Superuser Dashboard</h1>
+<ul>
+    {% for staff_member in staff_members %}
+        <li><a href="{% url 'staff_dashboard' staff_member.id %}">{{ staff_member.username }}</a></li>
+    {% endfor %}
+</ul>

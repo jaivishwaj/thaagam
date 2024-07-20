@@ -148,16 +148,23 @@ class FollowUPForm(forms.ModelForm):
         fields = '__all__'
  
  
+class PersonalInfoForm(forms.ModelForm):
+    class Meta:
+        model = PersonalInfo
+        fields = '__all__'
+
+class StaffMovementForm(forms.ModelForm):
+    class Meta:
+        model = StaffMovement
+        fields = '__all__'
+
+# class userprofileForm(forms.ModelForm):
+#     class Meta:
+#         model = userprofile
+#         fields = '__all__'
  
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+class userprofileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'

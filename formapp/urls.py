@@ -1,6 +1,8 @@
 from django.urls import path
 from formapp import views
+
 from django.conf import settings
+# from .views import superuser_dashboard, staff_dashboard
 
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -80,8 +82,7 @@ urlpatterns = [
     path('case_work_dashboard/', views.case_work_dashboard, name='case_work_dashboard'),
     path('follow_up/', views.follow_up, name='follow_up'),
     path('followup_dashboard/', views.followup_dashboard, name='followup_dashboard'),
-    
-    # Other URL patterns...
+
     
 ]
 
