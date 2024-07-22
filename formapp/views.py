@@ -102,7 +102,7 @@ def logout_view(request):
 
 
 
-
+@login_required(login_url='login')
 def home(request):
     user = None
     if 'user' in request.session:
@@ -114,6 +114,7 @@ def home(request):
 
 from django.contrib.auth import authenticate,login
 @csrf_exempt
+@login_required(login_url='login')
 def accident_register_form(request):
     user = None
     if 'user' in request.session:
@@ -156,7 +157,7 @@ def accident_register_form(request):
 
 # from django.shortcuts import objects
 @csrf_exempt
-
+@login_required(login_url='login')
 def accident_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -167,7 +168,7 @@ def accident_register_dashboard(request):
       return render( request, "dashboard/accident_register_dashboard.html", {"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def reintegration_form(request):
     user = None
     if 'user' in request.session:
@@ -228,7 +229,7 @@ def reintegration_form(request):
 
 
 
-
+@login_required(login_url='login')
 def reintegration_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -240,7 +241,7 @@ def reintegration_register_dashboard(request):
 
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def visitor_register_form(request):
     user = None
     if 'user' in request.session:
@@ -274,7 +275,7 @@ def visitor_register_form(request):
         datas = VisitorRegister.objects.all().order_by('-created_at')
     return render(request, "visitor_registration.html",{'user': user, 'data': datas})
 
-
+@login_required(login_url='login')
 def visitor_registration_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -286,7 +287,7 @@ def visitor_registration_dashboard(request):
         request, "dashboard/visitor_registration_dashboard.html", {"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def performance_appraisal_form(request):
     user = None
     if 'user' in request.session:
@@ -332,7 +333,7 @@ def performance_appraisal_form(request):
     return render(request, "performance_appraisal.html",{'user': user, 'Performance': Performance})
 
 
-
+@login_required(login_url='login')
 def performance_appraisal_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -345,7 +346,7 @@ def performance_appraisal_dashboard(request):
 
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def provision_form(request):
     user= None
     if 'user' in request.session:
@@ -374,7 +375,7 @@ def provision_form(request):
 
     return render(request, 'provision.html',{'user': user,'provision': provision})
 
-
+@login_required(login_url='login')
 def provision_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -389,7 +390,7 @@ def provision_dashboard(request):
         request, "dashboard/provision_dashboard.html", {"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def resident_form(request):
     user = None
     if 'user' in request.session:
@@ -420,7 +421,7 @@ def resident_form(request):
         resident = Resident.objects.all().order_by('-created_at')
     return render(request, "resident_attendance.html",{'user': user,'resident': resident})
 
-
+@login_required(login_url='login')
 def resident_attendance_form_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -432,7 +433,7 @@ def resident_attendance_form_dashboard(request):
         request, "dashboard/resident_attendance_form_dashboard.html", {"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def social_entertainment_form(request):
     user = None
     if 'user' in request.session:
@@ -460,7 +461,7 @@ def social_entertainment_form(request):
 
     return render(request, "social_entertainment_record.html",{'user': user,'social': social})
 
-
+@login_required(login_url='login')
 def social_entertainment_form_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -472,7 +473,7 @@ def social_entertainment_form_dashboard(request):
         request, "dashboard/social_entertainment_form_dashboard.html", {"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def inspection_register(request):
     user = None
     if 'user' in request.session:
@@ -508,7 +509,7 @@ def inspection_register(request):
     return render(request, "inspection_register.html",{'user': user,'inspection': inspection})
 
 
-
+@login_required(login_url='login')
 def inspection_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -520,7 +521,7 @@ def inspection_register_dashboard(request):
 
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def case_history_form(request):
     print("case history form",request.POST)
     user = None
@@ -593,7 +594,7 @@ def case_history_form(request):
     return render(request,'case_history.html',{'user': user,'case': case})
 
 
-
+@login_required(login_url='login')
 def case_history_record_dashboard(request):
     if not request.user.is_authenticated:
        return redirect("login")
@@ -604,7 +605,7 @@ def case_history_record_dashboard(request):
 
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def personal_info_form(request):
     user = None
     if 'user' in request.session:
@@ -663,7 +664,7 @@ def personal_info_form(request):
     return render(request, "personal_information.html",{'user': user,'personalinfo': personalinfo})
 
 
-
+@login_required(login_url='login')
 def personal_info_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -676,7 +677,7 @@ def personal_info_dashboard(request):
 
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def actionplan_register_form(request):
     user = None
     if 'user' in request.session:
@@ -704,7 +705,7 @@ def actionplan_register_form(request):
     return render(request, "actionplan_register.html",{'user': user,'action': action})
 
 
-
+@login_required(login_url='login')
 def action_plan_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -715,7 +716,7 @@ def action_plan_dashboard(request):
      return render(request, "dashboard/action_plan_dashboard.html",{"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def awarnes_register_form(request):
     user = None
     if 'user' in request.session:
@@ -747,7 +748,7 @@ def awarnes_register_form(request):
 
     return render(request, "awarnes_register.html",{'user': user,'awarnes': awarnes})
 
-
+@login_required(login_url='login')
 def awarnes_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -759,6 +760,7 @@ def awarnes_register_dashboard(request):
 
 
 @csrf_exempt
+@login_required(login_url='login')
 def asset_form(request):
     user = None
     if 'user' in request.session:
@@ -797,6 +799,8 @@ def asset_form(request):
         asset = Asset.objects.all().order_by('-created_at')
 
     return render(request, "asset.html",{'user': user,'asset': asset})
+
+@login_required(login_url='login')
 def asset_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -807,7 +811,7 @@ def asset_register_dashboard(request):
      return render(request, "dashboard/asset_register_dashboard.html",{"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def bp_pulsenote(request):
     user = None
     if 'user' in request.session:
@@ -836,7 +840,7 @@ def bp_pulsenote(request):
 
     return render(request, "bp_pulsenote.html",{'user': user,'bp': bp})
 
-
+@login_required(login_url='login')
 def bp_form_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -847,7 +851,7 @@ def bp_form_dashboard(request):
      return render(request, "dashboard/bp_form_dashboard.html",{"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def counselling_register_form(request):
     user = None
     if 'user' in request.session:
@@ -881,7 +885,7 @@ def counselling_register_form(request):
 
     return render(request, "counselling_register.html",{'user': user,'counselling': counselling})
 
-
+@login_required(login_url='login')
 def counselling_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -892,7 +896,7 @@ def counselling_register_dashboard(request):
      return render(request, "dashboard/counselling_register_dashboard.html", {"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def medical_camp_form(request):
     user = None
     if 'user' in request.session:
@@ -928,7 +932,7 @@ def medical_camp_form(request):
 
     return render(request, "medical_camp.html",{'user': user,'medical': medical})
 
-
+@login_required(login_url='login')
 def medical_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -940,7 +944,7 @@ def medical_register_dashboard(request):
 
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def medicine_form(request):
     user = None
     if 'user' in request.session:
@@ -970,7 +974,7 @@ def medicine_form(request):
 
     return render(request, "medicine.html",{'user': user,'medicine': medicine})
 
-
+@login_required(login_url='login')
 def medicine_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -981,7 +985,7 @@ def medicine_register_dashboard(request):
      return render(request, "dashboard/medicine_register_dashboard.html",{"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def night_survey_form(request):
     user = None
     if 'user' in request.session:
@@ -1012,7 +1016,7 @@ def night_survey_form(request):
     return render(request, "night_survey.html",{'user': user,'night': night})
 
 
-
+@login_required(login_url='login')
 def night_survey_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1023,7 +1027,7 @@ def night_survey_dashboard(request):
      return render(request, "dashboard/night_survey_dashboard.html",{"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def skill_training_form(request):
     user = None
     if 'user' in request.session:
@@ -1049,7 +1053,7 @@ def skill_training_form(request):
 
     return render(request, "skill_training.html",{'user': user,'skill': skill})
 
-
+@login_required(login_url='login')
 def skill_training_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1060,7 +1064,7 @@ def skill_training_dashboard(request):
      return render(request, "dashboard/skill_training_dashboard.html",{"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def smc_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1100,7 +1104,7 @@ def smc_register_form(request):
 
     return render(request, "smc_register.html",{'user': user,'smc': smc})
 
-
+@login_required(login_url='login')
 def smc_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1111,7 +1115,7 @@ def smc_register_dashboard(request):
      return render(request, "dashboard/smc_register_dashboard.html",{"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def staff_attendance_form(request):
     user = None
     if 'user' in request.session:
@@ -1145,7 +1149,7 @@ def staff_attendance_form(request):
         staffatt = StaffAttendance.objects.all().order_by('-created_at')
     return render(request, "staff_attendance.html",{'user': user,'staffatt': staffatt})
 
-
+@login_required(login_url='login')
 def staff_attendance_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1157,7 +1161,7 @@ def staff_attendance_register_dashboard(request):
           request, "dashboard/staff_attendance_register_dashboard.html", {"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def stock_form(request):
     user = None
     if 'user' in request.session:
@@ -1187,7 +1191,7 @@ def stock_form(request):
 
     return render(request, "stock_register.html",{'user': user,'stock': stock})
 
-
+@login_required(login_url='login')
 def stock_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1198,7 +1202,7 @@ def stock_register_dashboard(request):
      return render(request, "dashboard/stock_register_dashboard.html",{"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def employment_link_form(request):
     user = None
     if 'user' in request.session:
@@ -1237,7 +1241,7 @@ def employment_link_form(request):
 
     return render(request, "employment_link.html",{'user': user,'employmenyt': employmenyt})
 
-
+@login_required(login_url='login')
 def employment_linkage_form_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1250,7 +1254,7 @@ def employment_linkage_form_dashboard(request):
 
 from django.utils import timezone
 @csrf_exempt
-
+@login_required(login_url='login')
 def rehabitation_form(request):
     user = None
     if 'user' in request.session:
@@ -1317,6 +1321,7 @@ def rehabitation_form(request):
 
     return render(request, "rehabitation.html", {'user': user, 'rehab': rehab, 'today_rehab': today_rehab})
 
+@login_required(login_url='login')
 def rehabitation_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1327,7 +1332,7 @@ def rehabitation_dashboard(request):
      return render(request, "dashboard/rehabitation_dashboard.html",{"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def death_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1363,7 +1368,7 @@ def death_register_form(request):
         death = DeathRegister.objects.all().order_by('-created_at')
     return render(request, "death_register.html",{'user': user,'death': death})
 
-
+@login_required(login_url='login')
 def death_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1374,7 +1379,7 @@ def death_register_dashboard(request):
      return render(request, "dashboard/death_register_dashboard.html", {"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def food_menu_form(request):
     user = None
     if 'user' in request.session:
@@ -1410,7 +1415,7 @@ def food_menu_form(request):
         food = FoodMenu.objects.all().order_by('-created_at')
     return render(request, "food_menu.html",{'user': user,'food': food})
 
-
+@login_required(login_url='login')
 def food_menu_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1421,7 +1426,7 @@ def food_menu_dashboard(request):
        return render(request, "dashboard/food_menu_dashboard.html", {"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def salary_register_form(request):
     user = None
     if 'user' in request.session:
@@ -1445,7 +1450,7 @@ def salary_register_form(request):
         salary = SalaryRegister.objects.all().order_by('-created_at')
     return render(request, "salary_register.html",{'user': user,'salary': salary})
 
-
+@login_required(login_url='login')
 def salary_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1456,7 +1461,7 @@ def salary_register_dashboard(request):
        return render(request, "dashboard/salary_register_dashboard.html",{"data": datas})
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def staff_movement_form(request):
         user = None
         if 'user' in request.session:
@@ -1489,7 +1494,7 @@ def staff_movement_form(request):
         return render(request, "staff_movement_note.html",{'user': user,'staffmov': staffmov})
 
 # @login_required(login_url='/login/')
-
+@login_required(login_url='login')
 def staff_movement_note_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1501,7 +1506,7 @@ def staff_movement_note_dashboard(request):
 
 
 @csrf_exempt
-
+@login_required(login_url='login')
 def master_records_form(request):
     user = None
     if 'user' in request.session:
@@ -1586,13 +1591,13 @@ def master_records_form(request):
         return redirect("master_records_dashboard")
     else:
         messages.info(request, 'The form is not saved. Please re-enter the form')
-        master = MasterRecords.objects.all().order_by('created_at')
+        master = MasterRecords.objects.all()
 
     return render(request, "master_records.html", {"user": user, "master": master})
 
 
 
-
+@login_required(login_url='login')
 def master_records_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
@@ -1606,7 +1611,7 @@ def master_records_dashboard(request):
 
 import openpyxl
 
-
+@login_required(login_url='login')
 def download_master_records_excel(request):
     # Fetch all master records from the database
     master_records = MasterRecords.objects.all()
@@ -1700,13 +1705,33 @@ def download_master_records_excel(request):
 #                                                       'socialentform':socialentform,'resident':resident,'perfomance':perfomance,
 #                                                       'staffmovement':staffmovement,'staffatt':staffatt,'personalinfo':personalinfo,
 #                                                       'emplink':emplink,'rehab':rehab,'death':death,'skill':skill})
-@login_required
+
 # @permission_required('formapp.can_view_dashboard', raise_exception=True)
+@login_required(login_url='login')
+# def search_results(request):
+#     query_param = request.GET.get('uqid', '')
+#     records = {}
+#
+#     models_to_search = [
+#         AccidentRegister, CaseHistory, Reintegration, SalaryRegister,
+#         Medicine, MedicalCamp, CounsellingRegister, BpPulsenote,
+#         AwarnesRegister, SocialEntertainment, Resident, PerformanceAppraisal,
+#         StaffMovement, StaffAttendance, PersonalInfo, EmploymentLink,
+#         Rehabitation, DeathRegister, SkillTraining
+#     ]
+#
+#     for model in models_to_search:
+#         records[model.__name__.lower()] = model.objects.filter(uqid__icontains=query_param)
+#
+#     return render(request, 'dashboard/records.html', {'records': records})
+
+
 
 def search_results(request):
     query_param = request.GET.get('uqid', '')
     records = {}
 
+    # List of models to search
     models_to_search = [
         AccidentRegister, CaseHistory, Reintegration, SalaryRegister,
         Medicine, MedicalCamp, CounsellingRegister, BpPulsenote,
@@ -1716,13 +1741,37 @@ def search_results(request):
     ]
 
     for model in models_to_search:
-        records[model.__name__.lower()] = model.objects.filter(uqid__icontains=query_param)
+        model_name = model.__name__.lower()
+        # Search records by 'uqid'
+        results = model.objects.filter(uqid__icontains=query_param)
+        if results.exists():
+            records[model_name] = results
 
     return render(request, 'dashboard/records.html', {'records': records})
 
 
-@csrf_exempt
+def download_excel(records):
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Search Results"
 
+    # Write headers
+    ws.append(['Model', 'ID', 'Fields'])
+
+    # Write data
+    for model_name, queryset in records.items():
+        for record in queryset:
+            row = [model_name] + [record.id] + [', '.join(str(getattr(record, field.name)) for field in record._meta.fields)]
+            ws.append(row)
+
+    response = HttpResponse(content=save_virtual_workbook(wb), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=search_results.xlsx'
+    return response
+
+
+
+@csrf_exempt
+@login_required(login_url='login')
 def case_work(request):
     user = None
     if 'user' in request.session:
@@ -1834,7 +1883,7 @@ def case_work(request):
     return render(request,'case_work.html',{'user':user,'case_work':case_work})
 
 
-
+@login_required(login_url='login')
 def case_work_dashboard(request):
     if not request.user.is_authenticated:
         return redirect("login")
@@ -1843,7 +1892,7 @@ def case_work_dashboard(request):
         datas = CaseWork.objects.filter(user=logged_in_username)
         return render(request, "dashboard/case_work_dashboard.html", {"data": datas})
 @csrf_exempt
-@login_required
+@login_required(login_url='login')
 def follow_up(request):
     user = None
     if 'user' in request.session:
@@ -1873,7 +1922,7 @@ def follow_up(request):
     return render(request,'followup.html',{'user':user,'follow_up':follow_up})
 
 
-
+@login_required(login_url='login')
 def followup_dashboard(request):
     if not request.user.is_authenticated:
         return redirect("login")

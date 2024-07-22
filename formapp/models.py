@@ -512,7 +512,8 @@ class MasterRecords(models.Model):
     police_Station = models.CharField(max_length=100, blank=True, null=True)
     Fact_finding = models.TextField()
     Signature = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
 
   
     def __str__(self):
