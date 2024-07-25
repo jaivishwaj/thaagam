@@ -1526,6 +1526,7 @@ def master_records_form(request):
         Identification_Mark = request.POST.get("Identification_Mark")
         Identification_Papers = request.POST.get("Identification_Papers")
         Rehabilitation_Measures = request.POST.get("Rehabilitation_Measures")
+        Date_Of_Leaving_Shelter = request.POST.get("Date_Of_Leaving_Shelter")
         Reason_For_Leaving_Shelter = request.POST.get("Reason_For_Leaving_Shelter")
         Action_takenup = request.POST.get("Action_takenup")
         Follow_Up_Action = request.POST.get("Follow_Up_Action")
@@ -1573,6 +1574,7 @@ def master_records_form(request):
             Identification_Mark=Identification_Mark,
             Identification_Papers=Identification_Papers,
             Rehabilitation_Measures=Rehabilitation_Measures,
+            Date_Of_Leaving_Shelter=Date_Of_Leaving_Shelter,
             Reason_For_Leaving_Shelter=Reason_For_Leaving_Shelter,
             Action_takenup=Action_takenup,
             Follow_Up_Action=Follow_Up_Action,
@@ -1652,62 +1654,62 @@ def download_master_records_excel(request):
     return response
 
 @csrf_exempt
-#
-# def search_results(request):
-#     accidentform = None
-#     casehistory = None
-#     reintegrationform = None
-#     salaryform = None
-#     medicineform = None
-#     medicalform = None
-#     counsellingform = None
-#     bpform = None
-#     awarnesform = None
-#     socialentform = None
-#     resident = None
-#     perfomance = None
-#     staffmovement = None
-#     staffatt = None
-#     personalinfo = None
-#     emplink = None
-#     rehab = None
-#     death = None
-#     skill = None
+@login_required(login_url='login')
+def search_results(request):
+    accidentform = None
+    casehistory = None
+    reintegrationform = None
+    salaryform = None
+    medicineform = None
+    medicalform = None
+    counsellingform = None
+    bpform = None
+    awarnesform = None
+    socialentform = None
+    resident = None
+    perfomance = None
+    staffmovement = None
+    staffatt = None
+    personalinfo = None
+    emplink = None
+    rehab = None
+    death = None
+    skill = None
 
-#     if 'uqid' in request.GET:
-#         uqid = request.GET['uqid']
-#         # Fetch all records matching the uqid
-#         accidentform = AccidentRegister.objects.filter(uqid__icontains=uqid)
-#         casehistory = CaseHistory.objects.filter(uqid__icontains=uqid)
-#         reintegrationform = Reintegration.objects.filter(uqid__icontains=uqid)
-#         salaryform = SalaryRegister .objects.filter(uqid__icontains=uqid)
-#         medicineform = Medicine.objects.filter(uqid__icontains=uqid)
-#         medicalform = MedicalCamp.objects.filter(uqid__icontains=uqid)
-#         counsellingform = CounsellingRegister.objects.filter(uqid__icontains=uqid)
-#         bpform = BpPulsenote.objects.filter(uqid__icontains=uqid)
-#         awarnesform = AwarnesRegister.objects.filter(uqid__icontains=uqid)
-#         socialentform = SocialEntertainment.objects.filter(uqid__icontains=uqid)
-#         resident = Resident.objects.filter(uqid__icontains=uqid)
-#         perfomance = PerformanceAppraisal.objects.filter(uqid__icontains=uqid)
-#         staffmovement = StaffMovement.objects.filter(uqid__icontains=uqid)
-#         staffatt = StaffAttendance.objects.filter(uqid__icontains=uqid)
-#         personalinfo = PersonalInfo.objects.filter(uqid__icontains=uqid)
-#         emplink = EmploymentLink.objects.filter(uqid__icontains=uqid)
-#         rehab = Rehabitation.objects.filter(uqid__icontains=uqid)
-#         death = DeathRegister.objects.filter(uqid__icontains=uqid)
-#         skill = SkillTraining.objects.filter(uqid__icontains=uqid)
+    if 'uqid' in request.GET:
+        uqid = request.GET['uqid']
+        # Fetch all records matching the uqid
+        accidentform = AccidentRegister.objects.filter(uqid__icontains=uqid)
+        casehistory = CaseHistory.objects.filter(uqid__icontains=uqid)
+        reintegrationform = Reintegration.objects.filter(uqid__icontains=uqid)
+        salaryform = SalaryRegister .objects.filter(uqid__icontains=uqid)
+        medicineform = Medicine.objects.filter(uqid__icontains=uqid)
+        medicalform = MedicalCamp.objects.filter(uqid__icontains=uqid)
+        counsellingform = CounsellingRegister.objects.filter(uqid__icontains=uqid)
+        bpform = BpPulsenote.objects.filter(uqid__icontains=uqid)
+        awarnesform = AwarnesRegister.objects.filter(uqid__icontains=uqid)
+        socialentform = SocialEntertainment.objects.filter(uqid__icontains=uqid)
+        resident = Resident.objects.filter(uqid__icontains=uqid)
+        perfomance = PerformanceAppraisal.objects.filter(uqid__icontains=uqid)
+        staffmovement = StaffMovement.objects.filter(uqid__icontains=uqid)
+        staffatt = StaffAttendance.objects.filter(uqid__icontains=uqid)
+        personalinfo = PersonalInfo.objects.filter(uqid__icontains=uqid)
+        emplink = EmploymentLink.objects.filter(uqid__icontains=uqid)
+        rehab = Rehabitation.objects.filter(uqid__icontains=uqid)
+        death = DeathRegister.objects.filter(uqid__icontains=uqid)
+        skill = SkillTraining.objects.filter(uqid__icontains=uqid)
 
-#         print('accidentform,',accidentform)
+        print('accidentform,',accidentform)
 
-#     return render(request, 'dashboard/records.html', {'accident': accidentform, 'casehistory': casehistory, 'reintegration': reintegrationform,
-#                                                       'salaryform': salaryform,'medicineform':medicineform,'medicalform':medicalform,
-#                                                       'counsellingform':counsellingform,'bpform':bpform,'awarnesform':awarnesform,
-#                                                       'socialentform':socialentform,'resident':resident,'perfomance':perfomance,
-#                                                       'staffmovement':staffmovement,'staffatt':staffatt,'personalinfo':personalinfo,
-#                                                       'emplink':emplink,'rehab':rehab,'death':death,'skill':skill})
+    return render(request, 'dashboard/records.html', {'accident': accidentform, 'casehistory': casehistory, 'reintegration': reintegrationform,
+                                                      'salaryform': salaryform,'medicineform':medicineform,'medicalform':medicalform,
+                                                      'counsellingform':counsellingform,'bpform':bpform,'awarnesform':awarnesform,
+                                                      'socialentform':socialentform,'resident':resident,'perfomance':perfomance,
+                                                      'staffmovement':staffmovement,'staffatt':staffatt,'personalinfo':personalinfo,
+                                                      'emplink':emplink,'rehab':rehab,'death':death,'skill':skill})
 
 # @permission_required('formapp.can_view_dashboard', raise_exception=True)
-@login_required(login_url='login')
+
 # def search_results(request):
 #     query_param = request.GET.get('uqid', '')
 #     records = {}
@@ -1726,28 +1728,28 @@ def download_master_records_excel(request):
 #     return render(request, 'dashboard/records.html', {'records': records})
 
 
-
-def search_results(request):
-    query_param = request.GET.get('uqid', '')
-    records = {}
-
-    # List of models to search
-    models_to_search = [
-        AccidentRegister, CaseHistory, Reintegration, SalaryRegister,
-        Medicine, MedicalCamp, CounsellingRegister, BpPulsenote,
-        AwarnesRegister, SocialEntertainment, Resident, PerformanceAppraisal,
-        StaffMovement, StaffAttendance, PersonalInfo, EmploymentLink,
-        Rehabitation, DeathRegister, SkillTraining
-    ]
-
-    for model in models_to_search:
-        model_name = model.__name__.lower()
-        # Search records by 'uqid'
-        results = model.objects.filter(uqid__icontains=query_param)
-        if results.exists():
-            records[model_name] = results
-
-    return render(request, 'dashboard/records.html', {'records': records})
+#
+# def search_results(request):
+#     query_param = request.GET.get('uqid', '')
+#     records = {}
+#
+#     # List of models to search
+#     models_to_search = [
+#         AccidentRegister, CaseHistory, Reintegration, SalaryRegister,
+#         Medicine, MedicalCamp, CounsellingRegister, BpPulsenote,
+#         AwarnesRegister, SocialEntertainment, Resident, PerformanceAppraisal,
+#         StaffMovement, StaffAttendance, PersonalInfo, EmploymentLink,
+#         Rehabitation, DeathRegister, SkillTraining
+#     ]
+#
+#     for model in models_to_search:
+#         model_name = model.__name__.lower()
+#         # Search records by 'uqid'
+#         results = model.objects.filter(uqid__icontains=query_param)
+#         if results.exists():
+#             records[model_name] = results
+#
+#     return render(request, 'dashboard/records.html', {'records': records})
 
 
 def download_excel(records):
@@ -1944,8 +1946,8 @@ def custom_404(request, exception):
 
 
 
-from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.models import Group
+# from django.contrib.auth.decorators import login_required, permission_required
+# from django.contrib.auth.models import Group
 
 # @login_required
 # @permission_required('formapp.dashboard', raise_exception=True)

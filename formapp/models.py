@@ -502,6 +502,7 @@ class MasterRecords(models.Model):
     Identification_Mark = models.CharField(max_length=100)
     Identification_Papers = models.CharField(max_length=100)
     Rehabilitation_Measures = models.TextField()
+    Date_Of_Leaving_Shelter = models.DateField(null=True, blank=True)
     Reason_For_Leaving_Shelter = models.TextField()
     Action_takenup = models.TextField(null=True, blank=True)
     Follow_Up_Action = models.TextField()
