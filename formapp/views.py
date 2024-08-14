@@ -1,11 +1,10 @@
 from collections import UserDict
 from datetime import timezone
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django.contrib.auth import login, logout
 
 from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 
@@ -18,16 +17,15 @@ from django.conf import settings
 
 from django.urls import reverse
 
-
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Provision
 
 from django.contrib.auth import logout
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
 # from .models import userprofile
 
+from django.contrib.auth.models import User
 
 
 from django.core.paginator import Paginator
@@ -37,78 +35,146 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import user_passes_test
 from django.utils import timezone
 import datetime
-from dashboard.models import Staff_UserAuth  as User
 
+from django.contrib.auth import authenticate, login
+
+
+
+from django.utils.decorators import method_decorator
 
 from .models import *
 
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User, Group
+from django.http import HttpResponseForbidden
+
+
+# @csrf_exempt
+# def signupuser(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         email = request.POST.get('email')
+#         mobile_number = request.POST.get('mobile_number')
+#         password = request.POST.get('password')
+#         confrimpassword = request.POST.get('confrimpassword')
+#
+#         User = get_user_model()  # Get the custom user model
+#         if not User.objects.filter(username=username).exists():
+#             # Create a new user instance and set the username
+#             user = User.objects.create_user(username= username,  password=password)
+#             Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
+#             # Save the user
+#             Userprofile.save()
+#             user.save()
+#             return redirect('login')  # Redirect to login upon successful registration
+#         else:
+#             # Authentication failed, handle accordingly (e.g., display an error message)
+#             messages.info(request, f'The Username Exit plz sign in with new username or try with different spelling')
+#             return redirect('signup')
+#
+#     return render(request, 'signup.html')
+#
+#
+#
+# @csrf_exempt
+# def loginuser(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')  # Assuming 'username' is the field name
+#         password = request.POST.get('password')
+#
+#         # Check if the user is an admin
+#         try:
+#             user = User.objects.get(username=username)
+#         except User.DoesNotExist:
+#             user = None
+#
+#         if user is not None and user.check_password(password):
+#             # User is an admin and authentication successful, log the user in
+#             login(request, user)
+#             # You can perform additional actions after login if needed
+#             request.session['user'] = user.username  # Storing username in session
+#             return redirect('home')  # Redirect to a success page (replace 'home' with your URL name)
+#         else:
+#             # Authentication failed or user is not an admin, handle accordingly (e.g., display an error message)
+#             messages.error(request, 'Invalid username or password for admin login.')
+#
+#     return render(request, 'login.html')
+
+
+
+
+
 @csrf_exempt
-def signupuser(request):
+def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
-        email = request.POST.get('email')
-        mobile_number = request.POST.get('mobile_number')
-        password = request.POST.get('password')
-        confrimpassword = request.POST.get('confrimpassword')
-
-        User = get_user_model()  # Get the custom user model
-        if not User.objects.filter(username=username).exists():
-            # Create a new user instance and set the username
-            user = User.objects.create_user(username= username,  password=password)
-            Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
-            # Save the user
-            Userprofile.save()
-            user.save()
-            return redirect('login')  # Redirect to login upon successful registration
-        else:
-            # Authentication failed, handle accordingly (e.g., display an error message)
-            messages.info(request, f'The Username Exit plz sign in with new username or try with different spelling')
-            return redirect('signup')
-
-    return render(request, 'signup.html')
-
-
-
-@csrf_exempt
-def loginuser(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')  # Assuming 'username' is the field name
         password = request.POST.get('password')
 
-        # Check if the user is an admin
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            user = None
+        # User = get_user_model()
+        user = authenticate(request, username=username, password=password)
 
-        if user is not None and user.check_password(password):
-            # User is an admin and authentication successful, log the user in
-            login(request, user)
-            # You can perform additional actions after login if needed
-            request.session['user'] = user.username  # Storing username in session
-            return redirect('home')  # Redirect to a success page (replace 'home' with your URL name)
+        if user is not None :
+            login(request, user)  # Correct usage: login(request, user)
+            request.session['user'] = user.username
+            if user.is_superuser:
+                return redirect('home')  # Redirect to dashboard if superuser
+            else:
+                return redirect('home')
+            # return redirect('home')  # Redirect to dashboard
         else:
-            # Authentication failed or user is not an admin, handle accordingly (e.g., display an error message)
-            messages.error(request, 'Invalid username or password for admin login.')
+            messages.error(request, 'Invalid username or password.')
 
     return render(request, 'login.html')
 
 
 
+
+@csrf_exempt
+@user_passes_test(lambda u: u.is_superuser)
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        is_superuser = request.POST.get('is_superuser') == 'on'
+        is_staff = request.POST.get('is_staff') == 'on'
+
+        User = get_user_model()
+
+        if password != confirm_password:
+            messages.error(request, 'Passwords do not match.')
+            return redirect('register')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists.')
+            return redirect('register')
+
+        user = User.objects.create_user(username=username, email=email, password=password, is_superuser=is_superuser, is_staff=is_staff)
+        user.save()
+        messages.success(request, 'User registered successfully.')
+        return redirect('login_user')
+
+    return render(request, 'signup.html')
+
+
 def logout_view(request):
     request.session.flush()
-    return redirect("login")
+    return redirect("login_user")
+
+from formapp.models import User
 
 
 
 
 @login_required(login_url='login')
+@user_passes_test(lambda u:u.is_staff or u.is_superuser)
 def home(request):
     user = None
     if 'user' in request.session:
         user = request.session['user']
     return render(request, "home.html",{'user': user})
-
 
 
 
@@ -158,14 +224,28 @@ def accident_register_form(request):
 # from django.shortcuts import objects
 @csrf_exempt
 @login_required(login_url='login')
+# def accident_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#        return redirect("login")
+#     else:
+#       logged_in_username = request.user.username
+#       datas = AccidentRegister.objects.filter(user=logged_in_username).order_by('-created_at')
+#       return render( request, "dashboard/accident_register_dashboard.html", {"data": datas})
+
 def accident_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
-       return redirect("login")
+        return redirect("login")
+
+    if request.user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = AccidentRegister.objects.all().order_by('-created_at')
     else:
-      logged_in_username = request.user.username
-      datas = AccidentRegister.objects.filter(user=logged_in_username)
-      return render( request, "dashboard/accident_register_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = AccidentRegister.objects.filter(user=request.user).order_by('-created_at')
+
+    return render(request, "dashboard/accident_register_dashboard.html", {"data": datas})
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -321,7 +401,6 @@ def performance_appraisal_form(request):
             death=death,
             end_strength=end_strength,
             rescue=rescue
-
 
         )
         data.save()
@@ -1938,70 +2017,44 @@ def custom_404(request, exception):
     return render(request, '404.html', status=404)
 
 
+@user_passes_test(lambda u:u.is_superuser)
+def dashboard(request):
+    users = User.objects.all()
+    return render(request, 'dashboard.html', {'users': users})
 
-######## webp formate ######
-
-
-
-
-
-
-# from django.contrib.auth.decorators import login_required, permission_required
-# from django.contrib.auth.models import Group
-
-# @login_required
-# @permission_required('formapp.dashboard', raise_exception=True)
-# def dashboard(request):
-#     inspection = Inspectionregister.objects.all()
-#     provi = Provision.objects.all()
-#     reintegration = Reintegration.objects.all()
-#     Salary = SalaryRegister.objects.all()
-#     Inspection = Inspectionregister.objects.all()
-#     visitor = VisitorRegister.objects.all()
-#     perfomance = PerformanceAppraisal.objects.all()
-#     resident = Resident.objects.all()
-#     social = SocialEntertainment.objects.all()
-#     casehistory = CaseHistory.objects.all()
-#     accident = AccidentRegister.objects.all()
-#     actionplan = ActionplanRegister.objects.all()
-#     awarness = AwarnesRegister.objects.all()
-#     bp = BpPulsenote.objects.all()
-#     rehab = Rehabitation.objects.all()
-#     death = DeathRegister.objects.all()
-#     night = NightSurvey.objects.all()
-#     skill = SkillTraining.objects.all()
-#     smc = SmcRegister.objects.all()
-#     staff = StaffAttendance.objects.all()
-#     case = CaseWork.objects.all()
-#     followup = FollowUP.objects.all()
+from django.views.decorators.http import require_POST
 
 
-#     context = {
-#         'provi': provi,
-#         'reintegration': reintegration,
-#         'Salary': Salary,
-#         'Inspection': Inspection,
-#         'visitor': visitor,
-#         'perfomance': perfomance,
-#         'resident': resident,
-#         'social': social,
-#         'casehistory': casehistory,
-#         'accident': accident,
-#         'actionplan': actionplan,
-#         'awarness': awarness,
-#         'bp': bp,#         'rehab': rehab,
-#         'death': death,
-#         'night': night,
-#         'skill': skill,
-#         'smc': smc,
-#         'staff': staff,
-#         'case': case,
-#         'followup': followup,
-#         'inspection': inspection
+@require_POST
+def update_user(request):
+    user_id = request.POST.get('user_id')
+    if not user_id:
+        messages.error(request, 'User ID is missing.')
+        return redirect('dashboard')  # Replace with your actual dashboard view name
 
-#     }
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        messages.error(request, 'User not found.')
+        return redirect('dashboard')  # Replace with your actual dashboard view name
 
+    username = request.POST.get('username')
+    email = request.POST.get('email')
 
-#     return render(request, 'dashboard/dashboard.html', context)
+    is_staff = 'is_staff' in request.POST
+    is_superuser = 'is_superuser' in request.POST
 
+    user.username = username
+    user.email = email
 
+    user.is_staff = is_staff
+    user.is_superuser = is_superuser
+    user.save()
+
+    messages.success(request, 'User updated successfully.')
+    return redirect('dashboard')  # Replace with your actual dashboard view name
+
+# View to display a user profile
+def user_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    return render(request, 'user_profile.html', {'user': user})

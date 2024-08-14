@@ -9,9 +9,12 @@ from django.conf import settings
 # from .views import master_records_form,master_records_dashboard,action_plan_dashboard,login_view,register_view,home,asset_form,provision_dashboard,reintegration_register_dashboard,staff_movement_form,accident_register_dashboard,provision_form,reintegration_form,visitor_register_form,performance_appraisal_form,resident_form,social_entertainment_form,case_history_form,actionplan_register_form,awarness_register_form,bp_pulsenote,counselling_register_form,medicine_form,night_survey_form,skill_training_form,smc_register_form,staff_attendence_form,stock_form,employment_link_form,rehabitation_form,death_register_form,accident_register_form,medical_camp_form,food_menu_form,salary_register_form
 
 urlpatterns = [
-    path('', views.loginuser, name='login'),
+    path('', views.login_user, name='login_user'),
     path('logout/', views.logout_view, name='logout'),
-    path('signup/', views.signupuser, name='signup'),
+    # path('signup/', views.signupuser, name='signup'),
+    path('register/',views.register, name='register'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('update_user/', views.update_user, name='update_user'),
     path('home/', views.home, name='home'),
     path('master_records/', views.master_records_form, name='master_records'),
     path('master_records_dashboard/', views.master_records_dashboard, name='master_records_dashboard'),
@@ -80,9 +83,10 @@ urlpatterns = [
     path('case_work_dashboard/', views.case_work_dashboard, name='case_work_dashboard'),
     path('follow_up/', views.follow_up, name='follow_up'),
     path('followup_dashboard/', views.followup_dashboard, name='followup_dashboard'),
-    
-    # Other URL patterns...
-    
+
+    # # path('update_user/<int:pk>/', views.update_user, name='update_user'),
+    # path('staff-dashboard/', views.staff_dashboard, name='staff_dashboard'),
+    # path('staff-records/<int:staff_id>/', views.staff_records, name='staff_records'),
 ]
 
 if settings.DEBUG:

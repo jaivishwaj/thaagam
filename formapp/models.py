@@ -468,16 +468,18 @@ class StaffMovement(models.Model):
     def _str_(self):
         return str(self.date_of_plan)
 
+from django.conf import settings
 
 class userprofile(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     username = models.CharField(max_length=50)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     email = models.EmailField(unique=True)
     mobile_number = models.IntegerField()
     password = models.CharField(max_length=50)
     confrimpassword = models.CharField(max_length=50)
-
+    website = models.URLField(blank=True, null=True)
   
     
     def __str__(self):
@@ -604,19 +606,23 @@ class FollowUP(models.Model):
 
     def __str__(self):
         return self.name
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+
+class User(AbstractUser):
+    pass
+
+
+class StaffRecord(models.Model):
+    staff = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_staff': True})
+    record_date = models.DateField()
+    description = models.TextField()
+
+    def __str__(self):
+        return f"{self.staff.username} - {self.record_date}"
  
  
  

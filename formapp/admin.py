@@ -35,6 +35,6 @@ admin.site.register(SmcRegister)
 admin.site.register(StaffAttendance)
 admin.site.register(CaseWork)
 admin.site.register(FollowUP)
-
+admin.site.register(User)
 
 

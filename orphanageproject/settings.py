@@ -24,8 +24,7 @@ SECRET_KEY = 'django-insecure-*@l999&g22lhsdyq-3l_)6-3b2w)m7)y9*(e8o!2_&as$u%ku!
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# AUTH_USER_MODEL = 'formapp.User'
-# AUTH_USER_MODEL = 'formapp.CustomUser'
+
 
 
 ALLOWED_HOSTS = ["*"]
@@ -44,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'formapp',
-    'dashboard',
+
+
 
 
 ]
@@ -154,9 +154,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # APPEND_SLASH = False
 TIME_ZONE = 'Asia/Kolkata'
 
-LOGIN_URL = "/dashboard/dashboard_login"
+LOGIN_URL = "login_user"
 
-AUTH_USER_MODEL = "dashboard.Staff_UserAuth"
+AUTH_USER_MODEL = 'formapp.User'
 
 
 
@@ -164,7 +164,7 @@ SESSION_EXPIRE_SECONDS = 3600  # Expire after 30 minutes
 
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 
-SESSION_TIMEOUT_REDIRECT = 'login/' # Add your URL
+SESSION_TIMEOUT_REDIRECT = 'login_user/' # Add your URL
 
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True # Invalid session
