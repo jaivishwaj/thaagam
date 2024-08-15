@@ -55,6 +55,7 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>User</th>
                                                                 <th>S No</th>
                                                                 <th>Date </th>
                                                                 <th>UQID</th>
@@ -68,6 +69,7 @@
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
+                                                                <td>{{ item.user }}</td>
                                                                 <td>{{ forloop.counter }}</td>
                                                                 <td>{{ item.date }}</td>
                                                                 <td>{{ item.uqid }}</td>

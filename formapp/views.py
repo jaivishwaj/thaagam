@@ -118,7 +118,7 @@ def login_user(request):
             login(request, user)  # Correct usage: login(request, user)
             request.session['user'] = user.username
             if user.is_superuser:
-                return redirect('home')  # Redirect to dashboard if superuser
+                return redirect('dashboard')  # Redirect to dashboard if superuser
             else:
                 return redirect('home')
             # return redirect('home')  # Redirect to dashboard
@@ -310,15 +310,35 @@ def reintegration_form(request):
 
 
 @login_required(login_url='login')
+# def reintegration_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#         logged_in_username = request.user.username
+#         datas = Reintegration.objects.filter(user=logged_in_username)
+#         return render(request, "dashboard/reintegration_register_dashboard.html", {"data": datas})
+
+
 def reintegration_register_dashboard(request):
     if not request.user.is_authenticated:
         # Redirect to login page with a message
         return redirect("login")
-    else:
-        logged_in_username = request.user.username
-        datas = Reintegration.objects.filter(user=logged_in_username)
-        return render(request, "dashboard/reintegration_register_dashboard.html", {"data": datas})
 
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = Reintegration.objects.all()
+    else:
+        # If the user is not a superuser, show only their records
+        datas = Reintegration.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/reintegration_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -356,15 +376,37 @@ def visitor_register_form(request):
     return render(request, "visitor_registration.html",{'user': user, 'data': datas})
 
 @login_required(login_url='login')
+# def visitor_registration_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = VisitorRegister.objects.filter(user=logged_in_username)
+#      return render(
+#         request, "dashboard/visitor_registration_dashboard.html", {"data": datas})
+
 def visitor_registration_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = VisitorRegister.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = VisitorRegister.objects.filter(user=logged_in_username)
-     return render(
-        request, "dashboard/visitor_registration_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = VisitorRegister.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/visitor_registration_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -413,15 +455,37 @@ def performance_appraisal_form(request):
 
 
 @login_required(login_url='login')
+# def performance_appraisal_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = PerformanceAppraisal.objects.filter(user=logged_in_username)
+#      return render(
+#         request, "dashboard/performance_appraisal_dashboard.html", {"data": datas})
+
+
 def performance_appraisal_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = PerformanceAppraisal.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = PerformanceAppraisal.objects.filter(user=logged_in_username)
-     return render(
-        request, "dashboard/performance_appraisal_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = PerformanceAppraisal.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/performance_appraisal_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 
 @csrf_exempt
@@ -455,18 +519,40 @@ def provision_form(request):
     return render(request, 'provision.html',{'user': user,'provision': provision})
 
 @login_required(login_url='login')
+# def provision_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#
+#     else:
+#
+#      logged_in_username = request.user.username
+#      datas = Provision.objects.filter(user=logged_in_username)
+#
+#      return render(
+#         request, "dashboard/provision_dashboard.html", {"data": datas})
+
 def provision_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
 
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = Provision.objects.all()
     else:
+        # If the user is not a superuser, show only their records
+        datas = Provision.objects.filter(user=logged_in_user)
 
-     logged_in_username = request.user.username
-     datas = Provision.objects.filter(user=logged_in_username)
+    return render(request, "dashboard/provision_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
-     return render(
-        request, "dashboard/provision_dashboard.html", {"data": datas})
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -501,15 +587,37 @@ def resident_form(request):
     return render(request, "resident_attendance.html",{'user': user,'resident': resident})
 
 @login_required(login_url='login')
+# def resident_attendance_form_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = Resident.objects.filter(user=logged_in_username)
+#      return render(
+#         request, "dashboard/resident_attendance_form_dashboard.html", {"data": datas})
+
 def resident_attendance_form_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = Resident.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = Resident.objects.filter(user=logged_in_username)
-     return render(
-        request, "dashboard/resident_attendance_form_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = Resident.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/resident_attendance_form_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -541,15 +649,37 @@ def social_entertainment_form(request):
     return render(request, "social_entertainment_record.html",{'user': user,'social': social})
 
 @login_required(login_url='login')
+# def social_entertainment_form_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = SocialEntertainment.objects.filter(user=logged_in_username)
+#      return render(
+#         request, "dashboard/social_entertainment_form_dashboard.html", {"data": datas})
+
 def social_entertainment_form_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = SocialEntertainment.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = SocialEntertainment.objects.filter(user=logged_in_username)
-     return render(
-        request, "dashboard/social_entertainment_form_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = SocialEntertainment.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/social_entertainment_form_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -589,14 +719,35 @@ def inspection_register(request):
 
 
 @login_required(login_url='login')
+# def inspection_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = Inspectionregister.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/inspection_records_dashboard.html", {"data": datas})
+
 def inspection_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = Inspectionregister.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = Inspectionregister.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/inspection_records_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = Inspectionregister.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/inspection_records_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 
 @csrf_exempt
@@ -674,13 +825,35 @@ def case_history_form(request):
 
 
 @login_required(login_url='login')
+# def case_history_record_dashboard(request):
+#     if not request.user.is_authenticated:
+#        return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = CaseHistory.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/case_history_record_dashboard.html",{"data": datas})
+
+
 def case_history_record_dashboard(request):
     if not request.user.is_authenticated:
-       return redirect("login")
+        return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = CaseHistory.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = CaseHistory.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/case_history_record_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = CaseHistory.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/case_history_record_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
+
 
 
 @csrf_exempt
@@ -744,15 +917,36 @@ def personal_info_form(request):
 
 
 @login_required(login_url='login')
+# def personal_info_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = PersonalInfo.objects.filter(user=logged_in_username)
+#      return render(
+#         request, "dashboard/personal_information_dashboard.html",{"data": datas})
+
+
 def personal_info_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = PersonalInfo.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = PersonalInfo.objects.filter(user=logged_in_username)
-     return render(
-        request, "dashboard/personal_information_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = PersonalInfo.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/personal_information_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
 
 @csrf_exempt
@@ -785,14 +979,35 @@ def actionplan_register_form(request):
 
 
 @login_required(login_url='login')
+# def action_plan_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = ActionplanRegister.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/action_plan_dashboard.html",{"data": datas})
+
 def action_plan_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = ActionplanRegister.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = ActionplanRegister.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/action_plan_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = ActionplanRegister.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/action_plan_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -828,14 +1043,35 @@ def awarnes_register_form(request):
     return render(request, "awarnes_register.html",{'user': user,'awarnes': awarnes})
 
 @login_required(login_url='login')
+# def awarnes_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = AwarnesRegister.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/awarnes_register_dashboard.html",{"data": datas})
+
+
 def awarnes_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = AwarnesRegister.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = AwarnesRegister.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/awarnes_register_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = AwarnesRegister.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/awarnes_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
 
 @csrf_exempt
@@ -880,14 +1116,34 @@ def asset_form(request):
     return render(request, "asset.html",{'user': user,'asset': asset})
 
 @login_required(login_url='login')
+# def asset_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = Asset.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/asset_register_dashboard.html",{"data": datas})
+
 def asset_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = Asset.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = Asset.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/asset_register_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = Asset.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/asset_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -920,14 +1176,35 @@ def bp_pulsenote(request):
     return render(request, "bp_pulsenote.html",{'user': user,'bp': bp})
 
 @login_required(login_url='login')
+# def bp_form_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = BpPulsenote.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/bp_form_dashboard.html",{"data": datas})
+
 def bp_form_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = BpPulsenote.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = BpPulsenote.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/bp_form_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = BpPulsenote.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/bp_form_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -965,15 +1242,35 @@ def counselling_register_form(request):
     return render(request, "counselling_register.html",{'user': user,'counselling': counselling})
 
 @login_required(login_url='login')
+# def counselling_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = CounsellingRegister.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/counselling_register_dashboard.html", {"data": datas})
+
+
 def counselling_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
-    else:
-     logged_in_username = request.user.username
-     datas = CounsellingRegister.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/counselling_register_dashboard.html", {"data": datas})
 
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = CounsellingRegister.objects.all()
+    else:
+        # If the user is not a superuser, show only their records
+        datas = CounsellingRegister.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/counselling_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 @csrf_exempt
 @login_required(login_url='login')
 def medical_camp_form(request):
@@ -1012,15 +1309,35 @@ def medical_camp_form(request):
     return render(request, "medical_camp.html",{'user': user,'medical': medical})
 
 @login_required(login_url='login')
+# def medical_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = MedicalCamp.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/medical_register_dashboard.html",{"data": datas})
+
+
 def medical_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
-    else:
-     logged_in_username = request.user.username
-     datas = MedicalCamp.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/medical_register_dashboard.html",{"data": datas})
 
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = MedicalCamp.objects.all()
+    else:
+        # If the user is not a superuser, show only their records
+        datas = MedicalCamp.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/medical_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -1054,15 +1371,36 @@ def medicine_form(request):
     return render(request, "medicine.html",{'user': user,'medicine': medicine})
 
 @login_required(login_url='login')
+# def medicine_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = Medicine.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/medicine_register_dashboard.html",{"data": datas})
+
+
+
 def medicine_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
-    else:
-     logged_in_username = request.user.username
-     datas = Medicine.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/medicine_register_dashboard.html",{"data": datas})
 
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = Medicine.objects.all()
+    else:
+        # If the user is not a superuser, show only their records
+        datas = Medicine.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/medicine_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 @csrf_exempt
 @login_required(login_url='login')
 def night_survey_form(request):
@@ -1096,15 +1434,36 @@ def night_survey_form(request):
 
 
 @login_required(login_url='login')
+# def night_survey_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = NightSurvey.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/night_survey_dashboard.html",{"data": datas})
+
+
+
 def night_survey_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
-    else:
-     logged_in_username = request.user.username
-     datas = NightSurvey.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/night_survey_dashboard.html",{"data": datas})
 
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = NightSurvey.objects.all()
+    else:
+        # If the user is not a superuser, show only their records
+        datas = NightSurvey.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/night_survey_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 @csrf_exempt
 @login_required(login_url='login')
 def skill_training_form(request):
@@ -1133,14 +1492,35 @@ def skill_training_form(request):
     return render(request, "skill_training.html",{'user': user,'skill': skill})
 
 @login_required(login_url='login')
+# def skill_training_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = SkillTraining.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/skill_training_dashboard.html",{"data": datas})
+
 def skill_training_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = SkillTraining.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = SkillTraining.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/skill_training_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = SkillTraining.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/skill_training_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -1184,14 +1564,35 @@ def smc_register_form(request):
     return render(request, "smc_register.html",{'user': user,'smc': smc})
 
 @login_required(login_url='login')
+# def smc_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = SmcRegister.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/smc_register_dashboard.html",{"data": datas})
+
+
 def smc_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = SmcRegister.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = SmcRegister.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/smc_register_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = SmcRegister.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/smc_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -1229,15 +1630,38 @@ def staff_attendance_form(request):
     return render(request, "staff_attendance.html",{'user': user,'staffatt': staffatt})
 
 @login_required(login_url='login')
+# def staff_attendance_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#       logged_in_username = request.user.username
+#       datas = StaffAttendance.objects.filter(user=logged_in_username)
+#       return render(
+#           request, "dashboard/staff_attendance_register_dashboard.html", {"data": datas})
+
+
+
 def staff_attendance_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = StaffAttendance.objects.all()
     else:
-      logged_in_username = request.user.username
-      datas = StaffAttendance.objects.filter(user=logged_in_username)
-      return render(
-          request, "dashboard/staff_attendance_register_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = StaffAttendance.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/staff_attendance_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -1271,14 +1695,37 @@ def stock_form(request):
     return render(request, "stock_register.html",{'user': user,'stock': stock})
 
 @login_required(login_url='login')
+# def stock_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = Stock.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/stock_register_dashboard.html",{"data": datas})
+
+
+
 def stock_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = Stock.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = Stock.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/stock_register_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = Stock.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/stock_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -1321,14 +1768,35 @@ def employment_link_form(request):
     return render(request, "employment_link.html",{'user': user,'employmenyt': employmenyt})
 
 @login_required(login_url='login')
+# def employment_linkage_form_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#       logged_in_username = request.user.username
+#       datas = EmploymentLink.objects.filter(user=logged_in_username)
+#       return render( request, "dashboard/employment_linkage_form_dashboard.html",{"data": datas})
+
+
 def employment_linkage_form_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = EmploymentLink.objects.all()
     else:
-      logged_in_username = request.user.username
-      datas = EmploymentLink.objects.filter(user=logged_in_username)
-      return render( request, "dashboard/employment_linkage_form_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = EmploymentLink.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/employment_linkage_form_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
 
 from django.utils import timezone
@@ -1401,14 +1869,36 @@ def rehabitation_form(request):
     return render(request, "rehabitation.html", {'user': user, 'rehab': rehab, 'today_rehab': today_rehab})
 
 @login_required(login_url='login')
+# def rehabitation_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = Rehabitation.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/rehabitation_dashboard.html",{"data": datas})
+
+
 def rehabitation_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = Rehabitation.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = Rehabitation.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/rehabitation_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = Rehabitation.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/rehabitation_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -1448,14 +1938,37 @@ def death_register_form(request):
     return render(request, "death_register.html",{'user': user,'death': death})
 
 @login_required(login_url='login')
+# def death_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = DeathRegister.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/death_register_dashboard.html", {"data": datas})
+
+
+
 def death_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = DeathRegister.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = DeathRegister.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/death_register_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = DeathRegister.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/death_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -1495,14 +2008,37 @@ def food_menu_form(request):
     return render(request, "food_menu.html",{'user': user,'food': food})
 
 @login_required(login_url='login')
+# def food_menu_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#        logged_in_username = request.user.username
+#        datas = FoodMenu.objects.filter(user=logged_in_username)
+#        return render(request, "dashboard/food_menu_dashboard.html", {"data": datas})
+
+
+
 def food_menu_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = FoodMenu.objects.all()
     else:
-       logged_in_username = request.user.username
-       datas = FoodMenu.objects.filter(user=logged_in_username)
-       return render(request, "dashboard/food_menu_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = FoodMenu.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/food_menu_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -1530,14 +2066,37 @@ def salary_register_form(request):
     return render(request, "salary_register.html",{'user': user,'salary': salary})
 
 @login_required(login_url='login')
+# def salary_register_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#        logged_in_username = request.user.username
+#        datas = SalaryRegister.objects.filter(user=logged_in_username)
+#        return render(request, "dashboard/salary_register_dashboard.html",{"data": datas})
+
+
+
 def salary_register_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = SalaryRegister.objects.all()
     else:
-       logged_in_username = request.user.username
-       datas = SalaryRegister.objects.filter(user=logged_in_username)
-       return render(request, "dashboard/salary_register_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = SalaryRegister.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/salary_register_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -1574,14 +2133,35 @@ def staff_movement_form(request):
 
 # @login_required(login_url='/login/')
 @login_required(login_url='login')
+# def staff_movement_note_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#      logged_in_username = request.user.username
+#      datas = StaffMovement.objects.filter(user=logged_in_username)
+#      return render(request, "dashboard/staff_movement_note_dashboard.html",{"data": datas})
+
+
 def staff_movement_note_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = StaffMovement.objects.all()
     else:
-     logged_in_username = request.user.username
-     datas = StaffMovement.objects.filter(user=logged_in_username)
-     return render(request, "dashboard/staff_movement_note_dashboard.html",{"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = StaffMovement.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/staff_movement_note_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
 
 @csrf_exempt
@@ -1679,15 +2259,35 @@ def master_records_form(request):
 
 
 @login_required(login_url='login')
+# def master_records_dashboard(request):
+#     if not request.user.is_authenticated:
+#         # Redirect to login page with a message
+#         return redirect("login")
+#     else:
+#         logged_in_username = request.user.username
+#         datas = MasterRecords.objects.filter(user=logged_in_username)
+#         return render(request, "dashboard/master_records_dashboard.html", {"data": datas})
+
+
 def master_records_dashboard(request):
     if not request.user.is_authenticated:
-        # Redirect to login page with a message
+        # Redirect to login page
         return redirect("login")
-    else:
-        logged_in_username = request.user.username
-        datas = MasterRecords.objects.filter(user=logged_in_username)
-        return render(request, "dashboard/master_records_dashboard.html", {"data": datas})
 
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = MasterRecords.objects.all()
+    else:
+        # If the user is not a superuser, show only their records
+        datas = MasterRecords.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/master_records_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
 
 import openpyxl
@@ -1965,13 +2565,36 @@ def case_work(request):
 
 
 @login_required(login_url='login')
+# def case_work_dashboard(request):
+#     if not request.user.is_authenticated:
+#         return redirect("login")
+#     else:
+#         logged_in_username = request.user.username
+#         datas = CaseWork.objects.filter(user=logged_in_username)
+#         return render(request, "dashboard/case_work_dashboard.html", {"data": datas})
+
 def case_work_dashboard(request):
     if not request.user.is_authenticated:
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = CaseWork.objects.all()
     else:
-        logged_in_username = request.user.username
-        datas = CaseWork.objects.filter(user=logged_in_username)
-        return render(request, "dashboard/case_work_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = CaseWork.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/case_work_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
+
+
+
 @csrf_exempt
 @login_required(login_url='login')
 def follow_up(request):
@@ -2004,13 +2627,34 @@ def follow_up(request):
 
 
 @login_required(login_url='login')
+# def followup_dashboard(request):
+#     if not request.user.is_authenticated:
+#         return redirect("login")
+#     else:
+#         logged_in_username = request.user.username
+#         datas = FollowUP.objects.filter(user=logged_in_username)
+#         return render(request, "dashboard/followup_dashboard.html", {"data": datas})
+
+
 def followup_dashboard(request):
     if not request.user.is_authenticated:
+        # Redirect to login page
         return redirect("login")
+
+    # Fetch the logged-in user
+    logged_in_user = request.user
+
+    if logged_in_user.is_superuser:
+        # If the user is a superuser, show all records
+        datas = FollowUP.objects.all()
     else:
-        logged_in_username = request.user.username
-        datas = FollowUP.objects.filter(user=logged_in_username)
-        return render(request, "dashboard/followup_dashboard.html", {"data": datas})
+        # If the user is not a superuser, show only their records
+        datas = FollowUP.objects.filter(user=logged_in_user)
+
+    return render(request, "dashboard/followup_dashboard.html", {
+        "data": datas,
+        "user": logged_in_user
+    })
 
 
 def custom_404(request, exception):
@@ -2021,6 +2665,8 @@ def custom_404(request, exception):
 def dashboard(request):
     users = User.objects.all()
     return render(request, 'dashboard.html', {'users': users})
+
+
 
 from django.views.decorators.http import require_POST
 

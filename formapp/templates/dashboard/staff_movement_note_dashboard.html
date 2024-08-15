@@ -52,6 +52,7 @@
                                                 <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>User</th>
                                                             <th>S.No</th>
                                                             <th>Uqid</th>
                                                             <th>Date of plan</th>
@@ -66,6 +67,7 @@
                                                     <tbody>
                                                         {% for item in data %}
                                                         <tr>
+                                                            <td>{{ item.user}}</td>
                                                             <td>{{forloop.counter}}</td>
                                                             <td>{{ item.uqid }}</td>
                                                             <td>{{ item.date_of_plan }}</td>

@@ -471,19 +471,16 @@ class StaffMovement(models.Model):
 from django.conf import settings
 
 class userprofile(models.Model):
-    # uqid = AlphaNumericField(unique=True, editable=False)
-    username = models.CharField(max_length=50)
+    # username = models.CharField(max_length=50)
     # user = models.CharField(max_length=200)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     email = models.EmailField(unique=True)
     mobile_number = models.IntegerField()
-    password = models.CharField(max_length=50)
-    confrimpassword = models.CharField(max_length=50)
-    website = models.URLField(blank=True, null=True)
-  
-    
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+
     def __str__(self):
-        return str(self.username)
+        return str(self.user.username)
         
 
 
@@ -608,21 +605,15 @@ class FollowUP(models.Model):
         return self.name
 
 
-from django.contrib.auth.models import AbstractUser
+# from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
+from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     pass
 
 
-class StaffRecord(models.Model):
-    staff = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_staff': True})
-    record_date = models.DateField()
-    description = models.TextField()
 
-    def __str__(self):
-        return f"{self.staff.username} - {self.record_date}"
  
  
  

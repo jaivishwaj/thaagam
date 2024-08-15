@@ -38,6 +38,7 @@
                                             <table id="staffTable" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                 <thead>
                                                     <tr>
+                                                        <th>User</th>
                                                         <th>Username</th>
                                                         <th>Email</th>
                                                         <th>Staff</th>
@@ -47,6 +48,7 @@
                                                 <tbody>
                                                     {% for user in staff_users %}
                                                     <tr>
+                                                        <td>{{ user.user.username }}</td>
                                                         <td>{{ user.username }}</td>
                                                         <td>{{ user.email }}</td>
                                                         <td>✔</td>

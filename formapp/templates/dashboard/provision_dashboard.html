@@ -55,8 +55,8 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>User</th>
                                                             <th>S.No</th>
-                                                            
                                                             <th>Name of the Material</th>
                                                             <th>Total Quantity</th>
                                                             <th>Utilized Quantity</th>
@@ -69,6 +69,7 @@
                                                     <tbody>
                                                        {% for item in data %}
                                                             <tr>
+                                                                <td>{{ item.user }}</td>
                                                                 <td>{{ forloop.counter }}</td>
                                                                 
                                                                 <td>{{ item.material_name }}</td>

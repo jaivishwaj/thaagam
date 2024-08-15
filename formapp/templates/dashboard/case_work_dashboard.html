@@ -60,7 +60,7 @@
                                                 style="width:100%">
                                                 <thead>
                                                     <tr>
-                                                        
+                                                        <th>User</th>
                                                         <th>Name</th>
                                                         <th>UQID</th>
                                                         <th>AID No.</th>
@@ -111,7 +111,7 @@
                                                 <tbody>
                                                     {% for item in data %}
                                                     <tr>
-                                                        
+                                                        <td>{{ item.user }}</td>
                                                         <td>{{ item.name }}</td>
                                                         <td>{{ item.uqid }}</td>
                                                         <td>{{ item.aid_no }}</td>

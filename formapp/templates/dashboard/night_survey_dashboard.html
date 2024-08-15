@@ -55,8 +55,8 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                            <th>User</th>
                                                             <th>S.No</th>
-                                                            
                                                             <th>Date</th>
                                                             <th>Time</th>
                                                             <th>Place(Area)</th>
@@ -68,9 +68,9 @@
                                                     </thead>
                                                     <tbody>
                                                          {% for item in data %}
-                                                               <tr> 
+                                                               <tr>
+                                                                   <td>{{ item.user }}</td>
                                                                 <td>{{ forloop.counter }}</td>
-                                                                   
                                                                    <td>{{ item.date }}</td>
                                                                    <td>{{ item.time }}</td>
                                                                    <td>{{ item.place }}</td>

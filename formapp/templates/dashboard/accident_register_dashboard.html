@@ -59,6 +59,8 @@
                                                 <thead>
                                                     <tr>
 
+                                                        <th>User</th>
+                                                        <th>S.No</th>
                                                         <th>Uqid</th>
                                                         <th>Date </th>
                                                         <th>Inmate Name</th>
@@ -66,7 +68,6 @@
                                                         <th>Accident Condition</th>
                                                         <th>Accident Place</th>
                                                         <th>Signature</th>
-                                                        <th>User</th>
                                                         <th>Created at</th>
                                                         <!-- <th>Edit</th> -->
 
@@ -75,6 +76,9 @@
                                                 <tbody>
                                                     {% for item in data %}
                                                     <tr>
+
+                                                        <td>{{ item.user }}</td>
+                                                        <td>{{ forloop.counter }}</td>
                                                         <td>{{ item.uqid }}</td>
                                                         <td>{{ item.date }}</td>
                                                         <td>{{ item.inmate_name }}</td>
@@ -82,7 +86,7 @@
                                                         <td>{{ item.accident_condition }}</td>
                                                         <td>{{ item.accident_place }}</td>
                                                         <td>{{ item.signature }}</td>
-                                                        <td>{{ item.user }}</td>
+
                                                         <td>{{ item.created_at }}</td>
                                                         <!-- <td> 
                                                             <a href="javascript:void(0);" onclick="edit(this)"

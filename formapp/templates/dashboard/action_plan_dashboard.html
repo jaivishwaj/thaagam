@@ -55,11 +55,11 @@
                                                     style="width:100%">
                                                     <thead>
                                                         <tr>
+                                                                <th>user </th>
                                                                 <th>S No</th>
                                                                 <th>Date of Plan</th>
                                                                 <th>Detailed Notes on Action Plan</th>
                                                                 <th>Action Plan Date</th>
-                                                                <th>user </th>
                                                                 <th>created at </th>
                                                         
                                                         </tr>
@@ -67,11 +67,11 @@
                                                     <tbody>
                                                         {% for item in data %}
                                                             <tr>
-                                                                <td>{{ forloop.counter}}</td>
+                                                                <td>{{ item.user }}</td>
+                                                                <td>{{ fcounterorloop.}}</td>
                                                                 <td>{{ item.date_of_plan }}</td>
                                                                 <td>{{ item.detailed_notes }}</td>
                                                                 <td>{{ item.action_plan_date }}</td>
-                                                                <td>{{ item.user }}</td>
                                                                 <td>{{item.created_at }} </td>
                                                                 
 

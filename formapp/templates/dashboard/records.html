@@ -43,6 +43,7 @@
                                             <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle" style="width:100%">
                                                 <thead>
                                                     <tr>
+                                                        <th>User</th>
                                                         <th>Uqid</th>
                                                         <th>Date </th>
                                                         <th>Inmate Name</th>
@@ -59,6 +60,7 @@
                                                     {% if accident %}
                                                         {% for item in accident %}
                                                             <tr>
+                                                                <td>{{ item.user }}</td>
                                                                <td>{{ item.uqid }}</td>
                                                                 <td>{{ item.date }}</td>
                                                                 <td>{{ item.inmate_name }}</td>
