@@ -2166,12 +2166,103 @@ def staff_movement_note_dashboard(request):
 
 @csrf_exempt
 @login_required(login_url='login')
+# def master_records_form(request):
+#     user = None
+#     if 'user' in request.session:
+#         user = request.session['user']
+#     if request.method == "POST":
+#
+#         uqid = request.POST.get("uqid")
+#         name = request.POST.get("name")
+#         Aid_no = request.POST.get("Aid_no")
+#         Age_gender = request.POST.get("Age_gender")
+#         dob = request.POST.get("dob")
+#         Date_Of_Admission = request.POST.get("Date_Of_Admission")
+#         Family_Contact_No = request.POST.get("Family_Contact_No")
+#         Relation = request.POST.get("Relation")
+#         Permanent_Address = request.POST.get("Permanent_Address")
+#         Mode_Of_Identification_Rescue = request.POST.get("Mode_Of_Identification_Rescue")
+#         Identification_Mark = request.POST.get("Identification_Mark")
+#         Identification_Papers = request.POST.get("Identification_Papers")
+#         Rehabilitation_Measures = request.POST.get("Rehabilitation_Measures")
+#         Date_Of_Leaving_Shelter = request.POST.get("Date_Of_Leaving_Shelter")
+#         Reason_For_Leaving_Shelter = request.POST.get("Reason_For_Leaving_Shelter")
+#         Action_takenup = request.POST.get("Action_takenup")
+#         Follow_Up_Action = request.POST.get("Follow_Up_Action")
+#         Medical_Status = request.POST.get("Medical_Status")
+#         File_Closure_Status = request.POST.get("File_Closure_Status")
+#         police_memo = request.POST.get("police_memo")
+#         police_Station = request.POST.get("police_Station")
+#         Fact_finding = request.POST.get("Fact_finding")
+#         Signature = request.POST.get("Signature")
+#         uploaded_file = request.FILES.get("photo")
+#         logged_in_user = request.user
+#         username = logged_in_user.username
+#         relative_file_path = ""
+#         if uploaded_file:
+#             # Save photo to directory
+#             filename = f"{name}.jpg"
+#             photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
+#
+#             if not os.path.exists(photos_dir):
+#                 os.makedirs(photos_dir)
+#
+#             save_path = os.path.join(photos_dir, filename)
+#
+#             with open(save_path, "wb") as destination:
+#                 for chunk in uploaded_file.chunks():
+#                     destination.write(chunk)
+#
+#             relative_file_path = os.path.join("photos", filename)
+#
+#         logged_in_user = request.user
+#         username = logged_in_user.username
+#
+#         data = MasterRecords.objects.create(user=username,
+#             photo_url=relative_file_path,
+#             uqid=uqid,
+#             name=name,
+#             Aid_no=Aid_no,
+#             Age_gender=Age_gender,
+#             dob=dob,
+#             Date_Of_Admission=Date_Of_Admission,
+#             Family_Contact_No=Family_Contact_No,
+#             Relation=Relation,
+#             Permanent_Address=Permanent_Address,
+#             Mode_Of_Identification_Rescue=Mode_Of_Identification_Rescue,
+#             Identification_Mark=Identification_Mark,
+#             Identification_Papers=Identification_Papers,
+#             Rehabilitation_Measures=Rehabilitation_Measures,
+#             Date_Of_Leaving_Shelter=Date_Of_Leaving_Shelter,
+#             Reason_For_Leaving_Shelter=Reason_For_Leaving_Shelter,
+#             Action_takenup=Action_takenup,
+#             Follow_Up_Action=Follow_Up_Action,
+#             Medical_Status=Medical_Status,
+#             File_Closure_Status=File_Closure_Status,
+#             police_memo=police_memo,
+#             police_Station=police_Station,
+#             Fact_finding=Fact_finding,
+#             Signature=Signature,
+#         )
+#         data.save()
+#
+#
+#         # MasterRecords.objects.all().delete()
+#
+#         return redirect("master_records_dashboard")
+#     else:
+#         messages.info(request, 'The form is not saved. Please re-enter the form')
+#         master = MasterRecords.objects.all()
+#
+#     return render(request, "master_records.html", {"user": user, "master": master})
+
 def master_records_form(request):
     user = None
     if 'user' in request.session:
         user = request.session['user']
-    if request.method == "POST":
 
+    if request.method == "POST":
+        # Get data from POST request
         uqid = request.POST.get("uqid")
         name = request.POST.get("name")
         Aid_no = request.POST.get("Aid_no")
@@ -2196,11 +2287,13 @@ def master_records_form(request):
         Fact_finding = request.POST.get("Fact_finding")
         Signature = request.POST.get("Signature")
         uploaded_file = request.FILES.get("photo")
+
+        # Get the logged-in user instance
         logged_in_user = request.user
-        username = logged_in_user.username
+
+        # Save uploaded photo
         relative_file_path = ""
         if uploaded_file:
-            # Save photo to directory
             filename = f"{name}.jpg"
             photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
 
@@ -2215,10 +2308,9 @@ def master_records_form(request):
 
             relative_file_path = os.path.join("photos", filename)
 
-        logged_in_user = request.user
-        username = logged_in_user.username
-
-        data = MasterRecords.objects.create(user=username,
+        # Create MasterRecords with User instance
+        data = MasterRecords.objects.create(
+            user=logged_in_user,  # Use the User instance here
             photo_url=relative_file_path,
             uqid=uqid,
             name=name,
@@ -2245,9 +2337,6 @@ def master_records_form(request):
             Signature=Signature,
         )
         data.save()
-
-
-        # MasterRecords.objects.all().delete()
 
         return redirect("master_records_dashboard")
     else:
@@ -2288,6 +2377,7 @@ def master_records_dashboard(request):
         "data": datas,
         "user": logged_in_user
     })
+
 
 
 import openpyxl

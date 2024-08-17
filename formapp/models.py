@@ -3,13 +3,14 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import RegexValidator
 from datetime import date
-
+from django.conf import settings
 
 import random
 
 class Inspectionregister(models.Model):
     name = models.CharField(max_length=100)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='inspectionregister')
     designation = models.CharField(max_length=100)
     message = models.CharField(max_length=100)
     date = models.DateField()
@@ -22,7 +23,8 @@ class Inspectionregister(models.Model):
 
 class Provision(models.Model):
     material_name = models.CharField(max_length=255)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='provision')
     total_quantity = models.IntegerField()
     utilized_quantity = models.IntegerField()
     balance_quantity = models.IntegerField()
@@ -36,7 +38,8 @@ class Reintegration(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     photo_url = models.ImageField(upload_to="photos/", blank=True, null=True)
     admission_no = models.IntegerField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reintegration')
     uqid = models.CharField(max_length=100)
     resident_name = models.CharField(max_length=255)
     date_of_joining = models.DateField()
@@ -54,8 +57,8 @@ class Reintegration(models.Model):
 class VisitorRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
-   
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='visitorregister')
     name = models.CharField(max_length=255)
     whom_to_see = models.CharField(max_length=255)
     in_time = models.TimeField()
@@ -76,7 +79,8 @@ class VisitorRegister(models.Model):
 
 class PerformanceAppraisal(models.Model):
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='performanceappraisal')
     uqid = models.CharField(max_length=100)
     beginning_children = models.IntegerField()
     new_admission = models.CharField(max_length=100)
@@ -98,7 +102,8 @@ class PerformanceAppraisal(models.Model):
 class Resident(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     pupilName = models.CharField(max_length=100)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='resident')
     uqid = models.CharField(max_length=100)
     dob = models.DateField()
     attendance = models.CharField(max_length=255, default='-')
@@ -112,7 +117,8 @@ class Resident(models.Model):
 class SocialEntertainment(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='socialementertainment')
     uqid = models.CharField(max_length=100)
     admission = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
@@ -152,7 +158,8 @@ class ActionplanRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
 
     date_of_plan = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='actionplanregister')
     detailed_notes = models.TextField()
     action_plan_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -162,7 +169,8 @@ class ActionplanRegister(models.Model):
 
 class AccidentRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='accidentregister')
     uqid = models.CharField(max_length=100)
     date = models.DateField()
     inmate_name = models.CharField(max_length=100)
@@ -180,7 +188,8 @@ class AccidentRegister(models.Model):
 class AwarnesRegister(models.Model):
     uqid = models.CharField(max_length=100)
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='awarnesregister')
     time = models.TimeField()
     place = models.CharField(max_length=255)
     details = models.TextField()
@@ -194,7 +203,8 @@ class AwarnesRegister(models.Model):
 class Asset(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date_purchase = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='asset')
     uqid = models.CharField(max_length=100)
     name_asset = models.CharField(max_length=100)
     no_of_items = models.IntegerField()
@@ -211,7 +221,8 @@ class Asset(models.Model):
 class BpPulsenote(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='bppulsenote')
     uqid = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     pulse = models.IntegerField()
@@ -225,7 +236,8 @@ class BpPulsenote(models.Model):
 class CounsellingRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='counsellingregister')
     uqid = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     number_of_sessions = models.IntegerField()
@@ -239,7 +251,8 @@ class CounsellingRegister(models.Model):
 class MedicalCamp(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='medicalcamp')
     uqid = models.CharField(max_length=100)
     place = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
@@ -255,7 +268,8 @@ class MedicalCamp(models.Model):
 class Medicine(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     name = models.CharField(max_length=100)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='medicine')
     uqid = models.CharField(max_length=100)
     age = models.IntegerField()
     type_of_disease = models.CharField(max_length=100)
@@ -271,7 +285,8 @@ class Medicine(models.Model):
 class NightSurvey(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='nightsurvey')
     # uqid = models.CharField(max_length=4)
     time = models.TimeField()
     place = models.CharField(max_length=255)
@@ -283,7 +298,8 @@ class NightSurvey(models.Model):
 
 class PersonalInfo(models.Model):
     name = models.CharField(max_length=100, default="")
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='personalinfo')
     uqid = models.CharField(max_length=100)
     date = models.DateField(default=timezone.now)
     street_address = models.CharField(max_length=150, default="")
@@ -304,8 +320,10 @@ class PersonalInfo(models.Model):
 class SkillTraining(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='skilltraining')
     uqid = models.CharField(max_length=100)
+
     resident_name = models.CharField(max_length=100)
     skill_training_details = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -316,7 +334,8 @@ class SkillTraining(models.Model):
 class SmcRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='smcregister')
     time = models.TimeField()
     introduction_of_meeting = models.TextField()
     last_month_performance_details = models.TextField()
@@ -337,7 +356,8 @@ class StaffAttendance(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
 
     name = models.CharField(max_length=100)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='staffattendance')
     uqid = models.CharField(max_length=100)
     designation = models.CharField(max_length=255)
     working_hours = models.TimeField()
@@ -353,8 +373,8 @@ class StaffAttendance(models.Model):
 class Stock(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
-    
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='stock')
     particulars = models.CharField(max_length=255)
     receipt = models.CharField(max_length=255)
     issued = models.IntegerField()
@@ -367,7 +387,8 @@ class Stock(models.Model):
 class EmploymentLink(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     uqid = models.CharField(max_length=100)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employmentlink')
     admission_no = models.IntegerField()
     admission_date = models.DateField()
     resident_name = models.CharField(max_length=100)
@@ -388,7 +409,8 @@ class Rehabitation(models.Model):
         ('others', 'Others'),
     ]
     uqid = models.CharField(max_length=100)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='rehabitation')
     admission_number = models.CharField(max_length=50)
     name_of_the_resident = models.CharField(max_length=100)
     age = models.IntegerField()
@@ -408,7 +430,8 @@ class Rehabitation(models.Model):
 class DeathRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     uqid = models.CharField(max_length=100)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='deathregister')
     name_of_the_death_person = models.CharField(max_length=100)
     age_sex = models.CharField(max_length=20, null=True, blank=True)
     date_of_death = models.DateField()
@@ -426,7 +449,8 @@ class DeathRegister(models.Model):
 class FoodMenu(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='foodmenu')
     morning_snacks = models.CharField(max_length=100)
     no_of_resident1 = models.IntegerField()
     breakfast = models.CharField(max_length=100)
@@ -444,7 +468,8 @@ class FoodMenu(models.Model):
 class SalaryRegister(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='salaryregister')
     uqid = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     designation = models.CharField(max_length=100)
@@ -458,7 +483,8 @@ class SalaryRegister(models.Model):
 class StaffMovement(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     date_of_plan = models.DateField()
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='staffmovement')
     uqid = models.CharField(max_length=100)
     working_area = models.CharField(max_length=255)
     nature_of_work = models.CharField(max_length=255)
@@ -468,7 +494,7 @@ class StaffMovement(models.Model):
     def _str_(self):
         return str(self.date_of_plan)
 
-from django.conf import settings
+
 
 class userprofile(models.Model):
     # username = models.CharField(max_length=50)
@@ -487,7 +513,8 @@ class userprofile(models.Model):
 class MasterRecords(models.Model):
     # uqid = AlphaNumericField(unique=True, editable=False)
     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
-    user = models.CharField(max_length=200)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='master_records')
     uqid = models.AutoField(primary_key=True, unique=True, editable=False)
     name = models.CharField(max_length=100)
     Aid_no = models.IntegerField()
@@ -532,7 +559,8 @@ class MasterRecords(models.Model):
 
 class CaseWork(models.Model):
     uqid = models.CharField(max_length=100,null=True)
-    user = models.CharField(max_length=100,null=True)
+    # user = models.CharField(max_length=200)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='case_work')
     photo = models.ImageField(upload_to='photos/', blank=True, null=True)
     aid_no = models.IntegerField()
     doa = models.DateField()
@@ -598,7 +626,8 @@ class FollowUP(models.Model):
     uqid = models.CharField(max_length=100,null=False,default=0)
     date = models.DateField(auto_now_add=True)
     follow_up = models.TextField()
-    user = models.CharField(max_length=100,null=False,default='admin')
+    # user = models.CharField(max_length=100,null=False,default='admin')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='follow_ups')
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=False, editable=False)
 
     def __str__(self):
