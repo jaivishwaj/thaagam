@@ -105,7 +105,6 @@ logger = logging.getLogger(__name__)
 #
 #     return render(request, 'signup.html')
 
-
 @csrf_exempt
 @user_passes_test(lambda u: u.is_superuser)
 def register(request):
@@ -120,30 +119,34 @@ def register(request):
 
         User = get_user_model()
 
+        # Check password confirmation
         if password != confirm_password:
             messages.error(request, 'Passwords do not match.')
             return redirect('register')
 
+        # Check if username exists
         if User.objects.filter(username=username).exists():
             messages.error(request, 'Username already exists.')
             return redirect('register')
 
+        # Check if email exists
         if User.objects.filter(email=email).exists():
             messages.error(request, 'Email already exists.')
             return redirect('register')
 
         try:
+            # Create the user
             user = User.objects.create_user(
                 username=username,
                 email=email,
                 password=password,
-                is_superuser=is_superuser,
-                is_staff=is_staff
             )
+            user.is_superuser = is_superuser
+            user.is_staff = is_staff
             user.save()
 
             # Create UserProfile
-            userprofile.objects.create(user=user, email=email, phone=phone)
+            UserProfile.objects.create(user=user, email=email, phone=phone)
 
             messages.success(request, 'User registered successfully.')
             return redirect('login_user')
@@ -154,6 +157,56 @@ def register(request):
             return redirect('register')
 
     return render(request, 'signup.html')
+
+
+# @csrf_exempt
+# @user_passes_test(lambda u: u.is_superuser)
+# def register(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         email = request.POST.get('email')
+#         phone = request.POST.get('phone')
+#         password = request.POST.get('password')
+#         confirm_password = request.POST.get('confirm_password')
+#         is_superuser = request.POST.get('is_superuser') == 'on'
+#         is_staff = request.POST.get('is_staff') == 'on'
+#
+#         User = get_user_model()
+#
+#         if password != confirm_password:
+#             messages.error(request, 'Passwords do not match.')
+#             return redirect('register')
+#
+#         if User.objects.filter(username=username).exists():
+#             messages.error(request, 'Username already exists.')
+#             return redirect('register')
+#
+#         if User.objects.filter(email=email).exists():
+#             messages.error(request, 'Email already exists.')
+#             return redirect('register')
+#
+#         try:
+#             user = User.objects.create_user(
+#                 username=username,
+#                 email=email,
+#                 password=password,
+#                 is_superuser=is_superuser,
+#                 is_staff=is_staff
+#             )
+#             user.save()
+#
+#             # Create UserProfile
+#             userprofile.objects.create(user=user, email=email, phone=phone)
+#
+#             messages.success(request, 'User registered successfully.')
+#             return redirect('login_user')
+#
+#         except Exception as e:
+#             logger.error(f"Error saving user: {e}")
+#             messages.error(request, 'An error occurred while creating the user.')
+#             return redirect('register')
+#
+#     return render(request, 'signup.html')
 
 
 
@@ -2277,97 +2330,6 @@ def master_records_form(request):
         master = MasterRecords.objects.all()
 
     return render(request, "master_records.html", {"user": user, "master": master})
-#
-
-
-# def master_records_form(request):
-#     user = None
-#     if 'user' in request.session:
-#         user = request.session['user']
-#
-#     if request.method == "POST":
-#         # Get data from POST request
-#         uqid = request.POST.get("uqid")
-#         name = request.POST.get("name")
-#         Aid_no = request.POST.get("Aid_no")
-#         Age_gender = request.POST.get("Age_gender")
-#         dob = request.POST.get("dob")
-#         Date_Of_Admission = request.POST.get("Date_Of_Admission")
-#         Family_Contact_No = request.POST.get("Family_Contact_No")
-#         Relation = request.POST.get("Relation")
-#         Permanent_Address = request.POST.get("Permanent_Address")
-#         Mode_Of_Identification_Rescue = request.POST.get("Mode_Of_Identification_Rescue")
-#         Identification_Mark = request.POST.get("Identification_Mark")
-#         Identification_Papers = request.POST.get("Identification_Papers")
-#         Rehabilitation_Measures = request.POST.get("Rehabilitation_Measures")
-#         Date_Of_Leaving_Shelter = request.POST.get("Date_Of_Leaving_Shelter")
-#         Reason_For_Leaving_Shelter = request.POST.get("Reason_For_Leaving_Shelter")
-#         Action_takenup = request.POST.get("Action_takenup")
-#         Follow_Up_Action = request.POST.get("Follow_Up_Action")
-#         Medical_Status = request.POST.get("Medical_Status")
-#         File_Closure_Status = request.POST.get("File_Closure_Status")
-#         police_memo = request.POST.get("police_memo")
-#         police_Station = request.POST.get("police_Station")
-#         Fact_finding = request.POST.get("Fact_finding")
-#         Signature = request.POST.get("Signature")
-#         uploaded_file = request.FILES.get("photo")
-#
-#         # Get the logged-in user instance
-#         logged_in_user = request.user
-#
-#         # Save uploaded photo
-#         relative_file_path = ""
-#         if uploaded_file:
-#             filename = f"{name}.jpg"
-#             photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
-#
-#             if not os.path.exists(photos_dir):
-#                 os.makedirs(photos_dir)
-#
-#             save_path = os.path.join(photos_dir, filename)
-#
-#             with open(save_path, "wb") as destination:
-#                 for chunk in uploaded_file.chunks():
-#                     destination.write(chunk)
-#
-#             relative_file_path = os.path.join("photos", filename)
-#
-#         # Create MasterRecords with User instance
-#         data = MasterRecords.objects.create(
-#             user=logged_in_user,  # Use the User instance here
-#             photo_url=relative_file_path,
-#             uqid=uqid,
-#             name=name,
-#             Aid_no=Aid_no,
-#             Age_gender=Age_gender,
-#             dob=dob,
-#             Date_Of_Admission=Date_Of_Admission,
-#             Family_Contact_No=Family_Contact_No,
-#             Relation=Relation,
-#             Permanent_Address=Permanent_Address,
-#             Mode_Of_Identification_Rescue=Mode_Of_Identification_Rescue,
-#             Identification_Mark=Identification_Mark,
-#             Identification_Papers=Identification_Papers,
-#             Rehabilitation_Measures=Rehabilitation_Measures,
-#             Date_Of_Leaving_Shelter=Date_Of_Leaving_Shelter,
-#             Reason_For_Leaving_Shelter=Reason_For_Leaving_Shelter,
-#             Action_takenup=Action_takenup,
-#             Follow_Up_Action=Follow_Up_Action,
-#             Medical_Status=Medical_Status,
-#             File_Closure_Status=File_Closure_Status,
-#             police_memo=police_memo,
-#             police_Station=police_Station,
-#             Fact_finding=Fact_finding,
-#             Signature=Signature,
-#         )
-#         data.save()
-#
-#         return redirect("master_records_dashboard")
-#     else:
-#         messages.info(request, 'The form is not saved. Please re-enter the form')
-#         master = MasterRecords.objects.all()
-#
-#     return render(request, "master_records.html", {"user": user, "master": master})
 
 
 
@@ -2813,8 +2775,3 @@ def update_user(request):
 
     messages.success(request, 'User updated successfully.')
     return redirect('dashboard')  # Replace with your actual dashboard view name
-
-# View to display a user profile
-def user_profile(request, user_id):
-    user = get_object_or_404(User, id=user_id)
-    return render(request, 'user_profile.html', {'user': user})
