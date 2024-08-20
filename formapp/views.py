@@ -143,7 +143,7 @@ def register(request):
             user.save()
 
             # Create UserProfile
-            UserProfile.objects.create(user=user, email=email, phone=phone)
+            userprofile.objects.create(user=user, email=email, phone=phone)
 
             messages.success(request, 'User registered successfully.')
             return redirect('login_user')
@@ -218,7 +218,7 @@ def accident_register_form(request):
         accident_place = request.POST.get("accident_place")
         signature = request.POST.get("signature")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         data = AccidentRegister.objects.create(
             user=username,
@@ -305,7 +305,7 @@ def reintegration_form(request):
             relative_file_path = os.path.join("photos", filename)
 
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         data = Reintegration.objects.create(user=username,
             admission_no=admission_no,
@@ -379,7 +379,7 @@ def visitor_register_form(request):
         phone_number = request.POST.get("phone_number")
         signature = request.POST.get("signature")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
         data = VisitorRegister.objects.create(user=username,
             date=date,
 
@@ -450,7 +450,7 @@ def performance_appraisal_form(request):
         end_strength = request.POST.get("end_strength")
         rescue = request.POST.get("rescue")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         data = PerformanceAppraisal.objects.create(user=username,
             date=date,
@@ -524,7 +524,7 @@ def provision_form(request):
         balance_quantity = request.POST['balance_quantity']
         remarks = request.POST['remarks']
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
         data=Provision.objects.create(user=username,
             material_name=material_name,
             total_quantity=total_quantity,
@@ -590,7 +590,7 @@ def resident_form(request):
         daysPresent = request.POST.get("daysPresent")
         daysabsent = request.POST.get("daysabsent")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         data = Resident.objects.create(user=username,
             pupilName=pupilName,
@@ -654,7 +654,7 @@ def social_entertainment_form(request):
         name = request.POST.get("name")
         workDetails = request.POST.get("workDetails")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         # Create a new instance of your model
         data = SocialEntertainment.objects.create(user=username,
@@ -718,7 +718,7 @@ def inspection_register(request):
         time = request.POST.get("time")
         sign = request.POST.get("sign")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         # Create an instance of the model and save data
         data = Inspectionregister.objects.create(user=username,
@@ -798,7 +798,7 @@ def case_history_form(request):
         policeStationDetails = request.POST.get("policeStationDetails")
 
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
         uploaded_file = request.FILES.get("photo")
 
         if uploaded_file:
@@ -900,7 +900,7 @@ def personal_info_form(request):
         birthdate = request.POST.get("birthdate")
         uploadfile = request.FILES.get("upload_file")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         if uploadfile:
             # Save photo to directory
@@ -982,7 +982,8 @@ def actionplan_register_form(request):
         detailed_notes = request.POST.get("detailed_notes")
         action_plan_date = request.POST.get("action_plan_date")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
+        print("username",username)
 
         data = ActionplanRegister.objects.create(user=username,
             date_of_plan=date_of_plan,
@@ -1045,7 +1046,7 @@ def awarnes_register_form(request):
         details = request.POST.get("details")
         participants = request.POST.get("participants")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
         data = AwarnesRegister.objects.create(user=username,
             uqid=uqid,
             date=date,
@@ -1114,7 +1115,7 @@ def asset_form(request):
         dispose_date = request.POST.get("dispose_date")
         what_dispossed = request.POST.get("what_dispossed")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
         data = Asset.objects.create(user=username,
             # uqid=uqid,
             date_purchase=date_purchase,
@@ -1181,7 +1182,7 @@ def bp_pulsenote(request):
         bp = request.POST.get("bp")
         temperature = request.POST.get("temperature")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         data = BpPulsenote.objects.create(user=username,
             date=date, uqid=uqid, name=name, pulse=pulse, bp=bp, temperature=temperature
@@ -1242,7 +1243,7 @@ def counselling_register_form(request):
         observation_identification = request.POST.get("observation_identification")
         signature = request.POST.get("signature")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
 
         data = CounsellingRegister.objects.create(user=username,
@@ -1309,7 +1310,7 @@ def medical_camp_form(request):
         others = request.POST.get("others")
         treatment = request.POST.get("treatment")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         data = MedicalCamp.objects.create(user=username,
             date=date,
@@ -1374,7 +1375,7 @@ def medicine_form(request):
         type_of_disease = request.POST.get("type_of_disease")
         tablet_details = request.POST.get("tablet_details")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         datas = Medicine.objects.create(uqid=uqid,user=username,
             name=name,
@@ -1437,7 +1438,7 @@ def night_survey_form(request):
         details_of_visit = request.POST.get("details_of_visit")
         number_of_rescue = request.POST.get("number_of_rescue")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
         data = NightSurvey.objects.create(user=username,
             date=date,
 
@@ -1498,7 +1499,7 @@ def skill_training_form(request):
         resident_name = request.POST.get("resident_name")
         skill_training_details = request.POST.get("skill_training_details")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
         datas = SkillTraining.objects.create(user=username,
             uqid=uqid,
             date=date,
@@ -1564,7 +1565,7 @@ def smc_register_form(request):
         police_officials_name = request.POST.get("police_officials_name")
         residents_name = request.POST.get("residents_name")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
         datas = SmcRegister.objects.create(user=username,
             date=date,
             time=time,
@@ -1632,7 +1633,7 @@ def staff_attendance_form(request):
         leave_days = request.POST.get("leave_days")
         remarks = request.POST.get("remarks")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
         datas = StaffAttendance.objects.create(user=username,
             uqid=uqid,
             name=name,
@@ -1699,7 +1700,7 @@ def stock_form(request):
         issued = request.POST.get("issued")
         balance = request.POST.get("balance")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
         datas = Stock.objects.create(user=username,
             date=date,
 
@@ -1767,7 +1768,7 @@ def employment_link_form(request):
         signature = request.POST.get("signature")
 
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         datas = EmploymentLink.objects.create(user=username,
             uqid=uqid,
@@ -1861,7 +1862,7 @@ def rehabitation_form(request):
 
 
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         datas = Rehabitation.objects.create(user=username,
             uqid=uqid,
@@ -1940,7 +1941,7 @@ def death_register_form(request):
         )
         remarks = request.POST.get("remarks")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         data = DeathRegister.objects.create(user=username,
             uqid=uqid,
@@ -2009,7 +2010,7 @@ def food_menu_form(request):
         dinner = request.POST.get("dinner")
         no_of_resident4 = request.POST.get("no_of_resident4")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         data = FoodMenu(user=username,
             date=date,
@@ -2076,7 +2077,7 @@ def salary_register_form(request):
         salary = request.POST.get("salary")
         sign = request.POST.get("sign")
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         data = SalaryRegister(user=username,date=date,uqid=uqid, name=name, designation=designation, salary=salary, sign=sign)
 
@@ -2134,7 +2135,7 @@ def staff_movement_form(request):
               work_done_by = request.POST.get("Work_done_By")
               sign = request.POST.get("Sign")
               logged_in_user = request.user
-              username = logged_in_user.username
+              username = logged_in_user
 
               data = StaffMovement(user=username,
                   date_of_plan=date_of_plan,
@@ -2188,103 +2189,12 @@ def staff_movement_note_dashboard(request):
 
 @csrf_exempt
 @login_required(login_url='login')
-# def master_records_form(request):
-#     user = None
-#     if 'user' in request.session:
-#         user = request.session['user']
-#     if request.method == "POST":
-#
-#         uqid = request.POST.get("uqid")
-#         name = request.POST.get("name")
-#         Aid_no = request.POST.get("Aid_no")
-#         Age_gender = request.POST.get("Age_gender")
-#         dob = request.POST.get("dob")
-#         Date_Of_Admission = request.POST.get("Date_Of_Admission")
-#         Family_Contact_No = request.POST.get("Family_Contact_No")
-#         Relation = request.POST.get("Relation")
-#         Permanent_Address = request.POST.get("Permanent_Address")
-#         Mode_Of_Identification_Rescue = request.POST.get("Mode_Of_Identification_Rescue")
-#         Identification_Mark = request.POST.get("Identification_Mark")
-#         Identification_Papers = request.POST.get("Identification_Papers")
-#         Rehabilitation_Measures = request.POST.get("Rehabilitation_Measures")
-#         Date_Of_Leaving_Shelter = request.POST.get("Date_Of_Leaving_Shelter")
-#         Reason_For_Leaving_Shelter = request.POST.get("Reason_For_Leaving_Shelter")
-#         Action_takenup = request.POST.get("Action_takenup")
-#         Follow_Up_Action = request.POST.get("Follow_Up_Action")
-#         Medical_Status = request.POST.get("Medical_Status")
-#         File_Closure_Status = request.POST.get("File_Closure_Status")
-#         police_memo = request.POST.get("police_memo")
-#         police_Station = request.POST.get("police_Station")
-#         Fact_finding = request.POST.get("Fact_finding")
-#         Signature = request.POST.get("Signature")
-#         uploaded_file = request.FILES.get("photo")
-#         logged_in_user = request.user
-#         username = logged_in_user.username
-#         relative_file_path = ""
-#         if uploaded_file:
-#             # Save photo to directory
-#             filename = f"{name}.jpg"
-#             photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
-#
-#             if not os.path.exists(photos_dir):
-#                 os.makedirs(photos_dir)
-#
-#             save_path = os.path.join(photos_dir, filename)
-#
-#             with open(save_path, "wb") as destination:
-#                 for chunk in uploaded_file.chunks():
-#                     destination.write(chunk)
-#
-#             relative_file_path = os.path.join("photos", filename)
-#
-#         logged_in_user = request.user
-#         username = logged_in_user.username
-#
-#         data = MasterRecords.objects.create(user=username,
-#             photo_url=relative_file_path,
-#             uqid=uqid,
-#             name=name,
-#             Aid_no=Aid_no,
-#             Age_gender=Age_gender,
-#             dob=dob,
-#             Date_Of_Admission=Date_Of_Admission,
-#             Family_Contact_No=Family_Contact_No,
-#             Relation=Relation,
-#             Permanent_Address=Permanent_Address,
-#             Mode_Of_Identification_Rescue=Mode_Of_Identification_Rescue,
-#             Identification_Mark=Identification_Mark,
-#             Identification_Papers=Identification_Papers,
-#             Rehabilitation_Measures=Rehabilitation_Measures,
-#             Date_Of_Leaving_Shelter=Date_Of_Leaving_Shelter,
-#             Reason_For_Leaving_Shelter=Reason_For_Leaving_Shelter,
-#             Action_takenup=Action_takenup,
-#             Follow_Up_Action=Follow_Up_Action,
-#             Medical_Status=Medical_Status,
-#             File_Closure_Status=File_Closure_Status,
-#             police_memo=police_memo,
-#             police_Station=police_Station,
-#             Fact_finding=Fact_finding,
-#             Signature=Signature,
-#         )
-#         data.save()
-#
-#
-#         # MasterRecords.objects.all().delete()
-#
-#         return redirect("master_records_dashboard")
-#     else:
-#         messages.info(request, 'The form is not saved. Please re-enter the form')
-#         master = MasterRecords.objects.all()
-#
-#     return render(request, "master_records.html", {"user": user, "master": master})
-
 def master_records_form(request):
     user = None
     if 'user' in request.session:
         user = request.session['user']
-
     if request.method == "POST":
-        # Get data from POST request
+
         uqid = request.POST.get("uqid")
         name = request.POST.get("name")
         Aid_no = request.POST.get("Aid_no")
@@ -2309,13 +2219,12 @@ def master_records_form(request):
         Fact_finding = request.POST.get("Fact_finding")
         Signature = request.POST.get("Signature")
         uploaded_file = request.FILES.get("photo")
-
-        # Get the logged-in user instance
         logged_in_user = request.user
-
-        # Save uploaded photo
+        username = logged_in_user
         relative_file_path = ""
+
         if uploaded_file:
+            # Save photo to directory
             filename = f"{name}.jpg"
             photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
 
@@ -2330,9 +2239,8 @@ def master_records_form(request):
 
             relative_file_path = os.path.join("photos", filename)
 
-        # Create MasterRecords with User instance
-        data = MasterRecords.objects.create(
-            user=logged_in_user,  # Use the User instance here
+
+        data = MasterRecords.objects.create(user=username,
             photo_url=relative_file_path,
             uqid=uqid,
             name=name,
@@ -2360,12 +2268,106 @@ def master_records_form(request):
         )
         data.save()
 
+
+        # MasterRecords.objects.all().delete()
+
         return redirect("master_records_dashboard")
     else:
         messages.info(request, 'The form is not saved. Please re-enter the form')
         master = MasterRecords.objects.all()
 
     return render(request, "master_records.html", {"user": user, "master": master})
+#
+
+
+# def master_records_form(request):
+#     user = None
+#     if 'user' in request.session:
+#         user = request.session['user']
+#
+#     if request.method == "POST":
+#         # Get data from POST request
+#         uqid = request.POST.get("uqid")
+#         name = request.POST.get("name")
+#         Aid_no = request.POST.get("Aid_no")
+#         Age_gender = request.POST.get("Age_gender")
+#         dob = request.POST.get("dob")
+#         Date_Of_Admission = request.POST.get("Date_Of_Admission")
+#         Family_Contact_No = request.POST.get("Family_Contact_No")
+#         Relation = request.POST.get("Relation")
+#         Permanent_Address = request.POST.get("Permanent_Address")
+#         Mode_Of_Identification_Rescue = request.POST.get("Mode_Of_Identification_Rescue")
+#         Identification_Mark = request.POST.get("Identification_Mark")
+#         Identification_Papers = request.POST.get("Identification_Papers")
+#         Rehabilitation_Measures = request.POST.get("Rehabilitation_Measures")
+#         Date_Of_Leaving_Shelter = request.POST.get("Date_Of_Leaving_Shelter")
+#         Reason_For_Leaving_Shelter = request.POST.get("Reason_For_Leaving_Shelter")
+#         Action_takenup = request.POST.get("Action_takenup")
+#         Follow_Up_Action = request.POST.get("Follow_Up_Action")
+#         Medical_Status = request.POST.get("Medical_Status")
+#         File_Closure_Status = request.POST.get("File_Closure_Status")
+#         police_memo = request.POST.get("police_memo")
+#         police_Station = request.POST.get("police_Station")
+#         Fact_finding = request.POST.get("Fact_finding")
+#         Signature = request.POST.get("Signature")
+#         uploaded_file = request.FILES.get("photo")
+#
+#         # Get the logged-in user instance
+#         logged_in_user = request.user
+#
+#         # Save uploaded photo
+#         relative_file_path = ""
+#         if uploaded_file:
+#             filename = f"{name}.jpg"
+#             photos_dir = os.path.join(settings.MEDIA_ROOT, "photos")
+#
+#             if not os.path.exists(photos_dir):
+#                 os.makedirs(photos_dir)
+#
+#             save_path = os.path.join(photos_dir, filename)
+#
+#             with open(save_path, "wb") as destination:
+#                 for chunk in uploaded_file.chunks():
+#                     destination.write(chunk)
+#
+#             relative_file_path = os.path.join("photos", filename)
+#
+#         # Create MasterRecords with User instance
+#         data = MasterRecords.objects.create(
+#             user=logged_in_user,  # Use the User instance here
+#             photo_url=relative_file_path,
+#             uqid=uqid,
+#             name=name,
+#             Aid_no=Aid_no,
+#             Age_gender=Age_gender,
+#             dob=dob,
+#             Date_Of_Admission=Date_Of_Admission,
+#             Family_Contact_No=Family_Contact_No,
+#             Relation=Relation,
+#             Permanent_Address=Permanent_Address,
+#             Mode_Of_Identification_Rescue=Mode_Of_Identification_Rescue,
+#             Identification_Mark=Identification_Mark,
+#             Identification_Papers=Identification_Papers,
+#             Rehabilitation_Measures=Rehabilitation_Measures,
+#             Date_Of_Leaving_Shelter=Date_Of_Leaving_Shelter,
+#             Reason_For_Leaving_Shelter=Reason_For_Leaving_Shelter,
+#             Action_takenup=Action_takenup,
+#             Follow_Up_Action=Follow_Up_Action,
+#             Medical_Status=Medical_Status,
+#             File_Closure_Status=File_Closure_Status,
+#             police_memo=police_memo,
+#             police_Station=police_Station,
+#             Fact_finding=Fact_finding,
+#             Signature=Signature,
+#         )
+#         data.save()
+#
+#         return redirect("master_records_dashboard")
+#     else:
+#         messages.info(request, 'The form is not saved. Please re-enter the form')
+#         master = MasterRecords.objects.all()
+#
+#     return render(request, "master_records.html", {"user": user, "master": master})
 
 
 
@@ -2617,7 +2619,7 @@ def case_work(request):
 
 
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
 
         data = CaseWork.objects.create(user=username,
@@ -2721,7 +2723,7 @@ def follow_up(request):
         follow_up = request.POST.get('follow_up')
 
         logged_in_user = request.user
-        username = logged_in_user.username
+        username = logged_in_user
 
         data = FollowUP.objects.create(user=username,
                                        uqid=uqid,

@@ -496,18 +496,6 @@ class StaffMovement(models.Model):
 
 
 
-# class userprofile(models.Model):
-#     # username = models.CharField(max_length=50)
-#     # user = models.CharField(max_length=200)
-#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     email = models.EmailField(unique=True)
-#     mobile_number = models.IntegerField()
-#     created_at = models.DateTimeField(auto_now_add=True, null=True)
-#
-#
-#     def __str__(self):
-#         return str(self.user.username)
-#
 
 
 class UserProfile(models.Model):
@@ -522,54 +510,6 @@ class UserProfile(models.Model):
 
 
 
-# class MasterRecords(models.Model):
-#     # uqid = AlphaNumericField(unique=True, editable=False)
-#     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
-#     # user = models.CharField(max_length=200)
-#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='master_records')
-#     uqid = models.AutoField(primary_key=True, unique=True, editable=False)
-#     name = models.CharField(max_length=100)
-#     Aid_no = models.IntegerField()
-#     Age_gender = models.CharField(max_length=50)
-#     dob = models.DateField()
-#     Date_Of_Admission = models.DateField()
-#     Family_Contact_No = models.CharField(max_length=20)
-#     Relation = models.CharField(max_length=50)
-#     Permanent_Address = models.TextField()
-#     Mode_Of_Identification_Rescue = models.CharField(max_length=100)
-#     Identification_Mark = models.CharField(max_length=100)
-#     Identification_Papers = models.CharField(max_length=100)
-#     Rehabilitation_Measures = models.TextField()
-#     Date_Of_Leaving_Shelter = models.DateField(null=True, blank=True)
-#     Reason_For_Leaving_Shelter = models.TextField()
-#     Action_takenup = models.TextField(null=True, blank=True)
-#     Follow_Up_Action = models.TextField()
-#
-#     Medical_Status = models.CharField(max_length=50)
-#     File_Closure_Status = models.CharField(max_length=50)
-#     police_memo = models.CharField(max_length=100, blank=True, null=True)
-#     police_Station = models.CharField(max_length=100, blank=True, null=True)
-#     Fact_finding = models.TextField()
-#     Signature = models.CharField(max_length=100)
-#     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-#
-#
-#
-#     def __str__(self):
-#         return f"{self.id} - {self.name}"
-#
-#     def save(self, *args, **kwargs):
-#
-#         if not self.pk:
-#             # Generate the next available uqid
-#             last_record = MasterRecords.objects.order_by('-uqid').first()
-#             if last_record:
-#                 self.uqid = last_record.uqid + 1
-#             else:
-#                 self.uqid = 1  # If no records exist, start with 1
-#         super().save(*args, **kwargs)
-
-
 class MasterRecords(models.Model):
     photo_url = models.ImageField(upload_to='photos/', blank=True, null=True)
     user = models.ForeignKey(
@@ -579,27 +519,27 @@ class MasterRecords(models.Model):
     )
     uqid = models.AutoField(primary_key=True, unique=True, editable=False)
     name = models.CharField(max_length=100)
-    aid_no = models.IntegerField()
-    age_gender = models.CharField(max_length=50)
+    Aid_no = models.IntegerField()
+    Age_gender = models.CharField(max_length=50)
     dob = models.DateField()
-    date_of_admission = models.DateField()
-    family_contact_no = models.CharField(max_length=20)
-    relation = models.CharField(max_length=50)
-    permanent_address = models.TextField()
-    mode_of_identification_rescue = models.CharField(max_length=100)
-    identification_mark = models.CharField(max_length=100)
-    identification_papers = models.CharField(max_length=100)
-    rehabilitation_measures = models.TextField()
-    date_of_leaving_shelter = models.DateField(null=True, blank=True)
-    reason_for_leaving_shelter = models.TextField()
-    action_taken_up = models.TextField(null=True, blank=True)
-    follow_up_action = models.TextField()
-    medical_status = models.CharField(max_length=50)
-    file_closure_status = models.CharField(max_length=50)
+    Date_Of_Admission = models.DateField()
+    Family_Contact_No = models.CharField(max_length=20)
+    Relation = models.CharField(max_length=50)
+    Permanent_Address = models.TextField()
+    Mode_Of_Identification_Rescue = models.CharField(max_length=100)
+    Identification_Mark = models.CharField(max_length=100)
+    Identification_Papers = models.CharField(max_length=100)
+    Rehabilitation_Measures = models.TextField()
+    Date_Of_Leaving_Shelter = models.DateField(null=True, blank=True)
+    Reason_For_Leaving_Shelter = models.TextField()
+    Action_takenup = models.TextField(null=True, blank=True)
+    Follow_Up_Action = models.TextField()
+    Medical_Status = models.CharField(max_length=50)
+    File_Closure_Status = models.CharField(max_length=50)
     police_memo = models.CharField(max_length=100, blank=True, null=True)
-    police_station = models.CharField(max_length=100, blank=True, null=True)
-    fact_finding = models.TextField()
-    signature = models.CharField(max_length=100)
+    police_Station = models.CharField(max_length=100, blank=True, null=True)
+    Fact_finding = models.TextField()
+    Signature = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
