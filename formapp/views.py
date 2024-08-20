@@ -11,7 +11,7 @@ from django.contrib import messages
 
 from django.contrib.auth import authenticate, login
 
-from .models import userprofile
+# from .models import userprofile
 import os
 from django.conf import settings
 
@@ -24,13 +24,13 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth import get_user_model
 # from .models import userprofile
-
+from .models import UserProfile
 from django.contrib.auth.models import User
 
 
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
-
+from django.contrib.auth import authenticate, login, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import user_passes_test
 from django.utils import timezone
@@ -49,85 +49,61 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User, Group
 from django.http import HttpResponseForbidden
 
+import logging
+logger = logging.getLogger(__name__)
 
 # @csrf_exempt
-# def signupuser(request):
+# def login_user(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#
+#         # User = get_user_model()
+#         user = authenticate(request, username=username, password=password)
+#
+#         if user is not None :
+#             login(request, user)  # Correct usage: login(request, user)
+#             request.session['user'] = user.username
+#             if user.is_superuser:
+#                 return redirect('dashboard')  # Redirect to dashboard if superuser
+#             else:
+#                 return redirect('home')
+#             # return redirect('home')  # Redirect to dashboard
+#         else:
+#             messages.error(request, 'Invalid username or password.')
+#
+#     return render(request, 'login.html')
+#
+#
+#
+#
+# @csrf_exempt
+# @user_passes_test(lambda u: u.is_superuser)
+# def register(request):
 #     if request.method == 'POST':
 #         username = request.POST.get('username')
 #         email = request.POST.get('email')
-#         mobile_number = request.POST.get('mobile_number')
 #         password = request.POST.get('password')
-#         confrimpassword = request.POST.get('confrimpassword')
+#         confirm_password = request.POST.get('confirm_password')
+#         is_superuser = request.POST.get('is_superuser') == 'on'
+#         is_staff = request.POST.get('is_staff') == 'on'
 #
-#         User = get_user_model()  # Get the custom user model
-#         if not User.objects.filter(username=username).exists():
-#             # Create a new user instance and set the username
-#             user = User.objects.create_user(username= username,  password=password)
-#             Userprofile=userprofile.objects.create(username=username, email=email, password=password, mobile_number=mobile_number,confrimpassword=confrimpassword)
-#             # Save the user
-#             Userprofile.save()
-#             user.save()
-#             return redirect('login')  # Redirect to login upon successful registration
-#         else:
-#             # Authentication failed, handle accordingly (e.g., display an error message)
-#             messages.info(request, f'The Username Exit plz sign in with new username or try with different spelling')
-#             return redirect('signup')
+#         User = get_user_model()
+#
+#         if password != confirm_password:
+#             messages.error(request, 'Passwords do not match.')
+#             return redirect('register')
+#
+#         if User.objects.filter(username=username).exists():
+#             messages.error(request, 'Username already exists.')
+#             return redirect('register')
+#
+#         user = User.objects.create_user(username=username, email=email, password=password, is_superuser=is_superuser, is_staff=is_staff)
+#         user.save()
+#         messages.success(request, 'User registered successfully.')
+#         return redirect('login_user')
 #
 #     return render(request, 'signup.html')
-#
-#
-#
-# @csrf_exempt
-# def loginuser(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')  # Assuming 'username' is the field name
-#         password = request.POST.get('password')
-#
-#         # Check if the user is an admin
-#         try:
-#             user = User.objects.get(username=username)
-#         except User.DoesNotExist:
-#             user = None
-#
-#         if user is not None and user.check_password(password):
-#             # User is an admin and authentication successful, log the user in
-#             login(request, user)
-#             # You can perform additional actions after login if needed
-#             request.session['user'] = user.username  # Storing username in session
-#             return redirect('home')  # Redirect to a success page (replace 'home' with your URL name)
-#         else:
-#             # Authentication failed or user is not an admin, handle accordingly (e.g., display an error message)
-#             messages.error(request, 'Invalid username or password for admin login.')
-#
-#     return render(request, 'login.html')
-
-
-
-
-
-@csrf_exempt
-def login_user(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        # User = get_user_model()
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None :
-            login(request, user)  # Correct usage: login(request, user)
-            request.session['user'] = user.username
-            if user.is_superuser:
-                return redirect('dashboard')  # Redirect to dashboard if superuser
-            else:
-                return redirect('home')
-            # return redirect('home')  # Redirect to dashboard
-        else:
-            messages.error(request, 'Invalid username or password.')
-
-    return render(request, 'login.html')
-
-
 
 
 @csrf_exempt
@@ -136,6 +112,7 @@ def register(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         email = request.POST.get('email')
+        phone = request.POST.get('phone')
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
         is_superuser = request.POST.get('is_superuser') == 'on'
@@ -151,12 +128,57 @@ def register(request):
             messages.error(request, 'Username already exists.')
             return redirect('register')
 
-        user = User.objects.create_user(username=username, email=email, password=password, is_superuser=is_superuser, is_staff=is_staff)
-        user.save()
-        messages.success(request, 'User registered successfully.')
-        return redirect('login_user')
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'Email already exists.')
+            return redirect('register')
+
+        try:
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+                is_superuser=is_superuser,
+                is_staff=is_staff
+            )
+            user.save()
+
+            # Create UserProfile
+            UserProfile.objects.create(user=user, email=email, phone=phone)
+
+            messages.success(request, 'User registered successfully.')
+            return redirect('login_user')
+
+        except Exception as e:
+            logger.error(f"Error saving user: {e}")
+            messages.error(request, 'An error occurred while creating the user.')
+            return redirect('register')
 
     return render(request, 'signup.html')
+
+
+
+
+def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            request.session['user'] = user.username
+            if user.is_superuser:
+                return redirect('dashboard')
+            else:
+                return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
+            return redirect('login_user')  # Ensure the user is redirected back to login on failure
+
+    return render(request, 'login.html')
+
+
 
 
 def logout_view(request):
